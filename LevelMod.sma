@@ -147,9 +147,8 @@ new hnsxp_kill, hnsxp_savexp, g_hnsxp_vault, healthlvl, buyenable, buycost, xpbu
 #define IsPlayer(%0)    ( 1 <= %0 <= g_iMaxPlayers )
 
 new g_iMaxPlayers, damagecvar;
-new Ham:Ham_Player_ResetMaxSpeed = Ham_Item_PreFrame
 
-new maxSpeedFactorCvar
+
 public plugin_init()
 {
         register_plugin(PLUGIN_NAME, hnsxp_version, "LordOfNothing");
@@ -168,7 +167,7 @@ public plugin_init()
         vip_enable = register_cvar("hnsxp_vip_enable","1");
         vip_xp = register_cvar("hnsxp_vip_xp","10000");
         damagecvar = register_cvar("hnsxp_damage_level","10.0");
-        maxSpeedFactorCvar = register_cvar("hnsxp_speed_level","4.0")
+
         
         register_clcmd("say /buyxp","Buy_Xp");
         register_clcmd("say_team /buyxp","Buy_Xp");
@@ -194,18 +193,8 @@ public plugin_init()
         
         g_iMaxPlayers = get_maxplayers ( )
         RegisterHam ( Ham_TakeDamage, "player", "Player_TakeDamage",1);
-        RegisterHam(Ham_Player_ResetMaxSpeed,"player","playerResetMaxSpeed",1)
+
     
-}
-public playerResetMaxSpeed(id)
-{
-        static Float:maxspeed
-        pev(id,pev_maxspeed,maxspeed)
-   
-        if(is_user_alive(id))
-        {
-                set_pev(id,pev_maxspeed,hnsxp_playerlevel[id] * get_pcvar_float(maxSpeedFactorCvar) * maxspeed)
-        }
 }
 
 public Player_TakeDamage ( iVictim, iInflictor, iAttacker, Float:fDamage ) {
