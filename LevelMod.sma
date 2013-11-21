@@ -286,7 +286,7 @@ public gItem(id)
 {
         switch(hnsxp_playerlevel[id])
         {
-                case 10..20:
+                case 1..20:
                 {
                 cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 1)
                 cs_set_user_bpammo( id, CSW_DEAGLE, 0 )
@@ -298,7 +298,7 @@ public gItem(id)
                 cs_set_user_bpammo(id, CSW_HEGRENADE, 1)
                 remove_task(id);  
                 }
-                case 21..35:
+                case 21..30:
                 {
                 cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 2)
                 cs_set_user_bpammo( id, CSW_DEAGLE, 0 )
@@ -310,7 +310,7 @@ public gItem(id)
                 cs_set_user_bpammo(id, CSW_HEGRENADE, 2)
                 remove_task(id);
                 }
-                case 36..49:
+                case 31..40:
                 {
                 cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 3)
                 cs_set_user_bpammo( id, CSW_DEAGLE, 0 )
@@ -322,7 +322,7 @@ public gItem(id)
                 cs_set_user_bpammo(id, CSW_HEGRENADE, 3)
                 remove_task(id); 
                 }
-                case 50..60:
+                case 41..50:
                 {
                 cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 4)
                 cs_set_user_bpammo( id, CSW_DEAGLE, 0 )
@@ -334,7 +334,7 @@ public gItem(id)
                 cs_set_user_bpammo(id, CSW_HEGRENADE, 3)
                 remove_task(id); 
                 }
-                case 61..80:
+                case 51..60:
                 {
                 cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 4)
                 cs_set_user_bpammo( id, CSW_DEAGLE, 0 )
@@ -346,7 +346,7 @@ public gItem(id)
                 cs_set_user_bpammo(id, CSW_HEGRENADE, 3)
                 remove_task(id); 
                 }
-                case 81..94:
+                case 61..94:
                 {
                 cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 6)
                 cs_set_user_bpammo( id, CSW_DEAGLE, 0 )
