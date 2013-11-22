@@ -40,8 +40,8 @@
 #include <cstrike>
 
 new const PLUGIN_NAME[] = "Level Mod";
-new const hnsxp_version[] = "4.8";
-new const LEVELS[99] = {
+new const hnsxp_version[] = "4.9";
+new const LEVELS[100] = {
         
         100, // 1
         300, // 2
