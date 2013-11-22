@@ -242,7 +242,7 @@ public hnsxp_spawn(id)
 { 
         set_task(get_pcvar_float(item_time), "gItem", id);
 
-        if((hnsxp_playerlevel[id] < 99) && (hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]]))
+        if((hnsxp_playerlevel[id] < 101) && (hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]]))
         {
                 MesajColorat(id,"!echipa[%s] !verdeAi trecut levelul", PLUGIN_NAME);
                 while(hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]])
