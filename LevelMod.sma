@@ -238,6 +238,24 @@ public Buy_Xp(id)
         }
         return PLUGIN_CONTINUE
 }
+public plugin_natives()
+{
+        register_library("levelmod.inc");
+        register_native("get_user_xp","_get_user_xp");
+        register_native("get_user_level","_get_user_level");
+
+}
+
+public _get_user_xp(plugin, params)
+{
+	return hnsxp_playerxp[get_param(1)];
+}
+
+public _get_user_level(plugin, params)
+{
+	return hnsxp_playerlevel[get_param(1)];
+}
+
 public hnsxp_spawn(id)
 { 
         set_task(get_pcvar_float(item_time), "gItem", id);
@@ -415,7 +433,7 @@ public SaveData(id)
         
         new vaultkey[64],vaultdata[256];
         format(vaultkey,63,"%s",PlayerName);
-        format(vaultdata,255,"%i`%i`",hnsxp_playerxp[id],hnsxp_playerlevel[id]);
+        format(vaultdata,255,"%i%%%i%%",hnsxp_playerxp[id],hnsxp_playerlevel[id]);
         nvault_set(g_hnsxp_vault,vaultkey,vaultdata);
         return PLUGIN_CONTINUE;
 }
@@ -426,10 +444,10 @@ public LoadData(id)
         
         new vaultkey[64],vaultdata[256];
         format(vaultkey,63,"%s",PlayerName);
-        format(vaultdata,255,"%i`%i`",hnsxp_playerxp[id],hnsxp_playerlevel[id]);
+        format(vaultdata,255,"%i%%%i%%",hnsxp_playerxp[id],hnsxp_playerlevel[id]);
         nvault_get(g_hnsxp_vault,vaultkey,vaultdata,255);
         
-        replace_all(vaultdata, 255, "`", " ");
+        replace_all(vaultdata, 255, "%%", " ");
         
         new playerxp[32], playerlevel[32];
         
