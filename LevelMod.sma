@@ -139,7 +139,12 @@ new const LEVELS[99] = {
         700000000, // 46
         750000000, // 47
         850000000, // 48
-        909990000 // 99
+        909990000, // 97
+        1000000000, // 98
+        1000500000, // 99
+        2000000000 // 100
+        
+        
 }
 new hnsxp_playerxp[33], hnsxp_playerlevel[33];
 new hnsxp_kill, hnsxp_savexp, g_hnsxp_vault, healthlvl, buyenable, buycost, xpbuy, tero_win, item_time ,vip_enable, vip_xp;
