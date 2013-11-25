@@ -206,8 +206,6 @@ public _get_user_level(plugin, params)
 
 public hnsxp_spawn(id)
 { 
-        set_task(get_pcvar_float(item_time), "gItem", id);
-
         if((hnsxp_playerlevel[id] < 101) && (hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]]))
         {
                 MesajColorat(id,"!echipa[%s] !verdeAi trecut levelul", PLUGIN_NAME);
@@ -251,13 +249,7 @@ public tlvl(id)
         MesajColorat(0, "!verde[!echipaLevel-Mod!verde] !normal Jucatorul !verde %s !normalare level !verde %i",poj_Name, hnsxp_playerlevel[id]);
         return PLUGIN_HANDLED
 }
-public gItem(id)
-{
-	cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 1)
-	cs_set_user_bpammo( id, CSW_DEAGLE, 0 )
-	set_user_health(id, get_user_health(id) + hnsxp_playerlevel[id]*2);
-	remove_task(id);          
-}
+
 public hnsxp_death( iVictim, attacker, shouldgib )
 {
         
