@@ -183,22 +183,8 @@ public plugin_init()
         
         register_event("SendAudio", "t_win", "a", "2&%!MRAD_terwin")
         
-        
-        g_iMaxPlayers = get_maxplayers ( )
-        RegisterHam ( Ham_TakeDamage, "player", "Player_TakeDamage",1);
-
-    
 }
 
-public Player_TakeDamage ( iVictim, iInflictor, iAttacker, Float:fDamage ) {
-    
-        if ( iInflictor == iAttacker && IsPlayer ( iAttacker ) ) {
-                
-                SetHamParamFloat ( 4, hnsxp_playerlevel[iAttacker] * get_pcvar_float(damagecvar) + fDamage  );
-                return HAM_HANDLED;
-        }
-        return HAM_IGNORED;
-}
 
 public plugin_natives()
 {
