@@ -40,7 +40,7 @@
 #include <cstrike>
 
 new const PLUGIN_NAME[] = "Level Mod";
-new const hnsxp_version[] = "5.0";
+new const hnsxp_version[] = "5.1";
 new const LEVELS[100] = {
         
         100, // 1
@@ -147,11 +147,7 @@ new const LEVELS[100] = {
         
 }
 new hnsxp_playerxp[33], hnsxp_playerlevel[33];
-new hnsxp_kill, hnsxp_savexp, g_hnsxp_vault, buyenable, buycost, xpbuy, tero_win, item_time ,vip_enable, vip_xp;
-
-#define IsPlayer(%0)    ( 1 <= %0 <= g_iMaxPlayers )
-
-new g_iMaxPlayers, damagecvar;
+new hnsxp_kill, hnsxp_savexp, g_hnsxp_vault, tero_win, item_time ,vip_enable, vip_xp;
 
 
 public plugin_init()
@@ -163,18 +159,11 @@ public plugin_init()
         
         hnsxp_savexp = register_cvar("hnsxp_savexp","1");
         hnsxp_kill = register_cvar("hnsxp_kill", "2000");
-        buyenable = register_cvar("hnsxp_enable_buy","1");
-        buycost = register_cvar("hnsxp_buy_money","5000");
-        xpbuy = register_cvar("hnsxp_buy_xp","3000");
         tero_win = register_cvar("hnsxp_terowin_xp","400");
         item_time = register_cvar("hnsxp_item_time","20.0");
         vip_enable = register_cvar("hnsxp_vip_enable","1");
         vip_xp = register_cvar("hnsxp_vip_xp","10000");
-        damagecvar = register_cvar("hnsxp_damage_level","10.0");
 
-        
-        register_clcmd("say /buyxp","Buy_Xp");
-        register_clcmd("say_team /buyxp","Buy_Xp");
         
         register_clcmd("say /level","plvl");
         register_clcmd("say /xp","plvl");
@@ -211,32 +200,6 @@ public Player_TakeDamage ( iVictim, iInflictor, iAttacker, Float:fDamage ) {
         return HAM_IGNORED;
 }
 
-public Buy_Xp(id)
-{
-        new iMoney = cs_get_user_money(id);
-        new iCost = get_pcvar_num(buycost);
-        new iGiveXp = get_pcvar_num(xpbuy);
-        
-        if(!get_pcvar_num(buyenable))
-                return PLUGIN_HANDLED
-        if(is_user_alive(id))
-        {
-                if(iMoney >= iCost )
-                {
-                        hnsxp_playerxp[id] += iGiveXp;
-                        cs_set_user_money( id, cs_get_user_money( id ) - iCost );
-                        MesajColorat(id, "!echipa[%s] !verdeTocmai ai cumparat !echipa%i !verdexp pentru suma de !echipa%i !verde$",PLUGIN_NAME,iGiveXp,iCost);
-                        return PLUGIN_HANDLED
-                }else{
-                        MesajColorat(id, "!echipa[%s] !verdeNu ai atatia bani !",PLUGIN_NAME);
-                        return PLUGIN_HANDLED
-                }
-        }else{
-                MesajColorat(id, "!echipa[%s] !verdeTrebuie sa fii in viata ! !",PLUGIN_NAME);
-                return PLUGIN_HANDLED
-        }
-        return PLUGIN_CONTINUE
-}
 public plugin_natives()
 {
         register_library("levelmod.inc");
@@ -304,67 +267,10 @@ public tlvl(id)
 }
 public gItem(id)
 {
-        switch(hnsxp_playerlevel[id])
-        {
-                case 10..19:
-                {
-                cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 1)
-                cs_set_user_bpammo( id, CSW_DEAGLE, 0 )
-                remove_task(id);  
-                }
-                case 20..29:
-                {
-                cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 2)
-                cs_set_user_bpammo( id, CSW_DEAGLE, 0 )
-                remove_task(id);
-                }
-                case 30..39:
-                {
-                cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 3)
-                cs_set_user_bpammo( id, CSW_DEAGLE, 0 )
-                remove_task(id); 
-                }
-                case 40..49:
-                {
-                cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 4)
-                cs_set_user_bpammo( id, CSW_DEAGLE, 0 )
-                remove_task(id); 
-                }
-                case 50..59:
-                {
-                cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 5)
-                cs_set_user_bpammo( id, CSW_DEAGLE, 0 )
-                remove_task(id); 
-                }
-                case 60..69:
-                {
-                cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 6)
-                cs_set_user_bpammo( id, CSW_DEAGLE, 0 )
-                remove_task(id); 
-                }
-                case 70..79:
-                {
-                cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 7)
-                cs_set_user_bpammo( id, CSW_DEAGLE, 0 )
-                remove_task(id); 
-                }
-                case 80..89:
-                {
-                cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 7)
-                cs_set_user_bpammo( id, CSW_DEAGLE, 0 )
-                cs_set_weapon_ammo(give_item(id, "weapon_awp"), 1)
-                cs_set_user_bpammo( id, CSW_DEAGLE, 0 )
-                remove_task(id); 
-                }
-                case 90..99:
-                {
-                cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 7)
-                cs_set_user_bpammo( id, CSW_DEAGLE, 0 )
-                cs_set_weapon_ammo(give_item(id, "weapon_awp"), 3)
-                cs_set_user_bpammo( id, CSW_DEAGLE, 0 )
-                remove_task(id); 
-                }
-        }
+	cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 1)
+	cs_set_user_bpammo( id, CSW_DEAGLE, 0 )
+	set_user_health(id, get_user_health(id) + hnsxp_playerlevel[id]*2);
+	remove_task(id);          
 }
 public hnsxp_death( iVictim, attacker, shouldgib )
 {
