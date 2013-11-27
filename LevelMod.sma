@@ -152,38 +152,37 @@ new hnsxp_kill, hnsxp_savexp, g_hnsxp_vault, tero_win, vip_enable, vip_xp;
 
 public plugin_init()
 {
-        register_plugin(PLUGIN_NAME, hnsxp_version, "LordOfNothing");
-        
-        RegisterHam(Ham_Spawn, "player", "hnsxp_spawn", 1);
-        RegisterHam(Ham_Killed, "player", "hnsxp_death", 1);
-        
-        hnsxp_savexp = register_cvar("hnsxp_savexp","1");
-        hnsxp_kill = register_cvar("hnsxp_kill", "2000");
-        tero_win = register_cvar("hnsxp_terowin_xp","400");
-        vip_enable = register_cvar("hnsxp_vip_enable","1");
-        vip_xp = register_cvar("hnsxp_vip_xp","10000");
+	register_plugin(PLUGIN_NAME, hnsxp_version, "LordOfNothing");
 
-        
-        register_clcmd("say /level","plvl");
-        register_clcmd("say /xp","plvl");
-        
-        register_clcmd("say /levels","plvls");
-        register_clcmd("say_team /level","plvl");
-        register_clcmd("say_team /xp","plvl");
-        
-        register_clcmd("say /lvl","tlvl");
-        g_hnsxp_vault = nvault_open("deathrun_xp");
-        
-        register_concmd("amx_level", "cmd_give_level", ADMIN_CVAR, "<target> <amount>");
-        register_concmd("amx_takelevel", "cmd_take_level", ADMIN_CVAR, "<target> <amount>");
-        
-        register_concmd("amx_xp", "cmd_give_xp", ADMIN_CVAR, "<target> <amount>");
-        register_concmd("amx_takexp", "cmd_take_xp", ADMIN_CVAR, "<target> <amount>");
-        
-        register_event("SendAudio", "t_win", "a", "2&%!MRAD_terwin")
-        
+	RegisterHam(Ham_Spawn, "player", "hnsxp_spawn", 1);
+	RegisterHam(Ham_Killed, "player", "hnsxp_death", 1);
+
+	hnsxp_savexp = register_cvar("hnsxp_savexp","1");
+	hnsxp_kill = register_cvar("hnsxp_kill", "2000");
+	tero_win = register_cvar("hnsxp_terowin_xp","400");
+	vip_enable = register_cvar("hnsxp_vip_enable","1");
+	vip_xp = register_cvar("hnsxp_vip_xp","10000");
+
+
+	register_clcmd("say /level","plvl");
+	register_clcmd("say /xp","plvl");
+
+	register_clcmd("say /levels","plvls");
+	register_clcmd("say_team /level","plvl");
+	register_clcmd("say_team /xp","plvl");
+
+	register_clcmd("say /lvl","tlvl");
+	g_hnsxp_vault = nvault_open("deathrun_xp");
+
+	register_concmd("amx_level", "cmd_give_level", ADMIN_IMMUNITY, "<target> <amount>");
+	register_concmd("amx_takelevel", "cmd_take_level", ADMIN_IMMUNITY, "<target> <amount>");
+	
+	register_concmd("amx_xp", "cmd_give_xp", ADMIN_IMMUNITY, "<target> <amount>");
+	register_concmd("amx_takexp", "cmd_take_xp", ADMIN_IMMUNITY, "<target> <amount>");
+
+	register_event("SendAudio", "t_win", "a", "2&%!MRAD_terwin")
+
 }
-
 
 public plugin_natives()
 {
