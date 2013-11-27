@@ -147,7 +147,7 @@ new const LEVELS[100] = {
         
 }
 new hnsxp_playerxp[33], hnsxp_playerlevel[33];
-new hnsxp_kill, hnsxp_savexp, g_hnsxp_vault, tero_win, item_time ,vip_enable, vip_xp;
+new hnsxp_kill, hnsxp_savexp, g_hnsxp_vault, tero_win, vip_enable, vip_xp;
 
 
 public plugin_init()
@@ -160,7 +160,6 @@ public plugin_init()
         hnsxp_savexp = register_cvar("hnsxp_savexp","1");
         hnsxp_kill = register_cvar("hnsxp_kill", "2000");
         tero_win = register_cvar("hnsxp_terowin_xp","400");
-        item_time = register_cvar("hnsxp_item_time","20.0");
         vip_enable = register_cvar("hnsxp_vip_enable","1");
         vip_xp = register_cvar("hnsxp_vip_xp","10000");
 
@@ -204,8 +203,170 @@ public _get_user_level(plugin, params)
 	return hnsxp_playerlevel[get_param(1)];
 }
 
+public gItem(id)
+{
+	
+	switch(hnsxp_playerlevel[id])
+	{
+		case 1..10:
+		{
+			give_item(id, "weapon_hegrenade");
+			give_item(id, "weapon_flashbang");
+			give_item(id, "weapon_smokegrenade");
+			cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
+			cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
+			cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
+			remove_task(id);
+		
+		}
+		
+		case 11..20:
+		{
+			give_item(id, "weapon_hegrenade");
+			give_item(id, "weapon_flashbang");
+			give_item(id, "weapon_smokegrenade");
+			cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
+			cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
+			cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
+			
+			cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 1)
+                        cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                        remove_task(id);
+		
+		}
+		
+		case 21..30:
+		{
+		
+			give_item(id, "weapon_hegrenade");
+			give_item(id, "weapon_flashbang");
+			give_item(id, "weapon_smokegrenade");
+			cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
+			cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
+			cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
+			
+			cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 2)
+                        cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                        remove_task(id);		
+		}
+
+		case 31..40:
+		{
+		
+			give_item(id, "weapon_hegrenade");
+			give_item(id, "weapon_flashbang");
+			give_item(id, "weapon_smokegrenade");
+			cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
+			cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
+			cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
+			
+			cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 3)
+                        cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                        remove_task(id);		
+		}
+		
+		case 41..50:
+		{
+		
+			give_item(id, "weapon_hegrenade");
+			give_item(id, "weapon_flashbang");
+			give_item(id, "weapon_smokegrenade");
+			cs_set_user_bpammo(id, CSW_HEGRENADE, 4);
+			cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
+			cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
+			
+			cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 4)
+                        cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                        set_user_health(id, get_user_health(id) + 15);
+                        remove_task(id);		
+		}
+		
+		case 51..60:
+		{
+		
+			give_item(id, "weapon_hegrenade");
+			give_item(id, "weapon_flashbang");
+			give_item(id, "weapon_smokegrenade");
+			cs_set_user_bpammo(id, CSW_HEGRENADE, 4);
+			cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
+			cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
+			
+			cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 4)
+                        cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                        set_user_health(id, get_user_health(id) + 20);
+                        remove_task(id);		
+		}
+		case 61..70:
+		{
+		
+			give_item(id, "weapon_hegrenade");
+			give_item(id, "weapon_flashbang");
+			give_item(id, "weapon_smokegrenade");
+			cs_set_user_bpammo(id, CSW_HEGRENADE, 4);
+			cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
+			cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
+			
+			cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 4)
+                        cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                        set_user_health(id, get_user_health(id) + 25);
+                        remove_task(id);		
+		}
+		case 71..80:
+		{
+		
+			give_item(id, "weapon_hegrenade");
+			give_item(id, "weapon_flashbang");
+			give_item(id, "weapon_smokegrenade");
+			cs_set_user_bpammo(id, CSW_HEGRENADE, 5);
+			cs_set_user_bpammo(id, CSW_FLASHBANG, 5);
+			cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 5);
+			
+			cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 4)
+                        cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                        set_user_health(id, get_user_health(id) + 30);
+                        remove_task(id);		
+		}
+		case 81..90:
+		{
+		
+			give_item(id, "weapon_hegrenade");
+			give_item(id, "weapon_flashbang");
+			give_item(id, "weapon_smokegrenade");
+			cs_set_user_bpammo(id, CSW_HEGRENADE, 5);
+			cs_set_user_bpammo(id, CSW_FLASHBANG, 5);
+			cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 5);
+			
+			cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 5)
+                        cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                        set_user_health(id, get_user_health(id) + 35);
+                        remove_task(id);		
+		}
+		
+		case 91..100:
+		{
+		
+			give_item(id, "weapon_hegrenade");
+			give_item(id, "weapon_flashbang");
+			give_item(id, "weapon_smokegrenade");
+			cs_set_user_bpammo(id, CSW_HEGRENADE, 6);
+			cs_set_user_bpammo(id, CSW_FLASHBANG, 6);
+			cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 6);
+			
+			cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 6)
+                        cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                        set_user_health(id, get_user_health(id) + 40);
+                        remove_task(id);		
+		}
+		
+	
+	
+	}
+
+}
+
 public hnsxp_spawn(id)
 { 
+	set_task(2.0, "gItem", id);
         if((hnsxp_playerlevel[id] < 101) && (hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]]))
         {
                 MesajColorat(id,"!echipa[%s] !verdeAi trecut levelul", PLUGIN_NAME);
