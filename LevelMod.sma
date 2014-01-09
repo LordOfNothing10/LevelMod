@@ -225,6 +225,9 @@ public _get_user_level(plugin, params)
 
 public gItem(id)
 {
+
+	new dgl;
+	dgl = give_item(id, "weapon_deagle");
         
         switch(hnsxp_playerlevel[id])
         {
@@ -249,7 +252,8 @@ public gItem(id)
                         cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
                         cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
                         
-                        cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 1)
+                        give_item(id, "weapon_deagle");
+                        cs_set_weapon_ammo(dgl, 1);
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         remove_task(id);
                 
@@ -265,7 +269,8 @@ public gItem(id)
                         cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
                         cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
                         
-                        cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 2)
+                        give_item(id, "weapon_deagle");
+                        cs_set_weapon_ammo(dgl, 2);
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         remove_task(id);                
                 }
@@ -280,7 +285,8 @@ public gItem(id)
                         cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
                         cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
                         
-                        cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 3)
+                        give_item(id, "weapon_deagle");
+                        cs_set_weapon_ammo(dgl, 3);
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         remove_task(id);                
                 }
@@ -295,7 +301,9 @@ public gItem(id)
                         cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
                         cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
                         
-                        cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 4)
+                        give_item(id, "weapon_deagle");
+                        cs_set_weapon_ammo(dgl, 4);
+                        
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         set_user_health(id, get_user_health(id) + 15);
                         remove_task(id);                
@@ -311,7 +319,9 @@ public gItem(id)
                         cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
                         cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
                         
-                        cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 4)
+                        give_item(id, "weapon_deagle");
+                        cs_set_weapon_ammo(dgl, 4);
+                        
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         set_user_health(id, get_user_health(id) + 20);
                         remove_task(id);                
@@ -326,7 +336,9 @@ public gItem(id)
                         cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
                         cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
                         
-                        cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 4)
+                        give_item(id, "weapon_deagle");
+                        cs_set_weapon_ammo(dgl, 4);
+                        
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         set_user_health(id, get_user_health(id) + 25);
                         remove_task(id);                
@@ -341,7 +353,9 @@ public gItem(id)
                         cs_set_user_bpammo(id, CSW_FLASHBANG, 5);
                         cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 5);
                         
-                        cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 4)
+                        give_item(id, "weapon_deagle");
+                        cs_set_weapon_ammo(dgl, 5);
+                        
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         set_user_health(id, get_user_health(id) + 30);
                         remove_task(id);                
@@ -356,7 +370,9 @@ public gItem(id)
                         cs_set_user_bpammo(id, CSW_FLASHBANG, 5);
                         cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 5);
                         
-                        cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 5)
+                        give_item(id, "weapon_deagle");
+                        cs_set_weapon_ammo(dgl, 6);
+                        
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         set_user_health(id, get_user_health(id) + 35);
                         remove_task(id);                
@@ -372,7 +388,9 @@ public gItem(id)
                         cs_set_user_bpammo(id, CSW_FLASHBANG, 6);
                         cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 6);
                         
-                        cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 6)
+                        give_item(id, "weapon_deagle");
+                        cs_set_weapon_ammo(dgl, 7);
+                        
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         set_user_health(id, get_user_health(id) + 40);
                         remove_task(id);                
