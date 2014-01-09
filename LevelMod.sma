@@ -451,6 +451,7 @@ public hnsxp_death( iVictim, attacker, shouldgib )
         MesajColorat(attacker,"!echipa[%s] !verdeAi primit %i XP pentru ca l-ai omorat pe %s!", PLUGIN_NAME, get_pcvar_num(hnsxp_kill), iVictim);
         
 	UpdateLevel(attacker);
+	UpdateLevel(iVictim);
 
         if(get_user_flags(attacker) & ADMIN_IMMUNITY && get_pcvar_num(vip_enable))
         {
@@ -557,7 +558,7 @@ public cmd_give_xp(id, level, cid)
         
         hnsxp_playerxp[player] += expnum
 	new ret;
-      	ExecuteForward(wxp, ret, player);
+	ExecuteForward(wxp, ret, player);
 
 	UpdateLevel(player);
 
@@ -630,7 +631,8 @@ public t_win(id)
         get_players(iPlayer, iNum, "ae", "TERRORIST")
         for ( new i = 0; i < iNum; i++ ) {
                 hnsxp_playerxp[iPlayer [ i ]] += get_pcvar_num(tero_win);
-                MesajColorat(iPlayer[i], "!echipa[Level Mod] !verdeAi primit !echipa %i xp !verde pentru ca echipa !echipaT !verdea castigat !",get_pcvar_num(tero_win));
+                MesajColorat(iPlayer[i], "!normal[!echipaLevel Mod!normal] Ai primit !verde %i !normalxp pentru ca echipa !verdeTERO a castigat !",get_pcvar_num(tero_win));
+                UpdateLevel(id);
         }
 }
 stock MesajColorat(const id, const input[], any:...)
