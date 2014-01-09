@@ -452,7 +452,7 @@ public hnsxp_death( iVictim, attacker, shouldgib )
         hnsxp_playerxp[attacker] += get_pcvar_num(hnsxp_kill);
 	new ret;
       	ExecuteForward(wxp, ret, attacker);
-        MesajColorat(attacker,"!echipa[%s] !verdeAi primit %i XP pentru ca l-ai omorat pe %s!", PLUGIN_NAME, get_pcvar_num(hnsxp_kill), iVictim);
+        MesajColorat(attacker,"!normal[!echipa%s!normal] Ai primit !echipa%i !normalXP pentru ca l-ai omorat pe !echipa%s!", PLUGIN_NAME, get_pcvar_num(hnsxp_kill), iVictim);
         
 	UpdateLevel(attacker);
 	UpdateLevel(iVictim);
