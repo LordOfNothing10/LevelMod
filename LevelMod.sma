@@ -37,6 +37,8 @@
 #include <hamsandwich>
 #include <nvault>
 #include <cstrike>
+#include <fakemeta>
+
 
 new const PLUGIN_NAME[] = "Level Mod";
 new const hnsxp_version[] = "5.2";
@@ -183,7 +185,26 @@ public plugin_init()
 
 	xlevel = CreateMultiForward("PlayerMakeNextLevel", ET_IGNORE, FP_CELL);
 	wxp = CreateMultiForward("PlayerIsHookXp", ET_IGNORE, FP_CELL);
+	register_forward(FM_ClientUserInfoChanged, "ClientUserInfoChanged") 
 
+}
+
+public ClientUserInfoChanged(id)
+{
+	static const name[] = "name"
+	static szOldName[32], szNewName[32]
+	pev(id, pev_netname, szOldName, charsmax(szOldName))
+	if( szOldName[0] )
+	{
+		get_user_info(id, name, szNewName, charsmax(szNewName))
+		if( !equal(szOldName, szNewName) )
+		{
+			set_user_info(id, name, szOldName)
+			MesajColorat(id, "!normal[!echipaLevelMod!norma] Pe acest server nu este permisa schimbarea numelui !");
+			return FMRES_HANDLED
+		}
+	}
+	return FMRES_IGNORED
 }
 
 public plugin_natives()
