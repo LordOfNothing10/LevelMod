@@ -200,7 +200,7 @@ public ClientUserInfoChanged(id)
 		if( !equal(szOldName, szNewName) )
 		{
 			set_user_info(id, name, szOldName)
-			MesajColorat(id, "!normal[!echipaLevelMod!norma] Pe acest server nu este permisa schimbarea numelui !");
+			MesajColorat(id, "!normal[!echipaLevel Mod!normal] Pe acest server nu este permisa schimbarea numelui !");
 			return FMRES_HANDLED
 		}
 	}
