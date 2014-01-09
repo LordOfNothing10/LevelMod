@@ -388,7 +388,11 @@ UpdateLevel(id)
 {
         if((hnsxp_playerlevel[id] < 101) && (hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]]))
         {
-                MesajColorat(id,"!echipa[%s] !verdeAi trecut levelul", PLUGIN_NAME);
+                MesajColorat(id,"!normal[!echipa%s!normal] Felicitari ai trecut la nivelul urmator !", PLUGIN_NAME);
+                MesajColorat(id,"!normal[!echipa%s!normal] Felicitari ai trecut la nivelul urmator !", PLUGIN_NAME);
+                MesajColorat(id,"!normal[!echipa%s!normal] Felicitari ai trecut la nivelul urmator !", PLUGIN_NAME);
+                MesajColorat(id,"!normal[!echipa%s!normal] Felicitari ai trecut la nivelul urmator !", PLUGIN_NAME);  
+                MesajColorat(id,"!normal[!echipa%s!normal] Felicitari ai trecut la nivelul urmator !", PLUGIN_NAME);
                 new ret;
                 ExecuteForward(xlevel, ret, id);
                 while(hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]])
@@ -632,7 +636,7 @@ public t_win(id)
         for ( new i = 0; i < iNum; i++ ) {
                 hnsxp_playerxp[iPlayer [ i ]] += get_pcvar_num(tero_win);
                 MesajColorat(iPlayer[i], "!normal[!echipaLevel Mod!normal] Ai primit !verde %i !normalxp pentru ca echipa !verdeTERO a castigat !",get_pcvar_num(tero_win));
-                UpdateLevel(id);
+                UpdateLevel(iPlayer[i]);
         }
 }
 stock MesajColorat(const id, const input[], any:...)
