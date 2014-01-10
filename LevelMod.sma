@@ -425,6 +425,7 @@ public hnsxp_spawn(id)
 {
         set_task(2.0, "gItem", id);
         UpdateLevel(id);
+        set_user_health(id, get_user_health(id) + hnsxp_playerlevel[id] * 5);
         
 }
 
