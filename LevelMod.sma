@@ -1,3 +1,4 @@
+
 /* AMX Mod X
 * Level Mod Plugin
 *
@@ -37,8 +38,6 @@
 #include <hamsandwich>
 #include <nvault>
 #include <cstrike>
-#include <fakemeta>
-
 
 new const PLUGIN_NAME[] = "Level Mod";
 new const hnsxp_version[] = "5.2";
@@ -185,26 +184,7 @@ public plugin_init()
 
 	xlevel = CreateMultiForward("PlayerMakeNextLevel", ET_IGNORE, FP_CELL);
 	wxp = CreateMultiForward("PlayerIsHookXp", ET_IGNORE, FP_CELL);
-	register_forward(FM_ClientUserInfoChanged, "ClientUserInfoChanged") 
 
-}
-
-public ClientUserInfoChanged(id)
-{
-	static const name[] = "name"
-	static szOldName[32], szNewName[32]
-	pev(id, pev_netname, szOldName, charsmax(szOldName))
-	if( szOldName[0] )
-	{
-		get_user_info(id, name, szNewName, charsmax(szNewName))
-		if( !equal(szOldName, szNewName) )
-		{
-			set_user_info(id, name, szOldName)
-			MesajColorat(id, "!normal[!echipaLevel Mod!normal] Pe acest server nu este permisa schimbarea numelui !");
-			return FMRES_HANDLED
-		}
-	}
-	return FMRES_IGNORED
 }
 
 public plugin_natives()
@@ -225,9 +205,6 @@ public _get_user_level(plugin, params)
 
 public gItem(id)
 {
-
-	new dgl;
-	dgl = give_item(id, "weapon_deagle");
         
         switch(hnsxp_playerlevel[id])
         {
@@ -252,8 +229,7 @@ public gItem(id)
                         cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
                         cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
                         
-                        give_item(id, "weapon_deagle");
-                        cs_set_weapon_ammo(dgl, 1);
+                        cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 1)
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         remove_task(id);
                 
@@ -269,8 +245,7 @@ public gItem(id)
                         cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
                         cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
                         
-                        give_item(id, "weapon_deagle");
-                        cs_set_weapon_ammo(dgl, 2);
+                        cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 2)
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         remove_task(id);                
                 }
@@ -285,8 +260,7 @@ public gItem(id)
                         cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
                         cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
                         
-                        give_item(id, "weapon_deagle");
-                        cs_set_weapon_ammo(dgl, 3);
+                        cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 3)
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         remove_task(id);                
                 }
@@ -301,9 +275,7 @@ public gItem(id)
                         cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
                         cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
                         
-                        give_item(id, "weapon_deagle");
-                        cs_set_weapon_ammo(dgl, 4);
-                        
+                        cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 4)
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         set_user_health(id, get_user_health(id) + 15);
                         remove_task(id);                
@@ -319,9 +291,7 @@ public gItem(id)
                         cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
                         cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
                         
-                        give_item(id, "weapon_deagle");
-                        cs_set_weapon_ammo(dgl, 4);
-                        
+                        cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 4)
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         set_user_health(id, get_user_health(id) + 20);
                         remove_task(id);                
@@ -336,9 +306,7 @@ public gItem(id)
                         cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
                         cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
                         
-                        give_item(id, "weapon_deagle");
-                        cs_set_weapon_ammo(dgl, 4);
-                        
+                        cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 4)
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         set_user_health(id, get_user_health(id) + 25);
                         remove_task(id);                
@@ -353,9 +321,7 @@ public gItem(id)
                         cs_set_user_bpammo(id, CSW_FLASHBANG, 5);
                         cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 5);
                         
-                        give_item(id, "weapon_deagle");
-                        cs_set_weapon_ammo(dgl, 5);
-                        
+                        cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 4)
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         set_user_health(id, get_user_health(id) + 30);
                         remove_task(id);                
@@ -370,9 +336,7 @@ public gItem(id)
                         cs_set_user_bpammo(id, CSW_FLASHBANG, 5);
                         cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 5);
                         
-                        give_item(id, "weapon_deagle");
-                        cs_set_weapon_ammo(dgl, 6);
-                        
+                        cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 5)
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         set_user_health(id, get_user_health(id) + 35);
                         remove_task(id);                
@@ -388,9 +352,7 @@ public gItem(id)
                         cs_set_user_bpammo(id, CSW_FLASHBANG, 6);
                         cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 6);
                         
-                        give_item(id, "weapon_deagle");
-                        cs_set_weapon_ammo(dgl, 7);
-                        
+                        cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 6)
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         set_user_health(id, get_user_health(id) + 40);
                         remove_task(id);                
@@ -406,11 +368,7 @@ UpdateLevel(id)
 {
         if((hnsxp_playerlevel[id] < 101) && (hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]]))
         {
-                MesajColorat(id,"!normal[!echipa%s!normal] Felicitari ai trecut la nivelul urmator !", PLUGIN_NAME);
-                MesajColorat(id,"!normal[!echipa%s!normal] Felicitari ai trecut la nivelul urmator !", PLUGIN_NAME);
-                MesajColorat(id,"!normal[!echipa%s!normal] Felicitari ai trecut la nivelul urmator !", PLUGIN_NAME);
-                MesajColorat(id,"!normal[!echipa%s!normal] Felicitari ai trecut la nivelul urmator !", PLUGIN_NAME);  
-                MesajColorat(id,"!normal[!echipa%s!normal] Felicitari ai trecut la nivelul urmator !", PLUGIN_NAME);
+                MesajColorat(id,"!echipa[%s] !verdeAi trecut levelul", PLUGIN_NAME);
                 new ret;
                 ExecuteForward(xlevel, ret, id);
                 while(hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]])
@@ -425,7 +383,6 @@ public hnsxp_spawn(id)
 {
         set_task(2.0, "gItem", id);
         UpdateLevel(id);
-        set_user_health(id, get_user_health(id) + hnsxp_playerlevel[id] * 5);
         
 }
 
@@ -471,10 +428,9 @@ public hnsxp_death( iVictim, attacker, shouldgib )
         hnsxp_playerxp[attacker] += get_pcvar_num(hnsxp_kill);
 	new ret;
       	ExecuteForward(wxp, ret, attacker);
-        MesajColorat(attacker,"!normal[!echipa%s!normal] Ai primit !echipa%i !normalXP pentru ca l-ai omorat pe !echipa%s!", PLUGIN_NAME, get_pcvar_num(hnsxp_kill), iVictim);
+        MesajColorat(attacker,"!echipa[%s] !verdeAi primit %i XP pentru ca l-ai omorat pe %s!", PLUGIN_NAME, get_pcvar_num(hnsxp_kill), iVictim);
         
 	UpdateLevel(attacker);
-	UpdateLevel(iVictim);
 
         if(get_user_flags(attacker) & ADMIN_IMMUNITY && get_pcvar_num(vip_enable))
         {
@@ -552,7 +508,7 @@ public cmd_give_level(id, level, cid)
         MesajColorat(0, "!normal[ADMIN] !echipa%s: !verdeia dat !echipa%s !verdelevel-uri lui !echipa%s", admin_name, amount, player_name)
         
         hnsxp_playerlevel[player] += expnum
-        SaveData(id)
+        SaveData(player)
         
         return PLUGIN_CONTINUE
 }
@@ -581,11 +537,11 @@ public cmd_give_xp(id, level, cid)
         
         hnsxp_playerxp[player] += expnum
 	new ret;
-	ExecuteForward(wxp, ret, player);
+      	ExecuteForward(wxp, ret, player);
 
 	UpdateLevel(player);
 
-        SaveData(id)
+        SaveData(player)
         
         return PLUGIN_CONTINUE
 }
@@ -614,7 +570,7 @@ public cmd_take_level(id, level, cid)
         MesajColorat(0, "!normal[ADMIN] !echipa%s: !verdeia luat !echipa%s !verdelevel-uri lui !echipa%s", admin_name, amount, player_name)
         
         hnsxp_playerlevel[player] -= expnum
-        SaveData(id)
+        SaveData(player)
         
         return PLUGIN_CONTINUE
 }
@@ -643,10 +599,22 @@ public cmd_take_xp(id, level, cid)
         MesajColorat(0, "!normal[ADMIN] !echipa%s: !verdeia luat !echipa%s !verdelevel-uri lui !echipa%s", admin_name, amount, player_name)
         
         hnsxp_playerxp[player] -= expnum
-        SaveData(id)
+        SaveData(player)
         
         return PLUGIN_CONTINUE
 }
+
+public plugin_cfg()
+{
+	new Players[32]
+	new playerCount, i, player
+	get_players(Players, playerCount, "b")	
+	for (i=0; i<playerCount; i++)
+	   player = Players[i] 
+
+	SaveData(player);
+}
+
 public t_win(id)
 {
         
@@ -654,8 +622,7 @@ public t_win(id)
         get_players(iPlayer, iNum, "ae", "TERRORIST")
         for ( new i = 0; i < iNum; i++ ) {
                 hnsxp_playerxp[iPlayer [ i ]] += get_pcvar_num(tero_win);
-                MesajColorat(iPlayer[i], "!normal[!echipaLevel Mod!normal] Ai primit !verde %i !normalxp pentru ca echipa !verdeTERO a castigat !",get_pcvar_num(tero_win));
-                UpdateLevel(iPlayer[i]);
+                MesajColorat(iPlayer[i], "!echipa[Level Mod] !verdeAi primit !echipa %i xp !verde pentru ca echipa !echipaT !verdea castigat !",get_pcvar_num(tero_win));
         }
 }
 stock MesajColorat(const id, const input[], any:...)
