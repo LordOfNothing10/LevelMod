@@ -9,156 +9,161 @@ new bool:power_speed[33];
 new bool:power_health[33];
 
 
-#define SetGravity(%1)		power_gravity[%1] = true;
-#define RemoveGravity(%1)	power_gravity[%1] = false;
-#define SetSpeed(%1)		power_speed[%1]	= true;
-#define RemoveSpeed(%1)		power_speed[%1] = false;
-#define SetHealth(%1)		power_health[%1] = true;
-#define RemoveHealth(%1)	power_health[%1] = false;
+#define SetGravity(%1)                power_gravity[%1] = true;
+#define RemoveGravity(%1)        power_gravity[%1] = false;
+#define SetSpeed(%1)                power_speed[%1]        = true;
+#define RemoveSpeed(%1)                power_speed[%1] = false;
+#define SetHealth(%1)                power_health[%1] = true;
+#define RemoveHealth(%1)        power_health[%1] = false;
 
-#define gravity_on(%1)		( power_gravity[%1] )
-#define speed_on(%1)		( power_speed[%1] )
-#define health_on(%1)		( power_health[%1] )
+#define gravity_on(%1)                ( power_gravity[%1] )
+#define speed_on(%1)                ( power_speed[%1] )
+#define health_on(%1)                ( power_health[%1] )
 
 new cvar;
 
 public plugin_init()
 {
-	register_plugin("Level Powers !","1.0","LordOfNothing");
+        register_plugin("Level Powers !","1.0","LordOfNothing");
 
-	RegisterHam(Ham_Spawn, "player", "HkPlayer", 1);
+        RegisterHam(Ham_Spawn, "player", "HkPlayer", 1);
 
-	register_clcmd("say /choosepower","HookChosePower");
-	register_clcmd("say_team /choosepower","HookChosePower");
+        register_clcmd("say /choosepower","HookChosePower");
+        register_clcmd("say_team /choosepower","HookChosePower");
 
-	register_clcmd("say /currentpower","HookCurrentPower");
-	register_clcmd("say /infopower","HookInfoPower");
+        register_clcmd("say /currentpower","HookCurrentPower");
+        register_clcmd("say /infopower","HookInfoPower");
 
-	register_clcmd("say_team /currentpower","HookCurrentPower");
-	register_clcmd("say_team /infopower","HookInfoPower");
+        register_clcmd("say_team /currentpower","HookCurrentPower");
+        register_clcmd("say_team /infopower","HookInfoPower");
 
-	cvar = register_cvar("hnsxp_power_start","60");
+        cvar = register_cvar("hnsxp_power_start","60");
 
-	register_event ( "CurWeapon", "CurrentWeapon", "be", "1=1" );
+        register_event ( "CurWeapon", "CurrentWeapon", "be", "1=1" );
 }
 
 public HkPlayer(id)
 {
-	if(health_on(id))
-	{
-		set_user_health(id, 300);
-	}
+        if(health_on(id))
+        {
+                set_user_health(id, 300);
+        }
 
-	if(gravity_on(id))
-	{
-		set_user_gravity(id, 0.5);
-	}
+        if(gravity_on(id))
+        {
+                set_user_gravity(id, 0.5);
+        }
 
-	if(speed_on(id))
-	{
-		set_user_maxspeed(id, 350.0);
-	}
+        if(speed_on(id))
+        {
+                set_user_maxspeed(id, 350.0);
+        }
 }
 
 public CurrentWeapon(id)
 {
-	if(speed_on(id) && is_user_alive(id))
-		set_user_maxspeed(id, 350.0);
+        if(speed_on(id) && is_user_alive(id))
+                set_user_maxspeed(id, 350.0);
 }
 public HookCurrentPower(id)
 {
-	if(health_on(id))
-	{
-		MesajColorat(id, "!normal[!echipaLevel Mod!normal] Puterea curenta :!verde HEALTH ");
-	}
+        if(health_on(id))
+        {
+                MesajColorat(id, "!normal[!echipaLevel Mod!normal] Puterea curenta :!verde HEALTH ");
+        }
 
-	if(gravity_on(id))
-	{
-		MesajColorat(id, "!normal[!echipaLevel Mod!normal] Puterea curenta :!verde GRAVITY ");
-	}
+        if(gravity_on(id))
+        {
+                MesajColorat(id, "!normal[!echipaLevel Mod!normal] Puterea curenta :!verde GRAVITY ");
+        }
 
-	if(speed_on(id))
+        if(speed_on(id))
+        {
+                MesajColorat(id, "!normal[!echipaLevel Mod!normal] Puterea curenta :!verde SPEED ");
+        }
+
+	if(!speed_on(id) && !health_on(id) && !gravity_on(id))
 	{
-		MesajColorat(id, "!normal[!echipaLevel Mod!normal] Puterea curenta :!verde SPEED ");
+                MesajColorat(id, "!normal[!echipaLevel Mod!normal] Puterea curenta :!verde NICI UNA ");
 	}
 }
 
 public HookInfoPower(id)
 {
-	MesajColorat(id, "!normal[!echipaLevel Mod!normal] Puterile ti le alegi folosind comanda!echipa /choosepower");
-	MesajColorat(id, "!normal[!echipaLevel Mod!normal] Abia de la nivelul!verde %i !normaliti vei putea alege o putere!",get_pcvar_num(cvar));
-	MesajColorat(id, "!normal[!echipaLevel Mod!normal] Plugin facut de catre!verde LordOfNothing");
-	return PLUGIN_HANDLED
+        MesajColorat(id, "!normal[!echipaLevel Mod!normal] Puterile ti le alegi folosind comanda!echipa /choosepower");
+        MesajColorat(id, "!normal[!echipaLevel Mod!normal] Abia de la nivelul!verde %i !normaliti vei putea alege o putere!",get_pcvar_num(cvar));
+        MesajColorat(id, "!normal[!echipaLevel Mod!normal] Plugin facut de catre!verde LordOfNothing");
+        return PLUGIN_HANDLED
 }
 
 public HookChosePower(id)
 {
-	if(get_user_level(id) >= get_pcvar_num(cvar))
-	{
-		ShowMenu(id)
-		return PLUGIN_HANDLED	
-	}else{
-		MesajColorat(id, "!normal[!echipaLevel Mod!normal] Abia de la nivelul !verde%i!normal vei putea folosi aceasta comanda!",get_pcvar_num(cvar));
-		return PLUGIN_HANDLED
-	}
-	return PLUGIN_CONTINUE
+        if(get_user_level(id) >= get_pcvar_num(cvar))
+        {
+                ShowMenu(id)
+                return PLUGIN_HANDLED        
+        }else{
+                MesajColorat(id, "!normal[!echipaLevel Mod!normal] Abia de la nivelul !verde%i!normal vei putea folosi aceasta comanda!",get_pcvar_num(cvar));
+                return PLUGIN_HANDLED
+        }
+        return PLUGIN_CONTINUE
 }
 
 
-public ShowMenu ( id ) 
-{   
-	new menu = menu_create ( "Nume Meniu", "MenuGiver" );
-
-	menu_additem ( menu, "Health (buffer)", "1", 0 );
-	menu_additem ( menu, "Speed (buffer)", "2", 0 );
-	menu_additem ( menu, "Gravity (buffer)", "3", 0 );
-   
-	menu_setprop ( menu, MPROP_EXIT, MEXIT_ALL );
-	menu_display ( id, menu, 0 );
-
-	return 1;
-}
-
-public MenuGiver ( id, menu, item ) 
+public ShowMenu ( id )
 {
-    	if ( item == MENU_EXIT )       	
-	{
-		return 1;
-	}
-       
-	new data [ 6 ], szName [ 64 ];
-	new access, callback;
-	menu_item_getinfo ( menu, item, access, data,charsmax ( data ), szName,charsmax ( szName ), callback );
-	new key = str_to_num ( data );
-       
-	switch ( key )
-	{
-		case 1:
-		{
-			SetHealth(id)
-			RemoveSpeed(id)
-			RemoveGravity(id)
-		}
+        new menu = menu_create ( "Alegeti puterea: ", "MenuGiver" );
 
-		case 2:
-		{
-            		SetSpeed(id)
-			RemoveGravity(id)
-			RemoveHealth(id)
-		}
+        menu_additem ( menu, "Health (buffer)", "1", 0 );
+        menu_additem ( menu, "Speed (buffer)", "2", 0 );
+        menu_additem ( menu, "Gravity (buffer)", "3", 0 );
+   
+        menu_setprop ( menu, MPROP_EXIT, MEXIT_ALL );
+        menu_display ( id, menu, 0 );
 
-		case 3:
-		{
-          		SetGravity(id)
-			RemoveSpeed(id)
-			RemoveHealth(id)
+        return 1;
+}
 
-		}
-		
-	}
+public MenuGiver ( id, menu, item )
+{
+	if ( item == MENU_EXIT )         
+        {
+                return 1;
+        }
        
-	menu_destroy ( menu );
-	return 1;
+        new data [ 6 ], szName [ 64 ];
+        new access, callback;
+        menu_item_getinfo ( menu, item, access, data,charsmax ( data ), szName,charsmax ( szName ), callback );
+        new key = str_to_num ( data );
+       
+        switch ( key )
+        {
+                case 1:
+                {
+                        SetHealth(id)
+                        RemoveSpeed(id)
+                        RemoveGravity(id)
+                }
+
+                case 2:
+                {
+                        SetSpeed(id)
+                        RemoveGravity(id)
+                        RemoveHealth(id)
+                }
+
+                case 3:
+                {
+                        SetGravity(id)
+                        RemoveSpeed(id)
+                        RemoveHealth(id)
+
+                }
+                
+        }
+       
+        menu_destroy ( menu );
+        return 1;
        
 }
 
