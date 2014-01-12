@@ -41,7 +41,7 @@
 
 
 new const PLUGIN_NAME[] = "Level Mod";
-new const hnsxp_version[] = "5.2";
+new const hnsxp_version[] = "5.3";
 new const LEVELS[100] = {
         
         1000, // 1
@@ -236,6 +236,7 @@ public gItem(id)
                         cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
                         cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
                         cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
+                        set_user_health(id, get_user_health(id) + 5);
                         remove_task(id);
                 
                 }
@@ -252,6 +253,7 @@ public gItem(id)
                         give_item(id, "weapon_deagle");
                         cs_set_weapon_ammo(dgl, 1);
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                        set_user_health(id, get_user_health(id) + 15);
                         remove_task(id);
                 
                 }
@@ -269,6 +271,8 @@ public gItem(id)
                         give_item(id, "weapon_deagle");
                         cs_set_weapon_ammo(dgl, 2);
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                        
+                        set_user_health(id, get_user_health(id) + 20);
                         remove_task(id);
                 }
 
@@ -285,6 +289,8 @@ public gItem(id)
                         give_item(id, "weapon_deagle");
                         cs_set_weapon_ammo(dgl, 3);
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                        
+                        set_user_health(id, get_user_health(id) + 25);
                         remove_task(id);
                 }
                 
@@ -302,7 +308,7 @@ public gItem(id)
                         cs_set_weapon_ammo(dgl, 4);
                         
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                        set_user_health(id, get_user_health(id) + 15);
+                        set_user_health(id, get_user_health(id) + 35);
                         remove_task(id);
                 }
                 
@@ -320,7 +326,7 @@ public gItem(id)
                         cs_set_weapon_ammo(dgl, 4);
                         
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                        set_user_health(id, get_user_health(id) + 20);
+                        set_user_health(id, get_user_health(id) + 45);
                         remove_task(id);
                 }
                 case 61..70:
@@ -337,7 +343,7 @@ public gItem(id)
                         cs_set_weapon_ammo(dgl, 4);
                         
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                        set_user_health(id, get_user_health(id) + 25);
+                        set_user_health(id, get_user_health(id) + 100);
                         remove_task(id);
                 }
                 case 71..80:
@@ -354,7 +360,7 @@ public gItem(id)
                         cs_set_weapon_ammo(dgl, 5);
                         
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                        set_user_health(id, get_user_health(id) + 30);
+                        set_user_health(id, get_user_health(id) + 150);
                         remove_task(id);
                 }
                 case 81..90:
@@ -371,7 +377,7 @@ public gItem(id)
                         cs_set_weapon_ammo(dgl, 6);
                         
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                        set_user_health(id, get_user_health(id) + 35);
+                        set_user_health(id, get_user_health(id) + 300);
                         remove_task(id);
                 }
                 
@@ -389,7 +395,7 @@ public gItem(id)
                         cs_set_weapon_ammo(dgl, 7);
                         
                         cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                        set_user_health(id, get_user_health(id) + 40);
+                        set_user_health(id, get_user_health(id) + 500);
                         remove_task(id);
                 }
                 
@@ -420,10 +426,8 @@ UpdateLevel(id)
 
 public hnsxp_spawn(id)
 {
-        set_task(2.0, "gItem", id);
+        set_task(15.0, "gItem", id);
         UpdateLevel(id);
-        set_user_health(id, get_user_health(id) + hnsxp_playerlevel[id] * 5);
-        
 }
 
 public plvl(id)
