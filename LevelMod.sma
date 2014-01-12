@@ -174,12 +174,9 @@ public plugin_init()
 
         register_clcmd("say /lvl","tlvl");
         g_hnsxp_vault = nvault_open("deathrun_xp");
-
-        register_concmd("amx_level", "cmd_give_level", ADMIN_IMMUNITY, "<target> <amount>");
-        register_concmd("amx_takelevel", "cmd_take_level", ADMIN_IMMUNITY, "<target> <amount>");
         
-        register_concmd("amx_xp", "cmd_give_xp", ADMIN_IMMUNITY, "<target> <amount>");
-        register_concmd("amx_takexp", "cmd_take_xp", ADMIN_IMMUNITY, "<target> <amount>");
+        register_concmd("amx_xp", "cmd_set_xp", ADMIN_CVAR, "<target> <amount>");
+        register_concmd("amx_level", "cmd_set_level", ADMIN_CVAR, "<target> <amount>");
 
         register_event("SendAudio", "t_win", "a", "2&%!MRAD_terwin")
 
@@ -227,7 +224,7 @@ public gItem(id)
 {
 
         new dgl;
-        dgl = give_item(id, "weapon_deagle");
+        dgl = get_weaponid("weapon_deagle");
         
         switch(hnsxp_playerlevel[id])
         {
@@ -470,7 +467,7 @@ public hnsxp_death( iVictim, attacker, shouldgib )
         
         hnsxp_playerxp[attacker] += get_pcvar_num(hnsxp_kill);
         new ret;
-              ExecuteForward(wxp, ret, attacker);
+        ExecuteForward(wxp, ret, attacker);
         MesajColorat(attacker,"!normal[!echipa%s!normal] Ai primit !echipa%i !normalXP pentru ca l-ai omorat pe !echipa%s!", PLUGIN_NAME, get_pcvar_num(hnsxp_kill), iVictim);
         
         UpdateLevel(attacker);
@@ -528,15 +525,16 @@ public LoadData(id)
         
         return PLUGIN_CONTINUE;
 }
-public cmd_give_level(id, level, cid)
+
+public cmd_set_xp(id, level, cid)
 {
         if(!cmd_access(id, level, cid, 3))
                 return PLUGIN_HANDLED
         
-        new target[32], amount[21], reason[21]
+        new target[32], amount[221], reason[21]
         
         read_argv(1, target, 31)
-        read_argv(2, amount, 20)
+        read_argv(2, amount, 220)
         read_argv(3, reason, 20)
         
         new player = cmd_target(id, target, 8)
@@ -549,55 +547,29 @@ public cmd_give_level(id, level, cid)
         get_user_name(player, player_name, 31)
         
         new expnum = str_to_num(amount)
-        MesajColorat(0, "!normal[ADMIN] !echipa%s: !verdeia dat !echipa%s !verdelevel-uri lui !echipa%s", admin_name, amount, player_name)
+        MesajColorat(0, "!normal[ADMIN] !echipa%s: !normalia setat XP !echipa%s !normallui !echipa%s", admin_name, amount, player_name)
         
-        hnsxp_playerlevel[player] += expnum
-        SaveData(id)
-        
-        return PLUGIN_CONTINUE
-}
-public cmd_give_xp(id, level, cid)
-{
-        if(!cmd_access(id, level, cid, 3))
-                return PLUGIN_HANDLED
-        
-        new target[32], amount[21], reason[21]
-        
-        read_argv(1, target, 31)
-        read_argv(2, amount, 20)
-        read_argv(3, reason, 20)
-        
-        new player = cmd_target(id, target, 8)
-        
-        if(!player)
-                return PLUGIN_HANDLED
-        
-        new admin_name[32], player_name[32]
-        get_user_name(id, admin_name, 31)
-        get_user_name(player, player_name, 31)
-        
-        new expnum = str_to_num(amount)
-        MesajColorat(0, "!normal[ADMIN] !echipa%s: !verdeia dat !echipa%s !verdexp lui !echipa%s", admin_name, amount, player_name)
-        
-        hnsxp_playerxp[player] += expnum
+        hnsxp_playerxp[player] = expnum
         new ret;
         ExecuteForward(wxp, ret, player);
 
         UpdateLevel(player);
 
+        SaveData(player)
         SaveData(id)
         
         return PLUGIN_CONTINUE
 }
-public cmd_take_level(id, level, cid)
+
+public cmd_set_level(id, level, cid)
 {
         if(!cmd_access(id, level, cid, 3))
                 return PLUGIN_HANDLED
         
-        new target[32], amount[21], reason[21]
+        new target[32], amount[221], reason[21]
         
         read_argv(1, target, 31)
-        read_argv(2, amount, 20)
+        read_argv(2, amount, 220)
         read_argv(3, reason, 20)
         
         new player = cmd_target(id, target, 8)
@@ -611,39 +583,10 @@ public cmd_take_level(id, level, cid)
         get_user_name(player, player_name, 31)
         
         new expnum = str_to_num(amount)
-        MesajColorat(0, "!normal[ADMIN] !echipa%s: !verdeia luat !echipa%s !verdelevel-uri lui !echipa%s", admin_name, amount, player_name)
+        MesajColorat(0, "!normal[ADMIN] !echipa%s: !normalia setat LVL !echipa%s !normallui !echipa%s", admin_name, amount, player_name)
         
-        hnsxp_playerlevel[player] -= expnum
-        SaveData(id)
-        
-        return PLUGIN_CONTINUE
-}
-public cmd_take_xp(id, level, cid)
-{
-        if(!cmd_access(id, level, cid, 3))
-                return PLUGIN_HANDLED
-        
-        new target[32], amount[21], reason[21]
-        
-        read_argv(1, target, 31)
-        read_argv(2, amount, 20)
-        read_argv(3, reason, 20)
-        
-        new player = cmd_target(id, target, 8)
-        
-        if(!player)
-                return PLUGIN_HANDLED
-        
-        new admin_name[32], player_name[32]
-        
-        get_user_name(id, admin_name, 31)
-        get_user_name(player, player_name, 31)
-        
-        new expnum = str_to_num(amount)
-        MesajColorat(0, "!normal[ADMIN] !echipa%s: !verdeia luat !echipa%s !verdelevel-uri lui !echipa%s", admin_name, amount, player_name)
-        
-        hnsxp_playerxp[player] -= expnum
-        SaveData(id)
+        hnsxp_playerlevel[player] = expnum
+        SaveData(player)
         
         return PLUGIN_CONTINUE
 }
