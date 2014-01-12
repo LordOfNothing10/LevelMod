@@ -356,7 +356,7 @@ public gItem(id)
         {
                 switch(hnsxp_playerlevel[id])
                 {
-                        case 1..10:
+                        case 0..10:
                         {
                                 give_item(id, "weapon_hegrenade");
                                 give_item(id, "weapon_flashbang");
