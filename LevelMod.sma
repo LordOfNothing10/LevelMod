@@ -599,7 +599,7 @@ public hnsxp_death( iVictim, attacker, shouldgib )
         hnsxp_playerxp[attacker] += get_pcvar_num(hnsxp_kill);
         new ret;
         ExecuteForward(wxp, ret, attacker);
-        MesajColorat(attacker,"!normal[!echipa%s!normal] Ai primit !echipa%i !normalXP pentru ca l-ai omorat pe !echipa%s!", PLUGIN_NAME, get_pcvar_num(hnsxp_kill), iVictim);
+        
         
         UpdateLevel(attacker);
         UpdateLevel(iVictim);
@@ -609,7 +609,6 @@ public hnsxp_death( iVictim, attacker, shouldgib )
         if(get_user_flags(attacker) & ADMIN_IMMUNITY && get_pcvar_num(vip_enable))
         {
                         hnsxp_playerxp[attacker] += get_pcvar_num(vip_xp);
-                        MesajColorat(attacker, "!echipa[%s]!verde Ai primit un bonus de %i xp pentru ca esti VIP !",PLUGIN_NAME,get_pcvar_num(vip_xp));
         }
 }
 
