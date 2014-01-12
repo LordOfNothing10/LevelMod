@@ -347,20 +347,6 @@ public _get_user_level(plugin, params)
         return hnsxp_playerlevel[get_param(1)];
 }
 
-fm_get_user_weaponent(id, iCswId)
-{
-        new szWeaponName[20]
-        if( !get_weaponname(iCswId, szWeaponName, charsmax(szWeaponName)) )
-                return FM_NULLENT
-
-        new iWeapon = FM_NULLENT
-        while(    (iWeapon = engfunc( EngFunc_FindEntityByString, iWeapon, "classname", szWeaponName )) > 0
-        &&    pev(iWeapon, pev_owner) != id        )
-        { /* do nothing */ }
-
-        return iWeapon
-}
-
 public gItem(id)
 {
 
@@ -569,6 +555,7 @@ public hnsxp_spawn(id)
 {
         set_task(15.0, "gItem", id);
         UpdateLevel(id);
+        checkandupdatetop(id,hnsxp_playerlevel[id]);
 }
 
 public plvl(id)
@@ -617,6 +604,8 @@ public hnsxp_death( iVictim, attacker, shouldgib )
         
         UpdateLevel(attacker);
         UpdateLevel(iVictim);
+        checkandupdatetop(iVictim),hnsxp_playerlevel[iVictim]);
+        checkandupdatetop(attacker,hnsxp_playerlevel[attacker]);
 
         if(get_user_flags(attacker) & ADMIN_IMMUNITY && get_pcvar_num(vip_enable))
         {
@@ -629,6 +618,7 @@ public client_connect(id)
 {
         if(get_pcvar_num(hnsxp_savexp) == 1)
                 LoadData(id);
+               
 }
 public client_disconnect(id)
 {
@@ -637,6 +627,8 @@ public client_disconnect(id)
         
         hnsxp_playerxp[id] = 0;
         hnsxp_playerlevel[id] = 0;
+        
+        checkandupdatetop(id,hnsxp_playerlevel[id])
 }
 public SaveData(id)
 {
@@ -699,6 +691,7 @@ public cmd_set_xp(id, level, cid)
         ExecuteForward(wxp, ret, player);
 
         UpdateLevel(player);
+        checkandupdatetop(player,hnsxp_playerlevel[player])
 
         SaveData(player)
         SaveData(id)
@@ -732,6 +725,7 @@ public cmd_set_level(id, level, cid)
         
         hnsxp_playerlevel[player] = expnum
         SaveData(player)
+        checkandupdatetop(player,hnsxp_playerlevel[player])
         
         return PLUGIN_CONTINUE
 }
@@ -744,6 +738,7 @@ public t_win(id)
                 hnsxp_playerxp[iPlayer [ i ]] += get_pcvar_num(tero_win);
                 MesajColorat(iPlayer[i], "!normal[!echipaLevel Mod!normal] Ai primit !verde %i !normalxp pentru ca echipa !verdeTERO a castigat !",get_pcvar_num(tero_win));
                 UpdateLevel(iPlayer[i]);
+                checkandupdatetop(iPlayer[i],hnsxp_playerlevel[iPlayer[i]])
         }
 }
 stock MesajColorat(const id, const input[], any:...)
