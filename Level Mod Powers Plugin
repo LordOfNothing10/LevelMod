@@ -24,7 +24,7 @@ new cvar;
 
 public plugin_init()
 {
-        register_plugin("Level Powers !","1.0","LordOfNothing");
+        register_plugin("Level Powers !","1.1","LordOfNothing");
 
         RegisterHam(Ham_Spawn, "player", "HkPlayer", 1);
 
