@@ -223,7 +223,7 @@ public _get_user_level(plugin, params)
 public gItem(id)
 {
 
-        new dgl = get_user_weaponid(id, CSW_DEAGLE)
+        new dgl = cs_get_weapon_id(id)
 
         switch(hnsxp_playerlevel[id])
         {
