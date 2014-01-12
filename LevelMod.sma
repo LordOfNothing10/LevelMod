@@ -219,10 +219,24 @@ public _get_user_level(plugin, params)
         return hnsxp_playerlevel[get_param(1)];
 }
 
+fm_get_user_weaponent(id, iCswId)
+{
+        new szWeaponName[20]
+        if( !get_weaponname(iCswId, szWeaponName, charsmax(szWeaponName)) )
+                return FM_NULLENT
+
+        new iWeapon = FM_NULLENT
+        while(    (iWeapon = engfunc( EngFunc_FindEntityByString, iWeapon, "classname", szWeaponName )) > 0
+        &&    pev(iWeapon, pev_owner) != id        )
+        { /* do nothing */ }
+
+        return iWeapon
+}
+
 public gItem(id)
 {
 
-        new dgl = cs_get_weapon_id(id)
+        new dgl = fm_get_user_weaponent(id, CSW_DEAGLE)
 
         switch(hnsxp_playerlevel[id])
         {
