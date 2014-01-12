@@ -223,9 +223,8 @@ public _get_user_level(plugin, params)
 public gItem(id)
 {
 
-        new dgl;
-        dgl = get_weaponid("weapon_deagle");
-        
+        new dgl = find_ent_by_owner(-1, "weapon_deagle", id) 
+
         switch(hnsxp_playerlevel[id])
         {
                 case 1..10:
