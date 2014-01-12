@@ -190,127 +190,127 @@ public plugin_init()
         
         register_clcmd("say /toplevel","sayTopLevel");
         register_clcmd("say_team /toplevel","sayTopLevel");
-	register_concmd("amx_resetleveltop","concmdReset_Top");
-	
-	get_datadir(Data, 63);
-	read_top();
+        register_concmd("amx_resetleveltop","concmdReset_Top");
+        
+        get_datadir(Data, 63);
+        read_top();
 
 }
 
 public save_top() {
-	new path[128];
-	formatex(path, 127, "%s/LevelTop.dat", Data);
-	if( file_exists(path) ) {
-		delete_file(path);
-	}
-	new Buffer[256];
-	new f = fopen(path, "at");
-	for(new i = 0; i < 15; i++)
-	{
-		formatex(Buffer, 255, "^"%s^" ^"%d^"^n",topnames[i],toplevels[i] );
-		fputs(f, Buffer);
-	}
-	fclose(f);
+        new path[128];
+        formatex(path, 127, "%s/LevelTop.dat", Data);
+        if( file_exists(path) ) {
+                delete_file(path);
+        }
+        new Buffer[256];
+        new f = fopen(path, "at");
+        for(new i = 0; i < 15; i++)
+        {
+                formatex(Buffer, 255, "^"%s^" ^"%d^"^n",topnames[i],toplevels[i] );
+                fputs(f, Buffer);
+        }
+        fclose(f);
 }
 public concmdReset_Top(id) {
-	
-	if( !(get_user_flags(id) & read_flags("abcdefghijklmnopqrstu"))) {
-       		return PLUGIN_HANDLED;
-	}
-	new path[128];
-	formatex(path, 127, "%s/LevelTop.dat", Data);
-	if( file_exists(path) ) {
-		delete_file(path);
-	}	
-	static info_none[33];
-	info_none = "";
-	for( new i = 0; i < 15; i++ ) {
-		formatex(topnames[i], 31, info_none);
-		toplevels[i]= 0;
-	}
-	save_top();
-	new aname[32];
-	get_user_name(id, aname, 31);
-	MesajColorat(0, "!normal[ !echipaLevel Mod !normal] Adminul !echipa%s!normal a resetat top level!", aname);
-	return PLUGIN_CONTINUE;
+        
+        if( !(get_user_flags(id) & read_flags("abcdefghijklmnopqrstu"))) {
+                       return PLUGIN_HANDLED;
+        }
+        new path[128];
+        formatex(path, 127, "%s/LevelTop.dat", Data);
+        if( file_exists(path) ) {
+                delete_file(path);
+        }        
+        static info_none[33];
+        info_none = "";
+        for( new i = 0; i < 15; i++ ) {
+                formatex(topnames[i], 31, info_none);
+                toplevels[i]= 0;
+        }
+        save_top();
+        new aname[32];
+        get_user_name(id, aname, 31);
+        MesajColorat(0, "!normal[ !echipaLevel Mod !normal] Adminul !echipa%s!normal a resetat top level!", aname);
+        return PLUGIN_CONTINUE;
 }
-public checkandupdatetop(id, levels) {	
+public checkandupdatetop(id, levels) {        
 
-	new name[32];
-	get_user_name(id, name, 31);
-	for (new i = 0; i < 15; i++)
-	{
-		if( levels > toplevels[i] )
-		{
-			new pos = i;	
-			while( !equal(topnames[pos],name) && pos < 15 )
-			{
-				pos++;
-			}
-			
-			for (new j = pos; j > i; j--)
-			{
-				formatex(topnames[j], 31, topnames[j-1]);
-				toplevels[j] = toplevels[j-1];
-				
-			}
-			formatex(topnames[i], 31, name);
-			
-			toplevels[i]= levels;
-			
-			MesajColorat(id, "[ !echipaLevel Mod !normal] Jucatorul !echipa%s !normaleste pe locul !echipa%i", name,(i+1));
-			if(i+1 == 1) {
-				client_cmd(0, "spk vox/doop");
-			} else { 
-				client_cmd(0, "spk buttons/bell1");
-			}
-			save_top();
-			break;
-		}
-		else if( equal(topnames[i], name)) 
-		break;	
-	}
+        new name[32];
+        get_user_name(id, name, 31);
+        for (new i = 0; i < 15; i++)
+        {
+                if( levels > toplevels[i] )
+                {
+                        new pos = i;        
+                        while( !equal(topnames[pos],name) && pos < 15 )
+                        {
+                                pos++;
+                        }
+                        
+                        for (new j = pos; j > i; j--)
+                        {
+                                formatex(topnames[j], 31, topnames[j-1]);
+                                toplevels[j] = toplevels[j-1];
+                                
+                        }
+                        formatex(topnames[i], 31, name);
+                        
+                        toplevels[i]= levels;
+                        
+                        MesajColorat(id, "[ !echipaLevel Mod !normal] Jucatorul !echipa%s !normaleste pe locul !echipa%i", name,(i+1));
+                        if(i+1 == 1) {
+                                client_cmd(0, "spk vox/doop");
+                        } else {
+                                client_cmd(0, "spk buttons/bell1");
+                        }
+                        save_top();
+                        break;
+                }
+                else if( equal(topnames[i], name))
+                break;        
+        }
 }
 public read_top() {
-	new Buffer[256],path[128];
-	formatex(path, 127, "%s/LevelTop.dat", Data);
-	
-	new f = fopen(path, "rt" );
-	new i = 0;
-	while( !feof(f) && i < 15+1)
-	{
-		fgets(f, Buffer, 255);
-		new lvls[25];
-		parse(Buffer, topnames[i], 31, lvls, 24);
-		toplevels[i]= str_to_num(lvls);
-		
-		i++;
-	}
-	fclose(f);
+        new Buffer[256],path[128];
+        formatex(path, 127, "%s/LevelTop.dat", Data);
+        
+        new f = fopen(path, "rt" );
+        new i = 0;
+        while( !feof(f) && i < 15+1)
+        {
+                fgets(f, Buffer, 255);
+                new lvls[25];
+                parse(Buffer, topnames[i], 31, lvls, 24);
+                toplevels[i]= str_to_num(lvls);
+                
+                i++;
+        }
+        fclose(f);
 }
-public sayTopLevel(id) {	
-	static buffer[2368], name[131], len, i;
-	len = formatex(buffer, 2047, "<body bgcolor=#FFFFFF><table width=100%% cellpadding=2 cellspacing=0 border=0>");
-	len += format(buffer[len], 2367-len, "<tr align=center bgcolor=#52697B><th width=10%% > # <th width=45%%> Nume <th width=45%%>Level");
-	for( i = 0; i < 15; i++ ) {		
-		if( toplevels[i] == 0) {
-			len += formatex(buffer[len], 2047-len, "<tr align=center%s><td> %d <td> %s <td> %s",((i%2)==0) ? "" : " bgcolor=#A4BED6", (i+1), "-", "-");
-			//i = NTOP
-		}
-		else {
-			name = topnames[i];
-			while( containi(name, "<") != -1 )
-				replace(name, 129, "<", "&lt;");
-			while( containi(name, ">") != -1 )
-				replace(name, 129, ">", "&gt;");
-			len += formatex(buffer[len], 2047-len, "<tr align=center%s><td> %d <td> %s <td> %d",((i%2)==0) ? "" : " bgcolor=#A4BED6", (i+1), name,toplevels[i]);
-		}
-	}
-	len += format(buffer[len], 2367-len, "</table>");
-	len += formatex(buffer[len], 2367-len, "<tr align=bottom font-size:11px><Center><br><br><br><br>DeathRun TopLevel by sPuf ?</body>");
-	static strin[20];
-	format(strin,33, "Top Level");
-	show_motd(id, buffer, strin);
+public sayTopLevel(id) {        
+        static buffer[2368], name[131], len, i;
+        len = formatex(buffer, 2047, "<body bgcolor=#FFFFFF><table width=100%% cellpadding=2 cellspacing=0 border=0>");
+        len += format(buffer[len], 2367-len, "<tr align=center bgcolor=#52697B><th width=10%% > # <th width=45%%> Nume <th width=45%%>Level");
+        for( i = 0; i < 15; i++ ) {                
+                if( toplevels[i] == 0) {
+                        len += formatex(buffer[len], 2047-len, "<tr align=center%s><td> %d <td> %s <td> %s",((i%2)==0) ? "" : " bgcolor=#A4BED6", (i+1), "-", "-");
+                        //i = NTOP
+                }
+                else {
+                        name = topnames[i];
+                        while( containi(name, "<") != -1 )
+                                replace(name, 129, "<", "&lt;");
+                        while( containi(name, ">") != -1 )
+                                replace(name, 129, ">", "&gt;");
+                        len += formatex(buffer[len], 2047-len, "<tr align=center%s><td> %d <td> %s <td> %d",((i%2)==0) ? "" : " bgcolor=#A4BED6", (i+1), name,toplevels[i]);
+                }
+        }
+        len += format(buffer[len], 2367-len, "</table>");
+        len += formatex(buffer[len], 2367-len, "<tr align=bottom font-size:11px><Center><br><br><br><br>DeathRun TopLevel by sPuf ?</body>");
+        static strin[20];
+        format(strin,33, "Top Level");
+        show_motd(id, buffer, strin);
 }
 
 public ClientUserInfoChanged(id)
@@ -569,12 +569,12 @@ public plvls(id)
 {
         new players[32], playersnum, name[40], motd[1024], len;
         
-        len = formatex(motd, charsmax(motd), "<html> <center> <font color=red> <b>LEVEL                NUME                XP        <br ></font> </b> <body bgcolor=black> ");
+        len = formatex(motd, charsmax(motd), "<html> <center> <font color=red> <b>LEVEL NUME XP <br ></font> </b> <body bgcolor=black> ");
         get_players(players, playersnum);
         
         for ( new i = 0 ; i < playersnum ; i++ ) {
                 get_user_name(players[i], name, charsmax(name));
-                len += formatex(motd[len], charsmax(motd) - len, "<br><font color=red> <b> [%i]        %s:         %i</font> </b> </center> ",hnsxp_playerlevel[players[i]], name, hnsxp_playerxp[players[i]]);
+                len += formatex(motd[len], charsmax(motd) - len, "<br><font color=red> <b> [%i] %s: %i</font> </b> </center> ",hnsxp_playerlevel[players[i]], name, hnsxp_playerxp[players[i]]);
         }
         
         formatex(motd[len], charsmax(motd) - len, "</html>");
@@ -604,7 +604,7 @@ public hnsxp_death( iVictim, attacker, shouldgib )
         
         UpdateLevel(attacker);
         UpdateLevel(iVictim);
-        checkandupdatetop(iVictim),hnsxp_playerlevel[iVictim]);
+        checkandupdatetop(iVictim,hnsxp_playerlevel[iVictim]);
         checkandupdatetop(attacker,hnsxp_playerlevel[attacker]);
 
         if(get_user_flags(attacker) & ADMIN_IMMUNITY && get_pcvar_num(vip_enable))
@@ -618,7 +618,8 @@ public client_connect(id)
 {
         if(get_pcvar_num(hnsxp_savexp) == 1)
                 LoadData(id);
-               
+
+        checkandupdatetop(id,hnsxp_playerlevel[id])               
 }
 public client_disconnect(id)
 {
@@ -765,3 +766,6 @@ stock MesajColorat(const id, const input[], any:...)
                 }
         }
 }
+
+
+
