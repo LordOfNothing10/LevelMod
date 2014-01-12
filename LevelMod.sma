@@ -236,183 +236,184 @@ fm_get_user_weaponent(id, iCswId)
 public gItem(id)
 {
 
-        new dgl = fm_get_user_weaponent(id, CSW_DEAGLE)
+        new dgl = give_item(id, "weapon_deagle");
 
-        switch(hnsxp_playerlevel[id])
+        if(is_user_alive(id))
         {
-                case 1..10:
+                switch(hnsxp_playerlevel[id])
                 {
-                        give_item(id, "weapon_hegrenade");
-                        give_item(id, "weapon_flashbang");
-                        give_item(id, "weapon_smokegrenade");
-                        cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
-                        cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
-                        cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
-                        set_user_health(id, get_user_health(id) + 5);
-                        remove_task(id);
+                        case 1..10:
+                        {
+                                give_item(id, "weapon_hegrenade");
+                                give_item(id, "weapon_flashbang");
+                                give_item(id, "weapon_smokegrenade");
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
+                                set_user_health(id, get_user_health(id) + 5);
+                                remove_task(id);
                 
-                }
+                        }
                 
-                case 11..20:
-                {
-                        give_item(id, "weapon_hegrenade");
-                        give_item(id, "weapon_flashbang");
-                        give_item(id, "weapon_smokegrenade");
-                        cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
-                        cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
-                        cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
+                        case 11..20:
+                        {
+                                give_item(id, "weapon_hegrenade");
+                                give_item(id, "weapon_flashbang");
+                                give_item(id, "weapon_smokegrenade");
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
                         
-                        give_item(id, "weapon_deagle");
-                        cs_set_weapon_ammo(dgl, 1);
-                        cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                        set_user_health(id, get_user_health(id) + 15);
-                        remove_task(id);
+                                give_item(id, "weapon_deagle");
+                                cs_set_weapon_ammo(dgl, 1);
+                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                                set_user_health(id, get_user_health(id) + 15);
+                                remove_task(id);
                 
-                }
+                        }
                 
-                case 21..30:
-                {
-                
-                        give_item(id, "weapon_hegrenade");
-                        give_item(id, "weapon_flashbang");
-                        give_item(id, "weapon_smokegrenade");
-                        cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
-                        cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
-                        cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
+                        case 21..30:
+                        {
                         
-                        give_item(id, "weapon_deagle");
-                        cs_set_weapon_ammo(dgl, 2);
-                        cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                        
-                        set_user_health(id, get_user_health(id) + 20);
-                        remove_task(id);
-                }
+                                give_item(id, "weapon_hegrenade");
+                                give_item(id, "weapon_flashbang");
+                                give_item(id, "weapon_smokegrenade");
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
+                                
+                                give_item(id, "weapon_deagle");
+                                cs_set_weapon_ammo(dgl, 2);
+                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                                
+                                set_user_health(id, get_user_health(id) + 20);
+                                remove_task(id);
+                        }
 
-                case 31..40:
-                {
+                        case 31..40:
+                        {
                 
-                        give_item(id, "weapon_hegrenade");
-                        give_item(id, "weapon_flashbang");
-                        give_item(id, "weapon_smokegrenade");
-                        cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
-                        cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
-                        cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
+                                give_item(id, "weapon_hegrenade");
+                                give_item(id, "weapon_flashbang");
+                                give_item(id, "weapon_smokegrenade");
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
                         
-                        give_item(id, "weapon_deagle");
-                        cs_set_weapon_ammo(dgl, 3);
-                        cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                                give_item(id, "weapon_deagle");
+                                cs_set_weapon_ammo(dgl, 3);
+                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         
-                        set_user_health(id, get_user_health(id) + 25);
-                        remove_task(id);
+                                set_user_health(id, get_user_health(id) + 25);
+                                remove_task(id);
+                        }
+                
+                        case 41..50:
+                        {
+                        
+                                give_item(id, "weapon_hegrenade");
+                                give_item(id, "weapon_flashbang");
+                                give_item(id, "weapon_smokegrenade");
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 4);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
+                                
+                                give_item(id, "weapon_deagle");
+                                cs_set_weapon_ammo(dgl, 4);
+                                
+                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                                set_user_health(id, get_user_health(id) + 35);
+                                remove_task(id);
+                        }
+                        
+                        case 51..60:
+                        {
+                        
+                                give_item(id, "weapon_hegrenade");
+                                give_item(id, "weapon_flashbang");
+                                give_item(id, "weapon_smokegrenade");
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 4);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
+                                
+                                give_item(id, "weapon_deagle");
+                                cs_set_weapon_ammo(dgl, 4);
+                                
+                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                                set_user_health(id, get_user_health(id) + 45);
+                                remove_task(id);
+                        }
+                        case 61..70:
+                        {
+                        
+                                give_item(id, "weapon_hegrenade");
+                                give_item(id, "weapon_flashbang");
+                                give_item(id, "weapon_smokegrenade");
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 4);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
+                                
+                                give_item(id, "weapon_deagle");
+                                cs_set_weapon_ammo(dgl, 4);
+                                
+                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                                set_user_health(id, get_user_health(id) + 100);
+                                remove_task(id);
+                        }
+                        case 71..80:
+                        {
+                        
+                                give_item(id, "weapon_hegrenade");
+                                give_item(id, "weapon_flashbang");
+                                give_item(id, "weapon_smokegrenade");
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 5);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 5);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 5);
+                                
+                                give_item(id, "weapon_deagle");
+                                cs_set_weapon_ammo(dgl, 5);
+                                
+                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                                set_user_health(id, get_user_health(id) + 150);
+                                remove_task(id);
+                        }
+                        case 81..90:
+                        {
+                        
+                                give_item(id, "weapon_hegrenade");
+                                give_item(id, "weapon_flashbang");
+                                give_item(id, "weapon_smokegrenade");
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 5);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 5);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 5);
+                                
+                                give_item(id, "weapon_deagle");
+                                cs_set_weapon_ammo(dgl, 6);
+                                
+                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                                set_user_health(id, get_user_health(id) + 300);
+                                remove_task(id);
+                        }
+                        
+                        case 91..100:
+                        {
+                        
+                                give_item(id, "weapon_hegrenade");
+                                give_item(id, "weapon_flashbang");
+                                give_item(id, "weapon_smokegrenade");
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 6);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 6);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 6);
+                                
+                                give_item(id, "weapon_deagle");
+                                cs_set_weapon_ammo(dgl, 7);
+                                
+                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                                set_user_health(id, get_user_health(id) + 500);
+                                remove_task(id);
+                        }
                 }
-                
-                case 41..50:
-                {
-                
-                        give_item(id, "weapon_hegrenade");
-                        give_item(id, "weapon_flashbang");
-                        give_item(id, "weapon_smokegrenade");
-                        cs_set_user_bpammo(id, CSW_HEGRENADE, 4);
-                        cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
-                        cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
                         
-                        give_item(id, "weapon_deagle");
-                        cs_set_weapon_ammo(dgl, 4);
-                        
-                        cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                        set_user_health(id, get_user_health(id) + 35);
-                        remove_task(id);
-                }
-                
-                case 51..60:
-                {
-                
-                        give_item(id, "weapon_hegrenade");
-                        give_item(id, "weapon_flashbang");
-                        give_item(id, "weapon_smokegrenade");
-                        cs_set_user_bpammo(id, CSW_HEGRENADE, 4);
-                        cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
-                        cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
-                        
-                        give_item(id, "weapon_deagle");
-                        cs_set_weapon_ammo(dgl, 4);
-                        
-                        cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                        set_user_health(id, get_user_health(id) + 45);
-                        remove_task(id);
-                }
-                case 61..70:
-                {
-                
-                        give_item(id, "weapon_hegrenade");
-                        give_item(id, "weapon_flashbang");
-                        give_item(id, "weapon_smokegrenade");
-                        cs_set_user_bpammo(id, CSW_HEGRENADE, 4);
-                        cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
-                        cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
-                        
-                        give_item(id, "weapon_deagle");
-                        cs_set_weapon_ammo(dgl, 4);
-                        
-                        cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                        set_user_health(id, get_user_health(id) + 100);
-                        remove_task(id);
-                }
-                case 71..80:
-                {
-                
-                        give_item(id, "weapon_hegrenade");
-                        give_item(id, "weapon_flashbang");
-                        give_item(id, "weapon_smokegrenade");
-                        cs_set_user_bpammo(id, CSW_HEGRENADE, 5);
-                        cs_set_user_bpammo(id, CSW_FLASHBANG, 5);
-                        cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 5);
-                        
-                        give_item(id, "weapon_deagle");
-                        cs_set_weapon_ammo(dgl, 5);
-                        
-                        cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                        set_user_health(id, get_user_health(id) + 150);
-                        remove_task(id);
-                }
-                case 81..90:
-                {
-                
-                        give_item(id, "weapon_hegrenade");
-                        give_item(id, "weapon_flashbang");
-                        give_item(id, "weapon_smokegrenade");
-                        cs_set_user_bpammo(id, CSW_HEGRENADE, 5);
-                        cs_set_user_bpammo(id, CSW_FLASHBANG, 5);
-                        cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 5);
-                        
-                        give_item(id, "weapon_deagle");
-                        cs_set_weapon_ammo(dgl, 6);
-                        
-                        cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                        set_user_health(id, get_user_health(id) + 300);
-                        remove_task(id);
-                }
-                
-                case 91..100:
-                {
-                
-                        give_item(id, "weapon_hegrenade");
-                        give_item(id, "weapon_flashbang");
-                        give_item(id, "weapon_smokegrenade");
-                        cs_set_user_bpammo(id, CSW_HEGRENADE, 6);
-                        cs_set_user_bpammo(id, CSW_FLASHBANG, 6);
-                        cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 6);
-                        
-                        give_item(id, "weapon_deagle");
-                        cs_set_weapon_ammo(dgl, 7);
-                        
-                        cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                        set_user_health(id, get_user_health(id) + 500);
-                        remove_task(id);
-                }
-                
-        
-        
         }
 
 }
