@@ -356,7 +356,15 @@ public gItem(id)
         {
                 switch(hnsxp_playerlevel[id])
                 {
-                        case 0..10:
+                
+                        case 0:
+                        {
+                                give_item(id, "weapon_smokegrenade");
+                                set_user_health(id, get_user_health(id) + 3);
+                                remove_task(id);
+                        }
+                        
+                        case 1..10:
                         {
                                 give_item(id, "weapon_hegrenade");
                                 give_item(id, "weapon_flashbang");
