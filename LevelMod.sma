@@ -150,6 +150,11 @@ new hnsxp_playerxp[33], hnsxp_playerlevel[33];
 new hnsxp_kill, hnsxp_savexp, g_hnsxp_vault, tero_win, vip_enable, vip_xp, xlevel, wxp;
 
 
+new Data[64];
+
+new toplevels[33];
+new topnames[33][33];
+
 public plugin_init()
 {
         register_plugin(PLUGIN_NAME, hnsxp_version, "LordOfNothing");
@@ -182,7 +187,130 @@ public plugin_init()
         xlevel = CreateMultiForward("PlayerMakeNextLevel", ET_IGNORE, FP_CELL);
         wxp = CreateMultiForward("PlayerIsHookXp", ET_IGNORE, FP_CELL);
         register_forward(FM_ClientUserInfoChanged, "ClientUserInfoChanged")
+        
+        register_clcmd("say /toplevel","sayTopLevel");
+        register_clcmd("say_team /toplevel","sayTopLevel");
+	register_concmd("amx_resetleveltop","concmdReset_Top");
+	
+	get_datadir(Data, 63);
+	read_top();
 
+}
+
+public save_top() {
+	new path[128];
+	formatex(path, 127, "%s/LevelTop.dat", Data);
+	if( file_exists(path) ) {
+		delete_file(path);
+	}
+	new Buffer[256];
+	new f = fopen(path, "at");
+	for(new i = 0; i < 15; i++)
+	{
+		formatex(Buffer, 255, "^"%s^" ^"%d^"^n",topnames[i],toplevels[i] );
+		fputs(f, Buffer);
+	}
+	fclose(f);
+}
+public concmdReset_Top(id) {
+	
+	if( !(get_user_flags(id) & read_flags("abcdefghijklmnopqrstu"))) {
+       		return PLUGIN_HANDLED;
+	}
+	new path[128];
+	formatex(path, 127, "%s/LevelTop.dat", Data);
+	if( file_exists(path) ) {
+		delete_file(path);
+	}	
+	static info_none[33];
+	info_none = "";
+	for( new i = 0; i < 15; i++ ) {
+		formatex(topnames[i], 31, info_none);
+		toplevels[i]= 0;
+	}
+	save_top();
+	new aname[32];
+	get_user_name(id, aname, 31);
+	MesajColorat(0, "!normal[ !echipaLevel Mod !normal] Adminul !echipa%s!normal a resetat top level!", aname);
+	return PLUGIN_CONTINUE;
+}
+public checkandupdatetop(id, levels) {	
+
+	new name[32];
+	get_user_name(id, name, 31);
+	for (new i = 0; i < 15; i++)
+	{
+		if( levels > toplevels[i] )
+		{
+			new pos = i;	
+			while( !equal(topnames[pos],name) && pos < 15 )
+			{
+				pos++;
+			}
+			
+			for (new j = pos; j > i; j--)
+			{
+				formatex(topnames[j], 31, topnames[j-1]);
+				toplevels[j] = toplevels[j-1];
+				
+			}
+			formatex(topnames[i], 31, name);
+			
+			toplevels[i]= levels;
+			
+			MesajColorat(id, "[ !echipaLevel Mod !normal] Jucatorul !echipa%s !normaleste pe locul !echipa%i", name,(i+1));
+			if(i+1 == 1) {
+				client_cmd(0, "spk vox/doop");
+			} else { 
+				client_cmd(0, "spk buttons/bell1");
+			}
+			save_top();
+			break;
+		}
+		else if( equal(topnames[i], name)) 
+		break;	
+	}
+}
+public read_top() {
+	new Buffer[256],path[128];
+	formatex(path, 127, "%s/LevelTop.dat", Data);
+	
+	new f = fopen(path, "rt" );
+	new i = 0;
+	while( !feof(f) && i < 15+1)
+	{
+		fgets(f, Buffer, 255);
+		new lvls[25];
+		parse(Buffer, topnames[i], 31, lvls, 24);
+		toplevels[i]= str_to_num(lvls);
+		
+		i++;
+	}
+	fclose(f);
+}
+public sayTopLevel(id) {	
+	static buffer[2368], name[131], len, i;
+	len = formatex(buffer, 2047, "<body bgcolor=#FFFFFF><table width=100%% cellpadding=2 cellspacing=0 border=0>");
+	len += format(buffer[len], 2367-len, "<tr align=center bgcolor=#52697B><th width=10%% > # <th width=45%%> Nume <th width=45%%>Level");
+	for( i = 0; i < 15; i++ ) {		
+		if( toplevels[i] == 0) {
+			len += formatex(buffer[len], 2047-len, "<tr align=center%s><td> %d <td> %s <td> %s",((i%2)==0) ? "" : " bgcolor=#A4BED6", (i+1), "-", "-");
+			//i = NTOP
+		}
+		else {
+			name = topnames[i];
+			while( containi(name, "<") != -1 )
+				replace(name, 129, "<", "&lt;");
+			while( containi(name, ">") != -1 )
+				replace(name, 129, ">", "&gt;");
+			len += formatex(buffer[len], 2047-len, "<tr align=center%s><td> %d <td> %s <td> %d",((i%2)==0) ? "" : " bgcolor=#A4BED6", (i+1), name,toplevels[i]);
+		}
+	}
+	len += format(buffer[len], 2367-len, "</table>");
+	len += formatex(buffer[len], 2367-len, "<tr align=bottom font-size:11px><Center><br><br><br><br>DeathRun TopLevel by sPuf ?</body>");
+	static strin[20];
+	format(strin,33, "Top Level");
+	show_motd(id, buffer, strin);
 }
 
 public ClientUserInfoChanged(id)
