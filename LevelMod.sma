@@ -258,7 +258,7 @@ public checkandupdatetop(id, levels) {
                         
                         toplevels[i]= levels;
                         
-                        MesajColorat(id, "[ !echipaLevel Mod !normal] Jucatorul !echipa%s !normaleste pe locul !echipa%i", name,(i+1));
+                        MesajColorat(0, "!normal[!echipaLevel Mod!normal] Jucatorul !echipa%s!normal a intrat pe locul !echipa%i!normal in top level !", name,(i+1));
                         if(i+1 == 1) {
                                 client_cmd(0, "spk vox/doop");
                         } else {
@@ -461,7 +461,7 @@ public gItem(id)
                                 cs_set_user_bpammo(id, CSW_HEGRENADE, 4);
                                 cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
                                 cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
-                                ;
+                                
                                 cs_set_weapon_ammo(dgl, 4);
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
