@@ -38,7 +38,6 @@
 #include <nvault>
 #include <cstrike>
 #include <fakemeta>
-#include <engine>
 
 new const PLUGIN_NAME[] = "Level Mod";
 new const hnsxp_version[] = "5.3";
