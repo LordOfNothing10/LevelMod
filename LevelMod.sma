@@ -177,7 +177,7 @@ public plugin_init()
         register_clcmd("say_team /xp","plvl");
 
         register_clcmd("say /lvl","tlvl");
-        g_hnsxp_vault = nvault_open("deathrun_xp");
+        g_hnsxp_vault = nvault_open("levelmod_vault");
         
         register_concmd("amx_xp", "cmd_set_xp", ADMIN_CVAR, "<target> <amount>");
         register_concmd("amx_level", "cmd_set_level", ADMIN_CVAR, "<target> <amount>");
@@ -361,6 +361,7 @@ public gItem(id)
                         {
                                 give_item(id, "weapon_smokegrenade");
                                 set_user_health(id, get_user_health(id) + 3);
+                                cs_set_weapon_ammo(dgl, 1);
                                 remove_task(id);
                         }
                         
@@ -373,6 +374,7 @@ public gItem(id)
                                 cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
                                 cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
                                 set_user_health(id, get_user_health(id) + 5);
+                                cs_set_weapon_ammo(dgl, 1);
                                 remove_task(id);
                 
                         }
