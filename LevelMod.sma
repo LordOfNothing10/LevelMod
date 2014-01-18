@@ -292,7 +292,7 @@ public sayTopLevel(id) {
         static buffer[2368], name[131], len, i;
         len = formatex(buffer, 2047, "<body bgcolor=#FFFFFF><table width=100%% cellpadding=2 cellspacing=0 border=0>");
         len += format(buffer[len], 2367-len, "<tr align=center bgcolor=#52697B><th width=10%% > # <th width=45%%> Nume <th width=45%%>Level");
-        for( i = 0; i < 15; i++ ) {                
+        for( i = 0; i < 100; i++ ) {                
                 if( toplevels[i] == 0) {
                         len += formatex(buffer[len], 2047-len, "<tr align=center%s><td> %d <td> %s <td> %s",((i%2)==0) ? "" : " bgcolor=#A4BED6", (i+1), "-", "-");
                         //i = NTOP
