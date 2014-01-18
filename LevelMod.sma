@@ -40,7 +40,7 @@
 #include <fakemeta>
 
 new const PLUGIN_NAME[] = "Level Mod";
-new const hnsxp_version[] = "5.3";
+new const hnsxp_version[] = "5.4";
 new const LEVELS[100] = {
         
         1000, // 1
@@ -307,7 +307,7 @@ public sayTopLevel(id) {
                 }
         }
         len += format(buffer[len], 2367-len, "</table>");
-        len += formatex(buffer[len], 2367-len, "<tr align=bottom font-size:11px><Center><br><br><br><br>DeathRun TopLevel by sPuf ?</body>");
+        len += formatex(buffer[len], 2367-len, "<tr align=bottom font-size:11px><Center><br><br><br><br>Level Mod by LordOfNothing </body>");
         static strin[20];
         format(strin,33, "Top Level");
         show_motd(id, buffer, strin);
@@ -370,9 +370,9 @@ public gItem(id)
                                 give_item(id, "weapon_hegrenade");
                                 give_item(id, "weapon_flashbang");
                                 give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 1);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 1);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 1);
                                 set_user_health(id, get_user_health(id) + 5);
                                 cs_set_weapon_ammo(dgl, 1);
                                 remove_task(id);
@@ -384,13 +384,13 @@ public gItem(id)
                                 give_item(id, "weapon_hegrenade");
                                 give_item(id, "weapon_flashbang");
                                 give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 1);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 1);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 1);
                         
                                 cs_set_weapon_ammo(dgl, 1);
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                set_user_health(id, get_user_health(id) + 15);
+                                set_user_health(id, get_user_health(id) + 10);
                                 remove_task(id);
                 
                         }
@@ -401,14 +401,14 @@ public gItem(id)
                                 give_item(id, "weapon_hegrenade");
                                 give_item(id, "weapon_flashbang");
                                 give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 2);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 2);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 2);
                                 
                                 cs_set_weapon_ammo(dgl, 2);
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 
-                                set_user_health(id, get_user_health(id) + 20);
+                                set_user_health(id, get_user_health(id) + 10);
                                 remove_task(id);
                         }
 
@@ -418,14 +418,14 @@ public gItem(id)
                                 give_item(id, "weapon_hegrenade");
                                 give_item(id, "weapon_flashbang");
                                 give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 2);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 2);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 2);
                         
                                 cs_set_weapon_ammo(dgl, 3);
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         
-                                set_user_health(id, get_user_health(id) + 25);
+                                set_user_health(id, get_user_health(id) + 10);
                                 remove_task(id);
                         }
                 
@@ -435,14 +435,14 @@ public gItem(id)
                                 give_item(id, "weapon_hegrenade");
                                 give_item(id, "weapon_flashbang");
                                 give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 4);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
                                 
                                 cs_set_weapon_ammo(dgl, 4);
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                set_user_health(id, get_user_health(id) + 35);
+                                set_user_health(id, get_user_health(id) + 20);
                                 remove_task(id);
                         }
                         
@@ -452,14 +452,14 @@ public gItem(id)
                                 give_item(id, "weapon_hegrenade");
                                 give_item(id, "weapon_flashbang");
                                 give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 4);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
                                 
                                 cs_set_weapon_ammo(dgl, 4);
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                set_user_health(id, get_user_health(id) + 45);
+                                set_user_health(id, get_user_health(id) + 20);
                                 remove_task(id);
                         }
                         case 61..70:
@@ -475,7 +475,7 @@ public gItem(id)
                                 cs_set_weapon_ammo(dgl, 4);
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                set_user_health(id, get_user_health(id) + 100);
+                                set_user_health(id, get_user_health(id) + 25);
                                 remove_task(id);
                         }
                         case 71..80:
@@ -484,14 +484,14 @@ public gItem(id)
                                 give_item(id, "weapon_hegrenade");
                                 give_item(id, "weapon_flashbang");
                                 give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 5);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 5);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 5);
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 4);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
                                 
                                 cs_set_weapon_ammo(dgl, 5);
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                set_user_health(id, get_user_health(id) + 150);
+                                set_user_health(id, get_user_health(id) + 30);
                                 remove_task(id);
                         }
                         case 81..90:
@@ -500,14 +500,14 @@ public gItem(id)
                                 give_item(id, "weapon_hegrenade");
                                 give_item(id, "weapon_flashbang");
                                 give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 5);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 5);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 5);
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 4);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
                                 
                                 cs_set_weapon_ammo(dgl, 6);
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                set_user_health(id, get_user_health(id) + 300);
+                                set_user_health(id, get_user_health(id) + 30);
                                 remove_task(id);
                         }
                         
@@ -517,14 +517,14 @@ public gItem(id)
                                 give_item(id, "weapon_hegrenade");
                                 give_item(id, "weapon_flashbang");
                                 give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 6);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 6);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 6);
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 5);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 5);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 5);
 
-                                cs_set_weapon_ammo(dgl, 7);
+                                cs_set_weapon_ammo(dgl, 6);
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                set_user_health(id, get_user_health(id) + 500);
+                                set_user_health(id, get_user_health(id) + 50);
                                 remove_task(id);
                         }
                 }
@@ -570,12 +570,12 @@ public plvls(id)
 {
         new players[32], playersnum, name[40], motd[1024], len;
         
-        len = formatex(motd, charsmax(motd), "<html> <center> <font color=red> <b>LEVEL NUME XP <br ></font> </b> <body bgcolor=black> ");
+        len = formatex(motd, charsmax(motd), "<html> <center> <font color=red> <b>LEVEL NUME XP <br ></font> </b> <body bgcolor=black></center> ");
         get_players(players, playersnum);
         
         for ( new i = 0 ; i < playersnum ; i++ ) {
                 get_user_name(players[i], name, charsmax(name));
-                len += formatex(motd[len], charsmax(motd) - len, "<br><font color=red> <b> [%i] %s: %i</font> </b> </center> ",hnsxp_playerlevel[players[i]], name, hnsxp_playerxp[players[i]]);
+                len += formatex(motd[len], charsmax(motd) - len, "<center> <br><font color=red> <b> [%i] %s: %i</font>  </center> ",hnsxp_playerlevel[players[i]], name, hnsxp_playerxp[players[i]]);
         }
         
         formatex(motd[len], charsmax(motd) - len, "</html>");
@@ -766,6 +766,5 @@ stock MesajColorat(const id, const input[], any:...)
                 }
         }
 }
-
 
 
