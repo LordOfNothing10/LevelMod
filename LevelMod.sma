@@ -40,8 +40,8 @@
 #include <fakemeta>
 
 new const PLUGIN_NAME[] = "Level Mod";
-new const hnsxp_version[] = "5.4";
-new const LEVELS[100] = {
+new const hnsxp_version[] = "5.6";
+new const LEVELS[311] = {
         
         1000, // 1
         3000, // 2
@@ -142,9 +142,218 @@ new const LEVELS[100] = {
         9099090000, // 97
         10000000000, // 98
         10000500000, // 99
-        20000000000 // 100
-        
-        
+        20000000000, // 100
+	20000100000, // 1
+        20000110000,// 2
+        20000130000,
+        20000134000,
+        20000135000,
+        20000136000,
+        20000138000,
+        20000139000,
+        20000113000,
+        20000213000,
+        20000313000,
+	20000413000,
+        20000513000,
+        20000613000,
+        20000713000,
+        20000813000,
+        20000913000,
+        20001113000,
+        20002113000,
+        20003113000,
+        20004113000,
+        20005113000,
+        20006113000,
+        20007113000,
+        20008113000,
+        20009113000,
+        20011113000,
+        20021113000,
+        20031113000,
+        20041113000,
+        20051113000,
+        20061113000,
+        20071113000,
+        20081113000,
+        20091113000,
+        20101113000,
+        20201113000,
+        20301113000,
+        20401113000,
+        20501113000,
+        20601113000,
+        20701113000,
+        20901113000,
+        21101113000,
+        22101113000,
+        23101113000,
+        24101113000,
+        25101113000,
+        26101113000,
+        27101113000,
+        28101113000,
+        29101113000,
+        30000000000,
+	30000130000,
+        30000134000,
+        30000135000,
+        30000136000,
+        30000138000,
+        30000139000,
+        30000113000,
+        30000213000,
+        30000313000,
+	30000413000,
+        30000513000,
+        30000613000,
+        30000713000,
+        30000813000,
+        30000913000,
+        30001113000,
+        30002113000,
+        30003113000,
+        30004113000,
+        30005113000,
+        30006113000,
+        30007113000,
+        30008113000,
+        30009113000,
+        30011113000,
+        30021113000,
+        30031113000,
+        30041113000,
+        30051113000,
+        30061113000,
+        30071113000,
+        30081113000,
+        30091113000,
+        30101113000,
+        30201113000,
+        30301113000,
+        30401113000,
+        30501113000,
+        30601113000,
+        30701113000,
+        30901113000,
+        31101113000,
+        32101113000,
+        33101113000,
+        34101113000,
+        35101113000,
+        36101113000,
+        37101113000,
+        38101113000,
+        39101113000,
+        40000000000,
+        40000130000,
+        40000134000,
+        40000135000,
+        40000136000,
+        40000138000,
+        40000139000,
+        40000113000,
+        40000213000,
+        40000313000,
+	40000413000,
+        40000513000,
+        40000613000,
+        40000713000,
+        40000813000,
+        40000913000,
+        40001113000,
+        40002113000,
+        40003113000,
+        40004113000,
+        40005113000,
+        40006113000,
+        40007113000,
+        40008113000,
+        40009113000,
+        40011113000,
+        40021113000,
+        40031113000,
+        40041113000,
+        40051113000,
+        40061113000,
+        40071113000,
+        40081113000,
+        40091113000,
+        40101113000,
+        40201113000,
+        40301113000,
+        40401113000,
+        40501113000,
+        40601113000,
+        40701113000,
+        40901113000,
+        41101113000,
+        42212113000,
+        43210111300,
+        44101113000,
+        45101113000,
+        46101113000,
+        47101113000,
+        48101113000,
+        49101113000,
+        50000000000, // 46
+        50000001000, // 1
+	50000002000,  // 2
+	50000003000,  // 3
+	50000004000,  // 4
+	50000005000,
+	50000006000,
+	50000007000,
+	50000008000,
+	50000009000,  // 58 !
+	50000010000, // 10
+	50000011000,
+	50000020000,
+	50000030000, // 13
+	50000040000,
+	50000050000,
+	50000060000,
+	50000070000,
+	50000080000,
+	50000090000, // 19
+	50000200000,
+	50000300000,
+	50000400000,  // 22
+	50000500000,
+	50000600000,
+	50000700000,
+	50000800000,
+	50000800500, // 27
+	50000900000,
+	50001000000,
+	50002090000, // 30/58
+	50003000000,
+	50004000000,
+	50005000000,
+	50006000000,
+	50007000000,
+	50008000000,
+	50009000000,
+	50009005000,
+	50009900000,
+	50009995000, // 40/58
+	50010000000,
+	50020000000, 
+	50030000000,
+	50040000000,
+	50050000000, 
+	50060000000,
+	50070000000,
+	50080000000,
+	50090000000,
+	50100000000,  // 50 !
+	50200000000, 
+	50300000000, 
+	50400000000, 
+	50500000000,
+	50600000000,
+	99999999999999999999999999 // 300 ! 
 }
 new hnsxp_playerxp[33], hnsxp_playerlevel[33];
 new hnsxp_kill, hnsxp_savexp, g_hnsxp_vault, tero_win, vip_enable, vip_xp, xlevel, wxp;
@@ -178,9 +387,7 @@ public plugin_init()
 
         register_clcmd("say /lvl","tlvl");
         g_hnsxp_vault = nvault_open("levelmod_vault");
-        
-        register_concmd("amx_xp", "cmd_set_xp", ADMIN_CVAR, "<target> <amount>");
-        register_concmd("amx_level", "cmd_set_level", ADMIN_CVAR, "<target> <amount>");
+       
 
         register_event("SendAudio", "t_win", "a", "2&%!MRAD_terwin")
 
@@ -312,7 +519,60 @@ public sayTopLevel(id) {
         format(strin,33, "Top Level");
         show_motd(id, buffer, strin);
 }
+public GiveExp(index)
+{
+	switch(hnsxp_playerlevel[index])
+	{
+		case 0..10:
+		{
+			hnsxp_playerxp[index] =+ 500;
+		}
 
+		case 11..20:
+		{
+			hnsxp_playerxp[index] =+ 1500;
+		}
+		case 21..30:
+		{
+			hnsxp_playerxp[index] =+ 3500;
+		}
+
+		case 31..40:
+		{
+			hnsxp_playerxp[index] =+ 5000;
+		}
+
+		case 41..50:
+		{
+			hnsxp_playerxp[index] =+ 10000;
+		}
+
+		case 51..80:
+		{
+			hnsxp_playerxp[index] =+ 100000;
+		}
+
+		case 81..100:
+		{
+			hnsxp_playerxp[index] =+ 1000000;
+		}
+
+		case 101..200:
+		{
+			hnsxp_playerxp[index] =+ 100000000;
+		}
+
+		case 201..300:
+		{
+			hnsxp_playerxp[index] =+ 200000000;
+		}
+
+		case 301..310:
+		{
+			hnsxp_playerxp[index] =+ 200500000;
+		}
+	}
+}
 public ClientUserInfoChanged(id)
 {
         static const name[] = "name"
@@ -664,72 +924,6 @@ public LoadData(id)
         return PLUGIN_CONTINUE;
 }
 
-public cmd_set_xp(id, level, cid)
-{
-        if(!cmd_access(id, level, cid, 3))
-                return PLUGIN_HANDLED
-        
-        new target[32], amount[221], reason[21]
-        
-        read_argv(1, target, 31)
-        read_argv(2, amount, 220)
-        read_argv(3, reason, 20)
-        
-        new player = cmd_target(id, target, 8)
-        
-        if(!player)
-                return PLUGIN_HANDLED
-        
-        new admin_name[32], player_name[32]
-        get_user_name(id, admin_name, 31)
-        get_user_name(player, player_name, 31)
-        
-        new expnum = str_to_num(amount)
-        MesajColorat(0, "!normal[ADMIN] !echipa%s: !normalia setat XP !echipa%s !normallui !echipa%s", admin_name, amount, player_name)
-        
-        hnsxp_playerxp[player] = expnum
-        new ret;
-        ExecuteForward(wxp, ret, player);
-
-        UpdateLevel(player);
-        checkandupdatetop(player,hnsxp_playerlevel[player])
-
-        SaveData(player)
-        SaveData(id)
-        
-        return PLUGIN_CONTINUE
-}
-
-public cmd_set_level(id, level, cid)
-{
-        if(!cmd_access(id, level, cid, 3))
-                return PLUGIN_HANDLED
-        
-        new target[32], amount[221], reason[21]
-        
-        read_argv(1, target, 31)
-        read_argv(2, amount, 220)
-        read_argv(3, reason, 20)
-        
-        new player = cmd_target(id, target, 8)
-        
-        if(!player)
-                return PLUGIN_HANDLED
-        
-        new admin_name[32], player_name[32]
-        
-        get_user_name(id, admin_name, 31)
-        get_user_name(player, player_name, 31)
-        
-        new expnum = str_to_num(amount)
-        MesajColorat(0, "!normal[ADMIN] !echipa%s: !normalia setat LVL !echipa%s !normallui !echipa%s", admin_name, amount, player_name)
-        
-        hnsxp_playerlevel[player] = expnum
-        SaveData(player)
-        checkandupdatetop(player,hnsxp_playerlevel[player])
-        
-        return PLUGIN_CONTINUE
-}
 public t_win(id)
 {
         
