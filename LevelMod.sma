@@ -356,7 +356,9 @@ new const LEVELS[311] = {
 	99999999999999999999999999 // 300 ! 
 }
 new hnsxp_playerxp[33], hnsxp_playerlevel[33];
-new hnsxp_kill, hnsxp_savexp, g_hnsxp_vault, tero_win, vip_enable, vip_xp, xlevel, wxp;
+new g_hnsxp_vault, wxp, xlevel;
+
+#define is_user_vip(%1)		( get_user_flags(%1) & ADMIN_IMMUNITY )
 
 
 new Data[64];
@@ -364,18 +366,33 @@ new Data[64];
 new toplevels[33];
 new topnames[33][33];
 
+
+enum Color
+{
+	NORMAL = 1, // clients scr_concolor cvar color
+	YELLOW = 1, // NORMAL alias
+	GREEN, // Green Color
+	TEAM_COLOR, // Red, grey, blue
+	GREY, // grey
+	RED, // Red
+	BLUE, // Blue
+}
+ 
+new TeamName[][] =
+{
+	"",
+	"TERRORIST",
+	"CT",	
+	"SPECTATOR"
+}
+
+
 public plugin_init()
 {
         register_plugin(PLUGIN_NAME, hnsxp_version, "LordOfNothing");
 
         RegisterHam(Ham_Spawn, "player", "hnsxp_spawn", 1);
         RegisterHam(Ham_Killed, "player", "hnsxp_death", 1);
-
-        hnsxp_savexp = register_cvar("hnsxp_savexp","1");
-        hnsxp_kill = register_cvar("hnsxp_kill", "1000");
-        tero_win = register_cvar("hnsxp_terowin_xp","1500");
-        vip_enable = register_cvar("hnsxp_vip_enable","1");
-        vip_xp = register_cvar("hnsxp_vip_xp","100000");
 
 
         register_clcmd("say /level","plvl");
@@ -438,7 +455,7 @@ public concmdReset_Top(id) {
         save_top();
         new aname[32];
         get_user_name(id, aname, 31);
-        MesajColorat(0, "!normal[ !echipaLevel Mod !normal] Adminul !echipa%s!normal a resetat top level!", aname);
+        ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Adminul ^4%s^1 a resetat top level!", aname);
         return PLUGIN_CONTINUE;
 }
 public checkandupdatetop(id, levels) {        
@@ -465,7 +482,7 @@ public checkandupdatetop(id, levels) {
                         
                         toplevels[i]= levels;
                         
-                        MesajColorat(0, "!normal[!echipaLevel Mod!normal] Jucatorul !echipa%s!normal a intrat pe locul !echipa%i!normal in top level !", name,(i+1));
+                        ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Jucatorul ^4%s^1 a intrat pe locul ^4%i^1 in top level !", name,(i+1));
                         if(i+1 == 1) {
                                 client_cmd(0, "spk vox/doop");
                         } else {
@@ -507,9 +524,9 @@ public sayTopLevel(id) {
                 else {
                         name = topnames[i];
                         while( containi(name, "<") != -1 )
-                                replace(name, 129, "<", "&lt;");
+                                replace(name, 129, "<", "<");
                         while( containi(name, ">") != -1 )
-                                replace(name, 129, ">", "&gt;");
+                                replace(name, 129, ">", ">");
                         len += formatex(buffer[len], 2047-len, "<tr align=center%s><td> %d <td> %s <td> %d",((i%2)==0) ? "" : " bgcolor=#A4BED6", (i+1), name,toplevels[i]);
                 }
         }
@@ -525,51 +542,56 @@ public GiveExp(index)
 	{
 		case 0..10:
 		{
-			hnsxp_playerxp[index] =+ 500;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 500;
 		}
 
 		case 11..20:
 		{
-			hnsxp_playerxp[index] =+ 1500;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 1500;
 		}
 		case 21..30:
 		{
-			hnsxp_playerxp[index] =+ 3500;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 3500;
 		}
 
 		case 31..40:
 		{
-			hnsxp_playerxp[index] =+ 5000;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 5000;
 		}
 
 		case 41..50:
 		{
-			hnsxp_playerxp[index] =+ 10000;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 10000;
 		}
 
 		case 51..80:
 		{
-			hnsxp_playerxp[index] =+ 100000;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 100000;
 		}
 
 		case 81..100:
 		{
-			hnsxp_playerxp[index] =+ 1000000;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 1000000;
 		}
 
 		case 101..200:
 		{
-			hnsxp_playerxp[index] =+ 100000000;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 100000000;
 		}
 
 		case 201..300:
 		{
-			hnsxp_playerxp[index] =+ 200000000;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 200000000;
 		}
 
 		case 301..310:
 		{
-			hnsxp_playerxp[index] =+ 200500000;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 200500000;
+		}
+
+		default:
+		{
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 0;
 		}
 	}
 }
@@ -584,7 +606,7 @@ public ClientUserInfoChanged(id)
                 if( !equal(szOldName, szNewName) )
                 {
                         set_user_info(id, name, szOldName)
-                        MesajColorat(id, "!normal[!echipaLevel Mod!normal] Pe acest server nu este permisa schimbarea numelui !");
+                        ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Pe acest server nu este permisa schimbarea numelui !");
                         return FMRES_HANDLED
                 }
         }
@@ -611,6 +633,7 @@ public gItem(id)
 {
 
         new dgl = give_item(id, "weapon_deagle")
+        new awp = give_item(id, "weapon_awp")
 
         if(is_user_alive(id))
         {
@@ -622,6 +645,7 @@ public gItem(id)
                                 give_item(id, "weapon_smokegrenade");
                                 set_user_health(id, get_user_health(id) + 3);
                                 cs_set_weapon_ammo(dgl, 1);
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^43HP ^1, ^41DGL ^1, ^41SG ^1 !");
                                 remove_task(id);
                         }
                         
@@ -635,6 +659,7 @@ public gItem(id)
                                 cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 1);
                                 set_user_health(id, get_user_health(id) + 5);
                                 cs_set_weapon_ammo(dgl, 1);
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^45HP ^1, ^41DGL ^1, ^41SG ^1, ^41FL ^1, ^41HE ^1!");
                                 remove_task(id);
                 
                         }
@@ -651,6 +676,7 @@ public gItem(id)
                                 cs_set_weapon_ammo(dgl, 1);
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 10);
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^410HP ^1, ^41DGL ^1, ^41SG ^1, ^41FL ^1, ^41HE ^1!");
                                 remove_task(id);
                 
                         }
@@ -669,6 +695,7 @@ public gItem(id)
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 
                                 set_user_health(id, get_user_health(id) + 10);
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^410HP ^1, ^42DGL ^1, ^42SG ^1, ^42FL ^1, ^42HE ^1!");
                                 remove_task(id);
                         }
 
@@ -686,6 +713,7 @@ public gItem(id)
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         
                                 set_user_health(id, get_user_health(id) + 10);
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^410HP ^1, ^43DGL ^1, ^42SG ^1, ^42FL ^1, ^42HE ^1!");
                                 remove_task(id);
                         }
                 
@@ -703,6 +731,7 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 20);
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^420HP ^1, ^44DGL ^1, ^43SG ^1, ^43FL ^1, ^43HE ^1!");
                                 remove_task(id);
                         }
                         
@@ -720,6 +749,7 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 20);
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^420HP ^1, ^44DGL ^1, ^43SG ^1, ^43FL ^1, ^43HE ^1!");
                                 remove_task(id);
                         }
                         case 61..70:
@@ -736,6 +766,7 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 25);
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^425HP ^1, ^44DGL ^1, ^44SG ^1, ^44FL ^1, ^44HE ^1!");
                                 remove_task(id);
                         }
                         case 71..80:
@@ -752,6 +783,7 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 30);
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^430HP ^1, ^45DGL ^1, ^44SG ^1, ^44FL ^1, ^44HE ^1!");
                                 remove_task(id);
                         }
                         case 81..90:
@@ -768,6 +800,7 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 30);
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^430HP ^1, ^46DGL ^1, ^44SG ^1, ^44FL ^1, ^44HE ^1!");
                                 remove_task(id);
                         }
                         
@@ -785,6 +818,118 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 50);
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^450HP ^1, ^46DGL ^1, ^45SG ^1, ^45FL ^1, ^45HE ^1!");
+                                remove_task(id);
+                        }
+                        
+                        case 101..120:
+                        {
+                        
+                                give_item(id, "weapon_hegrenade");
+                                give_item(id, "weapon_flashbang");
+                                give_item(id, "weapon_smokegrenade");
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 6);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 6);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 6);
+
+                                cs_set_weapon_ammo(dgl, 6);
+                                
+                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                                set_user_health(id, get_user_health(id) + 100);
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4100HP ^1, ^46DGL ^1, ^46SG ^1, ^46FL ^1, ^46HE ^1!");
+                                remove_task(id);
+                        }
+                        case 121..150:
+                        {
+                        
+                                give_item(id, "weapon_hegrenade");
+                                give_item(id, "weapon_flashbang");
+                                give_item(id, "weapon_smokegrenade");
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 7);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 7);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 7);
+
+                                cs_set_weapon_ammo(dgl, 7);
+                                
+                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                                set_user_health(id, get_user_health(id) + 150);
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4150HP ^1, ^47DGL ^1, ^47SG ^1, ^47FL ^1, ^47HE ^1!");
+                                remove_task(id);
+                        }
+                        case 151..200:
+                        {
+                        
+                                give_item(id, "weapon_hegrenade");
+                                give_item(id, "weapon_flashbang");
+                                give_item(id, "weapon_smokegrenade");
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 8);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 8);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE,8);
+
+                                cs_set_weapon_ammo(dgl, 7);
+                                cs_set_weapon_ammo(awp, 1);
+                                
+                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                                cs_set_user_bpammo(id, CSW_AWP, 0);
+                                set_user_health(id, get_user_health(id) + 250);
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4250HP ^1, ^47DGL ^1, ^41AWP ^1, ^48SG ^1, ^48FL ^1, ^48HE ^1!");
+                                remove_task(id);
+                        }
+                        case 201..250:
+                        {
+                        
+                                give_item(id, "weapon_hegrenade");
+                                give_item(id, "weapon_flashbang");
+                                give_item(id, "weapon_smokegrenade");
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 10);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 10);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE,10);
+
+                                cs_set_weapon_ammo(dgl, 7);
+                                cs_set_weapon_ammo(awp, 3);
+                                
+                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                                cs_set_user_bpammo(id, CSW_AWP, 0);
+                                set_user_health(id, get_user_health(id) + 350);
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4350HP ^1, ^47DGL ^1, ^43AWP ^1, ^410SG ^1, ^410FL ^1, ^410HE ^1!");
+                                remove_task(id);
+                        }
+                        case 251..300:
+                        {
+                        
+                                give_item(id, "weapon_hegrenade");
+                                give_item(id, "weapon_flashbang");
+                                give_item(id, "weapon_smokegrenade");
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 15);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 15);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE,15);
+
+                                cs_set_weapon_ammo(dgl, 7);
+                                cs_set_weapon_ammo(awp, 5);
+                                
+                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                                cs_set_user_bpammo(id, CSW_AWP, 0);
+                                set_user_health(id, get_user_health(id) + 450);
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4450HP ^1, ^47DGL ^1, ^45AWP ^1, ^415SG ^1, ^415FL ^1, ^415HE ^1!");
+                                remove_task(id);
+                        }
+                        case 301..310:
+                        {
+                        
+                                give_item(id, "weapon_hegrenade");
+                                give_item(id, "weapon_flashbang");
+                                give_item(id, "weapon_smokegrenade");
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 25);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 25);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE,25);
+
+                                cs_set_weapon_ammo(dgl, 7);
+                                cs_set_weapon_ammo(awp, 10);
+                                
+                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                                cs_set_user_bpammo(id, CSW_AWP, 0);
+                                set_user_health(id, get_user_health(id) + 1000);
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^41000HP ^1, ^47DGL ^1, ^410AWP ^1, ^425SG ^1, ^425FL ^1, ^425HE ^1!");
                                 remove_task(id);
                         }
                 }
@@ -797,11 +942,11 @@ UpdateLevel(id)
 {
         if((hnsxp_playerlevel[id] < 101) && (hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]]))
         {
-                MesajColorat(id,"!normal[!echipa%s!normal] Felicitari ai trecut la nivelul urmator !", PLUGIN_NAME);
-                MesajColorat(id,"!normal[!echipa%s!normal] Felicitari ai trecut la nivelul urmator !", PLUGIN_NAME);
-                MesajColorat(id,"!normal[!echipa%s!normal] Felicitari ai trecut la nivelul urmator !", PLUGIN_NAME);
-                MesajColorat(id,"!normal[!echipa%s!normal] Felicitari ai trecut la nivelul urmator !", PLUGIN_NAME);
-                MesajColorat(id,"!normal[!echipa%s!normal] Felicitari ai trecut la nivelul urmator !", PLUGIN_NAME);
+		ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Felicitari ai trecut la nivelul urmator !");            
+		ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Felicitari ai trecut la nivelul urmator !"); 
+                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Felicitari ai trecut la nivelul urmator !"); 
+		ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Felicitari ai trecut la nivelul urmator !"); 
+		ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Felicitari ai trecut la nivelul urmator !"); 
                 new ret;
                 ExecuteForward(xlevel, ret, id);
                 while(hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]])
@@ -822,7 +967,7 @@ public hnsxp_spawn(id)
 public plvl(id)
 {
         
-        MesajColorat(id, "!normal[!echipaLevel Mod!normal] !verdeLVL !normal: !echipa%i !normal, !verdeXP !normal: !echipa %i !normal/ !echipa%i ", hnsxp_playerlevel[id], hnsxp_playerxp[id], LEVELS[hnsxp_playerlevel[id]]);
+        ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] ^4LVL ^1: ^3%i ^1, ^4XP ^1: ^3%i ^1/ ^3%i ", hnsxp_playerlevel[id], hnsxp_playerxp[id], LEVELS[hnsxp_playerlevel[id]]);
         return PLUGIN_HANDLED
 }
 
@@ -848,7 +993,7 @@ public tlvl(id)
 {
         new poj_Name [ 32 ];
         get_user_name(id, poj_Name, 31)
-        MesajColorat(0, "!normal[!echipaLevel-Mod!normal] Jucatorul !echipa%s !normalare nivelul !verde%i",poj_Name, hnsxp_playerlevel[id]);
+        ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Jucatorul ^3%s ^1are nivelul ^4%i",poj_Name, hnsxp_playerlevel[id]);
         return PLUGIN_HANDLED
 }
 
@@ -858,7 +1003,7 @@ public hnsxp_death( iVictim, attacker, shouldgib )
         if( !attacker || attacker == iVictim )
                 return;
         
-        hnsxp_playerxp[attacker] += get_pcvar_num(hnsxp_kill);
+        GiveExp(attacker);
         new ret;
         ExecuteForward(wxp, ret, attacker);
         
@@ -868,27 +1013,22 @@ public hnsxp_death( iVictim, attacker, shouldgib )
         checkandupdatetop(iVictim,hnsxp_playerlevel[iVictim]);
         checkandupdatetop(attacker,hnsxp_playerlevel[attacker]);
 
-        if(get_user_flags(attacker) & ADMIN_IMMUNITY && get_pcvar_num(vip_enable))
+        if(is_user_vip(attacker))
         {
-                        hnsxp_playerxp[attacker] += get_pcvar_num(vip_xp);
+		GiveExp(attacker);
         }
 }
 
 public client_connect(id)
 {
-        if(get_pcvar_num(hnsxp_savexp) == 1)
-                LoadData(id);
 
-        checkandupdatetop(id,hnsxp_playerlevel[id])               
+	LoadData(id);
+	checkandupdatetop(id,hnsxp_playerlevel[id])               
 }
 public client_disconnect(id)
 {
-        if(get_pcvar_num(hnsxp_savexp) == 1)
-                SaveData(id);
-        
-        hnsxp_playerxp[id] = 0;
-        hnsxp_playerlevel[id] = 0;
-        
+
+        SaveData(id);
         checkandupdatetop(id,hnsxp_playerlevel[id])
 }
 public SaveData(id)
@@ -930,35 +1070,123 @@ public t_win(id)
         new iPlayer [ 32 ], iNum;
         get_players(iPlayer, iNum, "ae", "TERRORIST")
         for ( new i = 0; i < iNum; i++ ) {
-                hnsxp_playerxp[iPlayer [ i ]] += get_pcvar_num(tero_win);
-                MesajColorat(iPlayer[i], "!normal[!echipaLevel Mod!normal] Ai primit !verde %i !normalxp pentru ca echipa !verdeTERO a castigat !",get_pcvar_num(tero_win));
+                GiveExp(iPlayer [ i ]);
+                ColorChat(iPlayer[i], TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4XP^1 pentru ca echipa ^4TERO^1 a castigat !");
                 UpdateLevel(iPlayer[i]);
                 checkandupdatetop(iPlayer[i],hnsxp_playerlevel[iPlayer[i]])
         }
 }
-stock MesajColorat(const id, const input[], any:...)
+ColorChat(id, Color:type, const msg[], {Float,Sql,Result,_}:...)
 {
-        new count = 1, players[32]
-        static msg[191]
-        vformat(msg, 190, input, 3)
-        
-        replace_all(msg, 190, "!verde", "^4")
-        replace_all(msg, 190, "!normal", "^1")
-        replace_all(msg, 190, "!echipa", "^3")
-        
-        if (id) players[0] = id; else get_players(players, count, "ch")
-        {
-                for (new i = 0; i < count; i++)
-                {
-                        if (is_user_connected(players[i]))
-                        {
-                                message_begin(MSG_ONE_UNRELIABLE, get_user_msgid("SayText"), _, players[i])
-                                write_byte(players[i]);
-                                write_string(msg);
-                                message_end();
-                        }
-                }
-        }
-}
+	new message[256];
+ 
+	switch(type)
+	{
+		case NORMAL: // clients scr_concolor cvar color
+		{
+			message[0] = 0x01;
+		}
+		case GREEN: // Green
+		{
+			message[0] = 0x04;
+		}
+		default: // White, Red, Blue
+		{
+			message[0] = 0x03;
+		}
+	}
+	 
+	vformat(message[1], 251, msg, 4);
+ 
+	// Make sure message is not longer than 192 character. Will crash the server.
+	message[191] = '^0';
+ 
+	new team, ColorChange, index, MSG_Type;
+	if(id)
+	{
+		MSG_Type = MSG_ONE;
+		index = id;
+	} else {
+		index = FindPlayer();
+		MSG_Type = MSG_ALL;
+	}
 
+	team = get_user_team(index);
+	ColorChange = ColorSelection(index, MSG_Type, type);
+ 
+
+	ShowColorMessage(index, MSG_Type, message);
+	if(ColorChange)
+	{
+		Team_Info(index, MSG_Type, TeamName[team]);
+	}
+}
+ 
+ShowColorMessage(id, type, message[])
+{
+	static get_user_msgid_saytext;
+	if(!get_user_msgid_saytext)
+	{
+		get_user_msgid_saytext = get_user_msgid("SayText");
+	}
+	message_begin(type, get_user_msgid_saytext, _, id);
+	write_byte(id)	
+	write_string(message);
+	message_end();	
+}
+ 
+Team_Info(id, type, team[])
+{
+	static bool:teaminfo_used;
+	static get_user_msgid_teaminfo;
+	if(!teaminfo_used)
+	{
+		get_user_msgid_teaminfo = get_user_msgid("TeamInfo");
+		teaminfo_used = true;
+	}
+	message_begin(type, get_user_msgid_teaminfo, _, id);
+	write_byte(id);
+	write_string(team);
+	message_end();
+ 
+	return 1;
+}
+ 
+ColorSelection(index, type, Color:Type)
+{
+	switch(Type)
+	{
+		case RED:
+		{
+			return Team_Info(index, type, TeamName[1]);
+		}
+		case BLUE:
+		{
+			return Team_Info(index, type, TeamName[2]);
+		}
+		case GREY:
+		{
+			return Team_Info(index, type, TeamName[0]);
+		}
+	}
+ 
+	return 0;
+}
+ 
+FindPlayer()
+{
+	new i = -1;
+	static iMaxPlayers;
+	if( !iMaxPlayers )
+	{
+		iMaxPlayers = get_maxplayers( );
+	}
+	while(i <= iMaxPlayers)
+	{
+		if(is_user_connected(++i))
+			return i;
+	}
+ 
+	return -1;
+}
 
