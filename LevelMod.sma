@@ -446,6 +446,7 @@ public xp_cmd(id,level,cid)
 	
 	hnsxp_playerxp[target] = exp
 	checkandupdatetop(target,hnsxp_playerlevel[target])
+	UpdateLevel(target)
 	return 0
 }
 
@@ -469,6 +470,7 @@ public givexp_cmd(id,level,cid)
 	
 	hnsxp_playerxp[target] = hnsxp_playerxp[target] + exp
 	checkandupdatetop(target,hnsxp_playerlevel[target])
+	UpdateLevel(target)
 	return 0
 }
 
@@ -514,6 +516,7 @@ public level_cmd(id,level,cid)
 	
 	hnsxp_playerlevel[target] = exp
 	checkandupdatetop(target,hnsxp_playerlevel[target])
+	UpdateLevel(target)
 	return 0
 }
 
@@ -560,6 +563,7 @@ public givelevel_cmd(id,level,cid)
 	
 	hnsxp_playerlevel[target] = hnsxp_playerlevel[target] - exp
 	checkandupdatetop(target,hnsxp_playerlevel[target])
+	UpdateLevel(target)
 	return 0
 }
 
@@ -654,29 +658,29 @@ public read_top() {
         }
         fclose(f);
 }
-public sayTopLevel(id) {        
-        static buffer[2368], name[131], len, i;
-        len = formatex(buffer, 2047, "<body bgcolor=#FFFFFF><table width=100%% cellpadding=2 cellspacing=0 border=0>");
-        len += format(buffer[len], 2367-len, "<tr align=center bgcolor=#52697B><th width=10%% > # <th width=45%%> Nume <th width=45%%>Level");
-        for( i = 0; i < 100; i++ ) {                
-                if( toplevels[i] == 0) {
-                        len += formatex(buffer[len], 2047-len, "<tr align=center%s><td> %d <td> %s <td> %s",((i%2)==0) ? "" : " bgcolor=#A4BED6", (i+1), "-", "-");
-                        //i = NTOP
-                }
-                else {
-                        name = topnames[i];
-                        while( containi(name, "<") != -1 )
-                                replace(name, 129, "<", "<");
-                        while( containi(name, ">") != -1 )
-                                replace(name, 129, ">", ">");
-                        len += formatex(buffer[len], 2047-len, "<tr align=center%s><td> %d <td> %s <td> %d",((i%2)==0) ? "" : " bgcolor=#A4BED6", (i+1), name,toplevels[i]);
-                }
-        }
-        len += format(buffer[len], 2367-len, "</table>");
-        len += formatex(buffer[len], 2367-len, "<tr align=bottom font-size:11px><Center><br><br><br><br>Level Mod by LordOfNothing </body>");
-        static strin[20];
-        format(strin,33, "Top Level");
-        show_motd(id, buffer, strin);
+public sayTopLevel(id) {	
+	static buffer[2368], name[131], len, i;
+	len = formatex(buffer, 2047, "<body bgcolor=#FFFFFF><table width=100%% cellpadding=2 cellspacing=0 border=0>");
+	len += format(buffer[len], 2367-len, "<tr align=center bgcolor=#52697B><th width=10%% > # <th width=45%%> Nume <th width=45%%>Level");
+	for( i = 0; i < 15; i++ ) {		
+		if( toplevels[i] == 0) {
+			len += formatex(buffer[len], 2047-len, "<tr align=center%s><td> %d <td> %s <td> %s",((i%2)==0) ? "" : " bgcolor=#A4BED6", (i+1), "-", "-");
+			//i = NTOP
+		}
+		else {
+			name = topnames[i];
+			while( containi(name, "<") != -1 )
+				replace(name, 129, "<", "&lt;");
+			while( containi(name, ">") != -1 )
+				replace(name, 129, ">", "&gt;");
+			len += formatex(buffer[len], 2047-len, "<tr align=center%s><td> %d <td> %s <td> %d",((i%2)==0) ? "" : " bgcolor=#A4BED6", (i+1), name,toplevels[i]);
+		}
+	}
+	len += format(buffer[len], 2367-len, "</table>");
+	len += formatex(buffer[len], 2367-len, "<tr align=bottom font-size:11px><Center><br><br><br><br>by BACON</body>");
+	static strin[20];
+	format(strin,33, "Top Level");
+	show_motd(id, buffer, strin);
 }
 public GiveExp(index)
 {
