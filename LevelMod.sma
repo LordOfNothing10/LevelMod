@@ -259,12 +259,12 @@ public plugin_init()
         get_datadir(Data, 63);
         read_top();
 
-	register_concmd("amx_xp", "xp_cmd", ADMIN_CVAR, "amx_xp <NICK> <NUMARUL DE XP>")
-	register_concmd("amx_givexp", "givexp_cmd", ADMIN_CVAR, "amx_givexp <NICK> <NUMARUL DE XP>")
-	register_concmd("amx_takexp", "takexp_cmd", ADMIN_CVAR, "amx_takexp <NICK> <NUMARUL DE XP>")
-	register_concmd("amx_level", "level_cmd", ADMIN_CVAR, "amx_level <NICK> <NUMARUL DE LEVEL>")
-	register_concmd("amx_takelevel", "takelevel_cmd", ADMIN_CVAR, "amx_takelevel <NICK> <NUMARUL DE LEVEL>")
-	register_concmd("amx_givelevel", "givelevel_cmd", ADMIN_CVAR, "amx_givelevel <NICK> <NUMARUL DE LEVEL>")
+	register_concmd("amx_xp", "xp_cmd", ADMIN_LEVEL_H, "amx_xp <NICK> <NUMARUL DE XP>")
+	register_concmd("amx_givexp", "givexp_cmd", ADMIN_LEVEL_H, "amx_givexp <NICK> <NUMARUL DE XP>")
+	register_concmd("amx_takexp", "takexp_cmd", ADMIN_LEVEL_H, "amx_takexp <NICK> <NUMARUL DE XP>")
+	register_concmd("amx_level", "level_cmd", ADMIN_LEVEL_H, "amx_level <NICK> <NUMARUL DE LEVEL>")
+	register_concmd("amx_takelevel", "takelevel_cmd", ADMIN_LEVEL_H, "amx_takelevel <NICK> <NUMARUL DE LEVEL>")
+	register_concmd("amx_givelevel", "givelevel_cmd", ADMIN_LEVEL_H, "amx_givelevel <NICK> <NUMARUL DE LEVEL>")
 }
 
 public xp_cmd(id,level,cid)
@@ -656,46 +656,28 @@ public gItem(id)
                 
                         case 0:
                         {
+                                cs_set_weapon_ammo(dgl, 1);
+                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 1DGL !");
+                                remove_task(id);
+                        }
+                        
+                        case 1..20:
+                        {
+                                give_item(id, "weapon_hegrenade");
+                                give_item(id, "weapon_flashbang");
                                 give_item(id, "weapon_smokegrenade");
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 1);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 1);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 1);
                                 set_user_health(id, get_user_health(id) + 3);
                                 cs_set_weapon_ammo(dgl, 1);
-                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 3HP ^1, ^4 1DGL ^1, ^4 1SG ^1 !");
-                                remove_task(id);
-                        }
-                        
-                        case 1..10:
-                        {
-                                give_item(id, "weapon_hegrenade");
-                                give_item(id, "weapon_flashbang");
-                                give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 1);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 1);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 1);
-                                set_user_health(id, get_user_health(id) + 5);
-                                cs_set_weapon_ammo(dgl, 1);
-                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 5HP ^1, ^4 1DGL ^1, ^4 1SG ^1, ^4 1FL ^1, ^4 1HE ^1!");
+                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 3HP ^1, ^4 1DGL ^1, ^4 1SG ^1, ^4 1FL ^1, ^4 1HE ^1!");
                                 remove_task(id);
                 
                         }
+                   
                 
-                        case 11..20:
-                        {
-                                give_item(id, "weapon_hegrenade");
-                                give_item(id, "weapon_flashbang");
-                                give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 1);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 1);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 1);
-                        
-                                cs_set_weapon_ammo(dgl, 1);
-                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                set_user_health(id, get_user_health(id) + 10);
-                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 10HP ^1, ^4 1DGL ^1, ^4 1SG ^1, ^41 FL ^1, ^4 1HE ^1!");
-                                remove_task(id);
-                
-                        }
-                
-                        case 21..30:
+                        case 21..40:
                         {
                         
                                 give_item(id, "weapon_hegrenade");
@@ -708,117 +690,66 @@ public gItem(id)
                                 cs_set_weapon_ammo(dgl, 2);
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 
-                                set_user_health(id, get_user_health(id) + 10);
-                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 10HP ^1, ^4 2DGL ^1, ^4 2SG ^1, ^42FL ^1, ^42HE ^1!");
+                                set_user_health(id, get_user_health(id) + 5);
+                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 5HP ^1, ^4 2DGL ^1, ^4 2SG ^1, ^42FL ^1, ^42HE ^1!");
                                 remove_task(id);
                         }
 
-                        case 31..40:
+                        case 41..60:
                         {
                 
                                 give_item(id, "weapon_hegrenade");
                                 give_item(id, "weapon_flashbang");
                                 give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 2);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 2);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 2);
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
                         
                                 cs_set_weapon_ammo(dgl, 3);
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         
                                 set_user_health(id, get_user_health(id) + 10);
-                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 10HP ^1, ^4 3DGL ^1, ^4 2SG ^1, ^4 2FL ^1, ^4 2HE ^1!");
+                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 10HP ^1, ^4 3DGL ^1, ^4 3SG ^1, ^4 3FL ^1, ^4 3HE ^1!");
                                 remove_task(id);
                         }
                 
-                        case 41..50:
+                        case 61..80:
                         {
                         
                                 give_item(id, "weapon_hegrenade");
                                 give_item(id, "weapon_flashbang");
                                 give_item(id, "weapon_smokegrenade");
                                 cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
-                                
-                                cs_set_weapon_ammo(dgl, 4);
-                                
-                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                set_user_health(id, get_user_health(id) + 20);
-                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 20HP ^1, ^4 4DGL ^1, ^4 3SG ^1, ^4 3FL ^1, ^4 3HE ^1!");
-                                remove_task(id);
-                        }
-                        
-                        case 51..60:
-                        {
-                        
-                                give_item(id, "weapon_hegrenade");
-                                give_item(id, "weapon_flashbang");
-                                give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 3);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 3);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 3);
-                                
-                                cs_set_weapon_ammo(dgl, 4);
-                                
-                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                set_user_health(id, get_user_health(id) + 20);
-                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 20HP ^1, ^4 4DGL ^1, ^4 3SG ^1, ^4 3FL ^1, ^4 3HE ^1!");
-                                remove_task(id);
-                        }
-                        case 61..70:
-                        {
-                        
-                                give_item(id, "weapon_hegrenade");
-                                give_item(id, "weapon_flashbang");
-                                give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 4);
                                 cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
                                 cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
                                 
                                 cs_set_weapon_ammo(dgl, 4);
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                set_user_health(id, get_user_health(id) + 25);
-                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 25HP ^1, ^4 4DGL ^1, ^4 4SG ^1, ^4 4FL ^1, ^4 4HE ^1!");
+                                set_user_health(id, get_user_health(id) + 20);
+                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 20HP ^1, ^4 4DGL ^1, ^4 4SG ^1, ^4 4FL ^1, ^4 3HE ^1!");
                                 remove_task(id);
                         }
-                        case 71..80:
+                        
+                        case 81..100:
                         {
                         
                                 give_item(id, "weapon_hegrenade");
                                 give_item(id, "weapon_flashbang");
                                 give_item(id, "weapon_smokegrenade");
                                 cs_set_user_bpammo(id, CSW_HEGRENADE, 4);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 2);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 5);
                                 
                                 cs_set_weapon_ammo(dgl, 5);
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                set_user_health(id, get_user_health(id) + 30);
-                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 30HP ^1, ^4 5DGL ^1, ^4 4SG ^1, ^4 4FL ^1, ^4 4HE ^1!");
+                                set_user_health(id, get_user_health(id) + 20);
+                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 20HP ^1, ^4 4DGL ^1, ^4 3SG ^1, ^4 3FL ^1, ^4 3HE ^1!");
                                 remove_task(id);
                         }
-                        case 81..90:
-                        {
-                        
-                                give_item(id, "weapon_hegrenade");
-                                give_item(id, "weapon_flashbang");
-                                give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 4);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 4);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 4);
-                                
-                                cs_set_weapon_ammo(dgl, 6);
-                                
-                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                set_user_health(id, get_user_health(id) + 30);
-                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 30HP ^1, ^4 6DGL ^1, ^4 4SG ^1, ^4 4FL ^1, ^4 4HE ^1!");
-                                remove_task(id);
-                        }
-                        
-                        case 91..100:
+
+                    case 101..150:
                         {
                         
                                 give_item(id, "weapon_hegrenade");
@@ -827,49 +758,15 @@ public gItem(id)
                                 cs_set_user_bpammo(id, CSW_HEGRENADE, 5);
                                 cs_set_user_bpammo(id, CSW_FLASHBANG, 5);
                                 cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 5);
-
+                                
                                 cs_set_weapon_ammo(dgl, 6);
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                set_user_health(id, get_user_health(id) + 50);
-                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 50HP ^1, ^4 6DGL ^1, ^4 5SG ^1, ^4 5FL ^1, ^4 5HE ^1!");
+                                set_user_health(id, get_user_health(id) + 30);
+                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 30HP ^1, ^4 6DGL ^1, ^4 5SG ^1, ^4 5FL ^1, ^4 5HE ^1!");
                                 remove_task(id);
                         }
                         
-                        case 101..120:
-                        {
-                        
-                                give_item(id, "weapon_hegrenade");
-                                give_item(id, "weapon_flashbang");
-                                give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 6);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 6);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 6);
-
-                                cs_set_weapon_ammo(dgl, 6);
-                                
-                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                set_user_health(id, get_user_health(id) + 100);
-                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 100HP ^1, ^4 6DGL ^1, ^4 6SG ^1, ^4 6FL ^1, ^4 6HE ^1!");
-                                remove_task(id);
-                        }
-                        case 121..150:
-                        {
-                        
-                                give_item(id, "weapon_hegrenade");
-                                give_item(id, "weapon_flashbang");
-                                give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 7);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 7);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 7);
-
-                                cs_set_weapon_ammo(dgl, 7);
-                                
-                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                set_user_health(id, get_user_health(id) + 150);
-                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 150HP ^1, ^4 7DGL ^1, ^4 7SG ^1, ^4 7FL ^1, ^4 7HE ^1!");
-                                remove_task(id);
-                        }
  
                 }
                         
@@ -1128,4 +1025,3 @@ FindPlayer()
  
 	return -1;
 }
-
