@@ -40,8 +40,8 @@
 #include <fakemeta>
 
 new const PLUGIN_NAME[] = "Level Mod";
-new const hnsxp_version[] = "5.7";
-new const LEVELS[311] = {
+new const hnsxp_version[] = "5.8";
+new const LEVELS[151] = {
         
         1000, // 1
         3000, // 2
@@ -193,167 +193,7 @@ new const LEVELS[311] = {
         25101113000,
         26101113000,
         27101113000,
-        28101113000,
-        29101113000,
-        30000000000,
-	30000130000,
-        30000134000,
-        30000135000,
-        30000136000,
-        30000138000,
-        30000139000,
-        30000113000,
-        30000213000,
-        30000313000,
-	30000413000,
-        30000513000,
-        30000613000,
-        30000713000,
-        30000813000,
-        30000913000,
-        30001113000,
-        30002113000,
-        30003113000,
-        30004113000,
-        30005113000,
-        30006113000,
-        30007113000,
-        30008113000,
-        30009113000,
-        30011113000,
-        30021113000,
-        30031113000,
-        30041113000,
-        30051113000,
-        30061113000,
-        30071113000,
-        30081113000,
-        30091113000,
-        30101113000,
-        30201113000,
-        30301113000,
-        30401113000,
-        30501113000,
-        30601113000,
-        30701113000,
-        30901113000,
-        31101113000,
-        32101113000,
-        33101113000,
-        34101113000,
-        35101113000,
-        36101113000,
-        37101113000,
-        38101113000,
-        39101113000,
-        40000000000,
-        40000130000,
-        40000134000,
-        40000135000,
-        40000136000,
-        40000138000,
-        40000139000,
-        40000113000,
-        40000213000,
-        40000313000,
-	40000413000,
-        40000513000,
-        40000613000,
-        40000713000,
-        40000813000,
-        40000913000,
-        40001113000,
-        40002113000,
-        40003113000,
-        40004113000,
-        40005113000,
-        40006113000,
-        40007113000,
-        40008113000,
-        40009113000,
-        40011113000,
-        40021113000,
-        40031113000,
-        40041113000,
-        40051113000,
-        40061113000,
-        40071113000,
-        40081113000,
-        40091113000,
-        40101113000,
-        40201113000,
-        40301113000,
-        40401113000,
-        40501113000,
-        40601113000,
-        40701113000,
-        40901113000,
-        41101113000,
-        42212113000,
-        43210111300,
-        44101113000,
-        45101113000,
-        46101113000,
-        47101113000,
-        48101113000,
-        49101113000,
-        50000000000, // 46
-        50000001000, // 1
-	50000002000,  // 2
-	50000003000,  // 3
-	50000004000,  // 4
-	50000005000,
-	50000006000,
-	50000007000,
-	50000008000,
-	50000009000,  // 58 !
-	50000010000, // 10
-	50000011000,
-	50000020000,
-	50000030000, // 13
-	50000040000,
-	50000050000,
-	50000060000,
-	50000070000,
-	50000080000,
-	50000090000, // 19
-	50000200000,
-	50000300000,
-	50000400000,  // 22
-	50000500000,
-	50000600000,
-	50000700000,
-	50000800000,
-	50000800500, // 27
-	50000900000,
-	50001000000,
-	50002090000, // 30/58
-	50003000000,
-	50004000000,
-	50005000000,
-	50006000000,
-	50007000000,
-	50008000000,
-	50009000000,
-	50009005000,
-	50009900000,
-	50009995000, // 40/58
-	50010000000,
-	50020000000, 
-	50030000000,
-	50040000000,
-	50050000000, 
-	50060000000,
-	50070000000,
-	50080000000,
-	50090000000,
-	50100000000,  // 50 !
-	50200000000, 
-	50300000000, 
-	50400000000, 
-	50500000000,
-	50600000000,
-	99999999999999999999999999 // 300 ! 
+	999999999999999999999999999999999 
 }
 new hnsxp_playerxp[33], hnsxp_playerlevel[33];
 new g_hnsxp_vault, wxp, xlevel;
@@ -688,51 +528,41 @@ public GiveExp(index)
 	{
 		case 0..10:
 		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 500;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 1000;
 		}
 
 		case 11..20:
 		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 1500;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 15000;
 		}
 		case 21..30:
 		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 3500;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 25040;
 		}
 
 		case 31..40:
 		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 5000;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 65030;
 		}
 
 		case 41..50:
 		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 10000;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 302060;
 		}
 
 		case 51..80:
 		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 100000;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 905000;
 		}
 
 		case 81..100:
 		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 1000000;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 1800500;
 		}
 
-		case 101..200:
+		case 101..150:
 		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 100000000;
-		}
-
-		case 201..300:
-		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 200000000;
-		}
-
-		case 301..310:
-		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 200500000;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 900050600;
 		}
 
 		default:
@@ -1040,82 +870,7 @@ public gItem(id)
                                 ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 150HP ^1, ^4 7DGL ^1, ^4 7SG ^1, ^4 7FL ^1, ^4 7HE ^1!");
                                 remove_task(id);
                         }
-                        case 151..200:
-                        {
-                        
-                                give_item(id, "weapon_hegrenade");
-                                give_item(id, "weapon_flashbang");
-                                give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 8);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 8);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE,8);
-
-                                cs_set_weapon_ammo(dgl, 7);
-                                cs_set_weapon_ammo(give_item(id, "weapon_awp"), 1);
-                                
-                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                cs_set_user_bpammo(id, CSW_AWP, 0);
-                                set_user_health(id, get_user_health(id) + 250);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 250HP ^1, ^4 7DGL ^1, ^4 1AWP ^1, ^4 8SG ^1, ^4 8FL ^1, ^4 8HE ^1!");
-                                remove_task(id);
-                        }
-                        case 201..250:
-                        {
-                        
-                                give_item(id, "weapon_hegrenade");
-                                give_item(id, "weapon_flashbang");
-                                give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 10);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 10);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE,10);
-
-                                cs_set_weapon_ammo(dgl, 7);
-                                cs_set_weapon_ammo(give_item(id, "weapon_awp"), 3);
-                                
-                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                cs_set_user_bpammo(id, CSW_AWP, 0);
-                                set_user_health(id, get_user_health(id) + 350);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 350HP ^1, ^4 7DGL ^1, ^4 3AWP ^1, ^4 10SG ^1, ^4 10FL ^1, ^4 10HE ^1!");
-                                remove_task(id);
-                        }
-                        case 251..300:
-                        {
-                        
-                                give_item(id, "weapon_hegrenade");
-                                give_item(id, "weapon_flashbang");
-                                give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 15);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 15);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE,15);
-
-                                cs_set_weapon_ammo(dgl, 7);
-                                cs_set_weapon_ammo(give_item(id, "weapon_awp"), 5);
-                                
-                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                cs_set_user_bpammo(id, CSW_AWP, 0);
-                                set_user_health(id, get_user_health(id) + 450);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 450HP ^1, ^4 7DGL ^1, ^4 5AWP ^1, ^4 15SG ^1, ^4 15FL ^1, ^4 15HE ^1!");
-                                remove_task(id);
-                        }
-                        case 301..310:
-                        {
-                        
-                                give_item(id, "weapon_hegrenade");
-                                give_item(id, "weapon_flashbang");
-                                give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 25);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 25);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE,25);
-
-                                cs_set_weapon_ammo(dgl, 7);
-                                cs_set_weapon_ammo(give_item(id, "weapon_awp"), 10);
-                                
-                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                cs_set_user_bpammo(id, CSW_AWP, 0);
-                                set_user_health(id, get_user_health(id) + 1000);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 1000HP ^1, ^4 7DGL ^1, ^4 10AWP ^1, ^4 25SG ^1, ^4 25FL ^1, ^4 25HE ^1!");
-                                remove_task(id);
-                        }
+ 
                 }
                         
         }
