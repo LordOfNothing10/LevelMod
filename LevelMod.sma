@@ -419,6 +419,148 @@ public plugin_init()
         get_datadir(Data, 63);
         read_top();
 
+	register_concmd("amx_xp", "xp_cmd", ADMIN_CVAR, "amx_xp <NICK> <NUMARUL DE XP>")
+	register_concmd("amx_givexp", "givexp_cmd", ADMIN_CVAR, "amx_givexp <NICK> <NUMARUL DE XP>")
+	register_concmd("amx_takexp", "takexp_cmd", ADMIN_CVAR, "amx_takexp <NICK> <NUMARUL DE XP>")
+	register_concmd("amx_level", "level_cmd", ADMIN_CVAR, "amx_level <NICK> <NUMARUL DE LEVEL>")
+	register_concmd("amx_takelevel", "takelevel_cmd", ADMIN_CVAR, "amx_takelevel <NICK> <NUMARUL DE LEVEL>")
+	register_concmd("amx_givelevel", "givelevel_cmd", ADMIN_CVAR, "amx_givelevel <NICK> <NUMARUL DE LEVEL>")
+}
+
+public xp_cmd(id,level,cid)
+{
+	if(!cmd_access(id,level,cid,3))
+		return PLUGIN_HANDLED;
+	
+	new arg[33], amount[220]
+	read_argv(1, arg, 32)
+	new target = cmd_target(id, arg, 7)
+	read_argv(2, amount, charsmax(amount) - 1)
+	
+	new exp = str_to_num(amount)
+	
+	if(!target)
+	{
+		return 1
+	}
+	
+	hnsxp_playerxp[target] = exp
+	checkandupdatetop(target,hnsxp_playerlevel[target])
+	return 0
+}
+
+
+public givexp_cmd(id,level,cid)
+{
+	if(!cmd_access(id,level,cid,3))
+		return PLUGIN_HANDLED;
+	
+	new arg[33], amount[220]
+	read_argv(1, arg, 32)
+	new target = cmd_target(id, arg, 7)
+	read_argv(2, amount, charsmax(amount) - 1)
+	
+	new exp = str_to_num(amount)
+	
+	if(!target)
+	{
+		return 1
+	}
+	
+	hnsxp_playerxp[target] = hnsxp_playerxp[target] + exp
+	checkandupdatetop(target,hnsxp_playerlevel[target])
+	return 0
+}
+
+
+public takexp_cmd(id,level,cid)
+{
+	if(!cmd_access(id,level,cid,3))
+		return PLUGIN_HANDLED;
+	
+	new arg[33], amount[220]
+	read_argv(1, arg, 32)
+	new target = cmd_target(id, arg, 7)
+	read_argv(2, amount, charsmax(amount) - 1)
+
+	new exp = str_to_num(amount)
+	
+	if(!target)
+	{
+		return 1
+	}
+	
+	hnsxp_playerxp[target] = hnsxp_playerxp[target] - exp
+	checkandupdatetop(target,hnsxp_playerlevel[target])
+	return 0
+}
+
+public level_cmd(id,level,cid)
+{
+	if(!cmd_access(id,level,cid,3))
+		return PLUGIN_HANDLED;
+	
+	new arg[33], amount[220]
+	read_argv(1, arg, 32)
+	new target = cmd_target(id, arg, 7)
+	read_argv(2, amount, charsmax(amount) - 1)
+	
+	new exp = str_to_num(amount)
+	
+	if(!target)
+	{
+		return 1
+	}
+	
+	hnsxp_playerlevel[target] = exp
+	checkandupdatetop(target,hnsxp_playerlevel[target])
+	return 0
+}
+
+
+public takelevel_cmd(id,level,cid)
+{
+	if(!cmd_access(id,level,cid,3))
+		return PLUGIN_HANDLED;
+	
+	new arg[33], amount[220]
+	read_argv(1, arg, 32)
+	new target = cmd_target(id, arg, 7)
+	read_argv(2, amount, charsmax(amount) - 1)
+	
+	new exp = str_to_num(amount)
+	
+	if(!target)
+	{
+		return 1
+	}
+	
+	hnsxp_playerlevel[target] = hnsxp_playerlevel[target] - exp
+	checkandupdatetop(target,hnsxp_playerlevel[target])
+	return 0
+}
+
+
+public givelevel_cmd(id,level,cid)
+{
+	if(!cmd_access(id,level,cid,3))
+		return PLUGIN_HANDLED;
+	
+	new arg[33], amount[220]
+	read_argv(1, arg, 32)
+	new target = cmd_target(id, arg, 7)
+	read_argv(2, amount, charsmax(amount) - 1)
+	
+	new exp = str_to_num(amount)
+	
+	if(!target)
+	{
+		return 1
+	}
+	
+	hnsxp_playerlevel[target] = hnsxp_playerlevel[target] - exp
+	checkandupdatetop(target,hnsxp_playerlevel[target])
+	return 0
 }
 
 public save_top() {
@@ -672,7 +814,6 @@ public gItem(id)
 {
 
         new dgl = give_item(id, "weapon_deagle")
-        new awp = give_item(id, "weapon_awp")
 
         if(is_user_alive(id))
         {
@@ -684,7 +825,7 @@ public gItem(id)
                                 give_item(id, "weapon_smokegrenade");
                                 set_user_health(id, get_user_health(id) + 3);
                                 cs_set_weapon_ammo(dgl, 1);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^43HP ^1, ^41DGL ^1, ^41SG ^1 !");
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 3HP ^1, ^4 1DGL ^1, ^4 1SG ^1 !");
                                 remove_task(id);
                         }
                         
@@ -698,7 +839,7 @@ public gItem(id)
                                 cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 1);
                                 set_user_health(id, get_user_health(id) + 5);
                                 cs_set_weapon_ammo(dgl, 1);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^45HP ^1, ^41DGL ^1, ^41SG ^1, ^41FL ^1, ^41HE ^1!");
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 5HP ^1, ^4 1DGL ^1, ^4 1SG ^1, ^4 1FL ^1, ^4 1HE ^1!");
                                 remove_task(id);
                 
                         }
@@ -715,7 +856,7 @@ public gItem(id)
                                 cs_set_weapon_ammo(dgl, 1);
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 10);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^410HP ^1, ^41DGL ^1, ^41SG ^1, ^41FL ^1, ^41HE ^1!");
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 10HP ^1, ^4 1DGL ^1, ^4 1SG ^1, ^41 FL ^1, ^4 1HE ^1!");
                                 remove_task(id);
                 
                         }
@@ -734,7 +875,7 @@ public gItem(id)
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 
                                 set_user_health(id, get_user_health(id) + 10);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^410HP ^1, ^42DGL ^1, ^42SG ^1, ^42FL ^1, ^42HE ^1!");
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 10HP ^1, ^4 2DGL ^1, ^4 2SG ^1, ^42FL ^1, ^42HE ^1!");
                                 remove_task(id);
                         }
 
@@ -752,7 +893,7 @@ public gItem(id)
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         
                                 set_user_health(id, get_user_health(id) + 10);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^410HP ^1, ^43DGL ^1, ^42SG ^1, ^42FL ^1, ^42HE ^1!");
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 10HP ^1, ^4 3DGL ^1, ^4 2SG ^1, ^4 2FL ^1, ^4 2HE ^1!");
                                 remove_task(id);
                         }
                 
@@ -770,7 +911,7 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 20);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^420HP ^1, ^44DGL ^1, ^43SG ^1, ^43FL ^1, ^43HE ^1!");
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 20HP ^1, ^4 4DGL ^1, ^4 3SG ^1, ^4 3FL ^1, ^4 3HE ^1!");
                                 remove_task(id);
                         }
                         
@@ -788,7 +929,7 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 20);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^420HP ^1, ^44DGL ^1, ^43SG ^1, ^43FL ^1, ^43HE ^1!");
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 20HP ^1, ^4 4DGL ^1, ^4 3SG ^1, ^4 3FL ^1, ^4 3HE ^1!");
                                 remove_task(id);
                         }
                         case 61..70:
@@ -805,7 +946,7 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 25);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^425HP ^1, ^44DGL ^1, ^44SG ^1, ^44FL ^1, ^44HE ^1!");
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 25HP ^1, ^4 4DGL ^1, ^4 4SG ^1, ^4 4FL ^1, ^4 4HE ^1!");
                                 remove_task(id);
                         }
                         case 71..80:
@@ -822,7 +963,7 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 30);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^430HP ^1, ^45DGL ^1, ^44SG ^1, ^44FL ^1, ^44HE ^1!");
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 30HP ^1, ^4 5DGL ^1, ^4 4SG ^1, ^4 4FL ^1, ^4 4HE ^1!");
                                 remove_task(id);
                         }
                         case 81..90:
@@ -839,7 +980,7 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 30);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^430HP ^1, ^46DGL ^1, ^44SG ^1, ^44FL ^1, ^44HE ^1!");
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 30HP ^1, ^4 6DGL ^1, ^4 4SG ^1, ^4 4FL ^1, ^4 4HE ^1!");
                                 remove_task(id);
                         }
                         
@@ -857,7 +998,7 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 50);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^450HP ^1, ^46DGL ^1, ^45SG ^1, ^45FL ^1, ^45HE ^1!");
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 50HP ^1, ^4 6DGL ^1, ^4 5SG ^1, ^4 5FL ^1, ^4 5HE ^1!");
                                 remove_task(id);
                         }
                         
@@ -875,7 +1016,7 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 100);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4100HP ^1, ^46DGL ^1, ^46SG ^1, ^46FL ^1, ^46HE ^1!");
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 100HP ^1, ^4 6DGL ^1, ^4 6SG ^1, ^4 6FL ^1, ^4 6HE ^1!");
                                 remove_task(id);
                         }
                         case 121..150:
@@ -892,7 +1033,7 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 150);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4150HP ^1, ^47DGL ^1, ^47SG ^1, ^47FL ^1, ^47HE ^1!");
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 150HP ^1, ^4 7DGL ^1, ^4 7SG ^1, ^4 7FL ^1, ^4 7HE ^1!");
                                 remove_task(id);
                         }
                         case 151..200:
@@ -906,12 +1047,12 @@ public gItem(id)
                                 cs_set_user_bpammo(id, CSW_SMOKEGRENADE,8);
 
                                 cs_set_weapon_ammo(dgl, 7);
-                                cs_set_weapon_ammo(awp, 1);
+                                cs_set_weapon_ammo(give_item(id, "weapon_awp"), 1);
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 cs_set_user_bpammo(id, CSW_AWP, 0);
                                 set_user_health(id, get_user_health(id) + 250);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4250HP ^1, ^47DGL ^1, ^41AWP ^1, ^48SG ^1, ^48FL ^1, ^48HE ^1!");
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 250HP ^1, ^4 7DGL ^1, ^4 1AWP ^1, ^4 8SG ^1, ^4 8FL ^1, ^4 8HE ^1!");
                                 remove_task(id);
                         }
                         case 201..250:
@@ -925,12 +1066,12 @@ public gItem(id)
                                 cs_set_user_bpammo(id, CSW_SMOKEGRENADE,10);
 
                                 cs_set_weapon_ammo(dgl, 7);
-                                cs_set_weapon_ammo(awp, 3);
+                                cs_set_weapon_ammo(give_item(id, "weapon_awp"), 3);
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 cs_set_user_bpammo(id, CSW_AWP, 0);
                                 set_user_health(id, get_user_health(id) + 350);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4350HP ^1, ^47DGL ^1, ^43AWP ^1, ^410SG ^1, ^410FL ^1, ^410HE ^1!");
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 350HP ^1, ^4 7DGL ^1, ^4 3AWP ^1, ^4 10SG ^1, ^4 10FL ^1, ^4 10HE ^1!");
                                 remove_task(id);
                         }
                         case 251..300:
@@ -944,12 +1085,12 @@ public gItem(id)
                                 cs_set_user_bpammo(id, CSW_SMOKEGRENADE,15);
 
                                 cs_set_weapon_ammo(dgl, 7);
-                                cs_set_weapon_ammo(awp, 5);
+                                cs_set_weapon_ammo(give_item(id, "weapon_awp"), 5);
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 cs_set_user_bpammo(id, CSW_AWP, 0);
                                 set_user_health(id, get_user_health(id) + 450);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4450HP ^1, ^47DGL ^1, ^45AWP ^1, ^415SG ^1, ^415FL ^1, ^415HE ^1!");
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 450HP ^1, ^4 7DGL ^1, ^4 5AWP ^1, ^4 15SG ^1, ^4 15FL ^1, ^4 15HE ^1!");
                                 remove_task(id);
                         }
                         case 301..310:
@@ -963,12 +1104,12 @@ public gItem(id)
                                 cs_set_user_bpammo(id, CSW_SMOKEGRENADE,25);
 
                                 cs_set_weapon_ammo(dgl, 7);
-                                cs_set_weapon_ammo(awp, 10);
+                                cs_set_weapon_ammo(give_item(id, "weapon_awp"), 10);
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 cs_set_user_bpammo(id, CSW_AWP, 0);
                                 set_user_health(id, get_user_health(id) + 1000);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^41000HP ^1, ^47DGL ^1, ^410AWP ^1, ^425SG ^1, ^425FL ^1, ^425HE ^1!");
+                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 1000HP ^1, ^4 7DGL ^1, ^4 10AWP ^1, ^4 25SG ^1, ^4 25FL ^1, ^4 25HE ^1!");
                                 remove_task(id);
                         }
                 }
