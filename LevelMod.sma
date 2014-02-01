@@ -40,7 +40,7 @@
 #include <fakemeta>
 
 new const PLUGIN_NAME[] = "Level Mod";
-new const hnsxp_version[] = "5.6";
+new const hnsxp_version[] = "5.7";
 new const LEVELS[311] = {
         
         1000, // 1
@@ -617,6 +617,8 @@ public plugin_natives()
 {
         register_native("get_user_xp","_get_user_xp");
         register_native("get_user_level","_get_user_level");
+        register_native("set_user_xp","_set_user_xp");
+        register_native("set_user_level","_set_user_level");
 }
 
 public _get_user_xp(plugin, params)
@@ -627,6 +629,43 @@ public _get_user_xp(plugin, params)
 public _get_user_level(plugin, params)
 {
         return hnsxp_playerlevel[get_param(1)];
+}
+
+public _set_user_xp(plugin, value)
+{
+	new id = get_param(1)
+
+	if(is_user_connected(id))
+	{
+		hnsxp_playerxp[id] = value;
+		return 0
+	}
+
+	else
+	{
+		log_error(AMX_ERR_NATIVE,"User %d is not connected !",id)
+		return 0
+	}
+	return 1
+}
+
+
+public _set_user_level(plugin, valuex)
+{
+	new id = get_param(1)
+
+	if(is_user_connected(id))
+	{
+		hnsxp_playerlevel[id] = valuex;
+		return 0
+	}
+
+	else
+	{
+		log_error(AMX_ERR_NATIVE,"User %d is not connected !",id)
+		return 0
+	}
+	return 1
 }
 
 public gItem(id)
