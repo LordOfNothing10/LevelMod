@@ -582,7 +582,7 @@ public ClientUserInfoChanged(id)
                 if( !equal(szOldName, szNewName) )
                 {
                         set_user_info(id, name, szOldName)
-                        ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Pe acest server nu este permisa schimbarea numelui !");
+                        ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Pe acest server nu este permisa schimbarea numelui !");
                         return FMRES_HANDLED
                 }
         }
@@ -659,7 +659,7 @@ public gItem(id)
                                 give_item(id, "weapon_smokegrenade");
                                 set_user_health(id, get_user_health(id) + 3);
                                 cs_set_weapon_ammo(dgl, 1);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 3HP ^1, ^4 1DGL ^1, ^4 1SG ^1 !");
+                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 3HP ^1, ^4 1DGL ^1, ^4 1SG ^1 !");
                                 remove_task(id);
                         }
                         
@@ -673,7 +673,7 @@ public gItem(id)
                                 cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 1);
                                 set_user_health(id, get_user_health(id) + 5);
                                 cs_set_weapon_ammo(dgl, 1);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 5HP ^1, ^4 1DGL ^1, ^4 1SG ^1, ^4 1FL ^1, ^4 1HE ^1!");
+                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 5HP ^1, ^4 1DGL ^1, ^4 1SG ^1, ^4 1FL ^1, ^4 1HE ^1!");
                                 remove_task(id);
                 
                         }
@@ -690,7 +690,7 @@ public gItem(id)
                                 cs_set_weapon_ammo(dgl, 1);
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 10);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 10HP ^1, ^4 1DGL ^1, ^4 1SG ^1, ^41 FL ^1, ^4 1HE ^1!");
+                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 10HP ^1, ^4 1DGL ^1, ^4 1SG ^1, ^41 FL ^1, ^4 1HE ^1!");
                                 remove_task(id);
                 
                         }
@@ -709,7 +709,7 @@ public gItem(id)
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 
                                 set_user_health(id, get_user_health(id) + 10);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 10HP ^1, ^4 2DGL ^1, ^4 2SG ^1, ^42FL ^1, ^42HE ^1!");
+                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 10HP ^1, ^4 2DGL ^1, ^4 2SG ^1, ^42FL ^1, ^42HE ^1!");
                                 remove_task(id);
                         }
 
@@ -727,7 +727,7 @@ public gItem(id)
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         
                                 set_user_health(id, get_user_health(id) + 10);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 10HP ^1, ^4 3DGL ^1, ^4 2SG ^1, ^4 2FL ^1, ^4 2HE ^1!");
+                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 10HP ^1, ^4 3DGL ^1, ^4 2SG ^1, ^4 2FL ^1, ^4 2HE ^1!");
                                 remove_task(id);
                         }
                 
@@ -745,7 +745,7 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 20);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 20HP ^1, ^4 4DGL ^1, ^4 3SG ^1, ^4 3FL ^1, ^4 3HE ^1!");
+                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 20HP ^1, ^4 4DGL ^1, ^4 3SG ^1, ^4 3FL ^1, ^4 3HE ^1!");
                                 remove_task(id);
                         }
                         
@@ -763,7 +763,7 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 20);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 20HP ^1, ^4 4DGL ^1, ^4 3SG ^1, ^4 3FL ^1, ^4 3HE ^1!");
+                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 20HP ^1, ^4 4DGL ^1, ^4 3SG ^1, ^4 3FL ^1, ^4 3HE ^1!");
                                 remove_task(id);
                         }
                         case 61..70:
@@ -780,7 +780,7 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 25);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 25HP ^1, ^4 4DGL ^1, ^4 4SG ^1, ^4 4FL ^1, ^4 4HE ^1!");
+                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 25HP ^1, ^4 4DGL ^1, ^4 4SG ^1, ^4 4FL ^1, ^4 4HE ^1!");
                                 remove_task(id);
                         }
                         case 71..80:
@@ -797,7 +797,7 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 30);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 30HP ^1, ^4 5DGL ^1, ^4 4SG ^1, ^4 4FL ^1, ^4 4HE ^1!");
+                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 30HP ^1, ^4 5DGL ^1, ^4 4SG ^1, ^4 4FL ^1, ^4 4HE ^1!");
                                 remove_task(id);
                         }
                         case 81..90:
@@ -814,7 +814,7 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 30);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 30HP ^1, ^4 6DGL ^1, ^4 4SG ^1, ^4 4FL ^1, ^4 4HE ^1!");
+                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 30HP ^1, ^4 6DGL ^1, ^4 4SG ^1, ^4 4FL ^1, ^4 4HE ^1!");
                                 remove_task(id);
                         }
                         
@@ -832,7 +832,7 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 50);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 50HP ^1, ^4 6DGL ^1, ^4 5SG ^1, ^4 5FL ^1, ^4 5HE ^1!");
+                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 50HP ^1, ^4 6DGL ^1, ^4 5SG ^1, ^4 5FL ^1, ^4 5HE ^1!");
                                 remove_task(id);
                         }
                         
@@ -850,7 +850,7 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 100);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 100HP ^1, ^4 6DGL ^1, ^4 6SG ^1, ^4 6FL ^1, ^4 6HE ^1!");
+                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 100HP ^1, ^4 6DGL ^1, ^4 6SG ^1, ^4 6FL ^1, ^4 6HE ^1!");
                                 remove_task(id);
                         }
                         case 121..150:
@@ -867,7 +867,7 @@ public gItem(id)
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health(id, get_user_health(id) + 150);
-                                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 150HP ^1, ^4 7DGL ^1, ^4 7SG ^1, ^4 7FL ^1, ^4 7HE ^1!");
+                                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Ai primit ^4 150HP ^1, ^4 7DGL ^1, ^4 7SG ^1, ^4 7FL ^1, ^4 7HE ^1!");
                                 remove_task(id);
                         }
  
@@ -881,11 +881,11 @@ UpdateLevel(id)
 {
         if((hnsxp_playerlevel[id] < 101) && (hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]]))
         {
-		ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Felicitari ai trecut la nivelul urmator !");            
-		ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Felicitari ai trecut la nivelul urmator !"); 
-                ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Felicitari ai trecut la nivelul urmator !"); 
-		ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Felicitari ai trecut la nivelul urmator !"); 
-		ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Felicitari ai trecut la nivelul urmator !"); 
+		ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Felicitari ai trecut la nivelul urmator !");            
+		ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Felicitari ai trecut la nivelul urmator !"); 
+                ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Felicitari ai trecut la nivelul urmator !"); 
+		ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Felicitari ai trecut la nivelul urmator !"); 
+		ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] Felicitari ai trecut la nivelul urmator !"); 
                 new ret;
                 ExecuteForward(xlevel, ret, id);
                 while(hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]])
@@ -906,7 +906,7 @@ public hnsxp_spawn(id)
 public plvl(id)
 {
         
-        ColorChat(0, TEAM_COLOR,"^1[^3 Level-Mod^1 ] ^4LVL ^1: ^3%i ^1, ^4XP ^1: ^3%i ^1/ ^3%i ", hnsxp_playerlevel[id], hnsxp_playerxp[id], LEVELS[hnsxp_playerlevel[id]]);
+        ColorChat(id, TEAM_COLOR,"^1[^3 Level-Mod^1 ] ^4LVL ^1: ^3%i ^1, ^4XP ^1: ^3%i ^1/ ^3%i ", hnsxp_playerlevel[id], hnsxp_playerxp[id], LEVELS[hnsxp_playerlevel[id]]);
         return PLUGIN_HANDLED
 }
 
