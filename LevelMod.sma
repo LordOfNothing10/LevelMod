@@ -533,26 +533,26 @@ public GiveExp(index)
 
 		case 11..20:
 		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 15000;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 5000;
 		}
 		case 21..30:
 		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 25040;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 15040;
 		}
 
 		case 31..40:
 		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 65030;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 25030;
 		}
 
 		case 41..50:
 		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 302060;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 45060;
 		}
 
 		case 51..80:
 		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 905000;
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 150000;
 		}
 
 		case 81..100:
@@ -1025,3 +1025,4 @@ FindPlayer()
  
 	return -1;
 }
+
