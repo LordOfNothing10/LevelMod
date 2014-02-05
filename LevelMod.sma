@@ -294,7 +294,7 @@ public Ham_CheckDamage_Bonus( pevVictim, pevInflictor, pevAttacker, Float:flDama
 /*      Speed Check      */
 public Ham_CheckSpeed_Bonus( id )
 {
-	if( !is_user_alive( id ) || cs_get_user_team( id ) != CS_TEAM_T )
+	if( !is_user_alive( id ) )
 	{
 		return HAM_IGNORED;
 	}
