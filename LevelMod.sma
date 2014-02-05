@@ -276,19 +276,19 @@ public plugin_init()
 
 public Ham_CheckDamage_Bonus( pevVictim, pevInflictor, pevAttacker, Float:flDamage, iDmgBits ) 
 { 
-    if( !( 1 <= pevAttacker <= g_iMaxPlayers) ) 
-    { 
-        return HAM_HANDLED; 
-    } 
-     
-    if( !is_user_alive( pevAttacker )  ) 
-    { 
-        return HAM_HANDLED; 
-    } 
-
-    SetHamParamFloat( 4 , flDamage + 10 * hnsxp_playerlevel[ pevAttacker ] ) 
-
-    return HAM_IGNORED; 
+	if( !( 1 <= pevAttacker <= g_iMaxPlayers) ) 
+	{ 
+		 return HAM_HANDLED; 
+	} 
+	     
+	if( !is_user_alive( pevAttacker )  ) 
+	{ 
+		return HAM_HANDLED; 
+	} 
+	
+	SetHamParamFloat( 4 , flDamage + 10 * hnsxp_playerlevel[ pevAttacker ] ) 
+		
+	return HAM_IGNORED; 
 } 
 
 /*      Speed Check      */
