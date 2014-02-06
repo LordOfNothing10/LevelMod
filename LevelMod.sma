@@ -255,8 +255,9 @@ public plugin_init()
         xlevel = CreateMultiForward("PlayerMakeNextLevel", ET_IGNORE, FP_CELL);
         wxp = CreateMultiForward("PlayerIsHookXp", ET_IGNORE, FP_CELL);
         register_forward(FM_ClientUserInfoChanged, "ClientUserInfoChanged")
-
-	RegisterHam ( Ham_TakeDamage, "player", "Ham_CheckDamage_Bonus", .Post = false );
+	
+	g_iMaxPlayers = get_maxplayers ( )
+	RegisterHam ( Ham_TakeDamage, "player", "Ham_CheckDamage_Bonus");
 	RegisterHam ( Ham_Item_PreFrame, "player", "Ham_CheckSpeed_Bonus", 1);
         
         register_clcmd("say /toplevel","sayTopLevel");
@@ -271,22 +272,18 @@ public plugin_init()
 
 }
 
-public Ham_CheckDamage_Bonus( pevVictim, pevInflictor, pevAttacker, Float:flDamage, iDmgBits ) 
-{ 
-	if( !( 1 <= pevAttacker <= g_iMaxPlayers) ) 
-	{ 
-		 return HAM_HANDLED; 
-	} 
-	     
-	if( !is_user_alive( pevAttacker )  ) 
-	{ 
-		return HAM_HANDLED; 
-	} 
-	
-	SetHamParamFloat( 4 , flDamage + 10 * hnsxp_playerlevel[ pevAttacker ] ) 
-		
-	return HAM_IGNORED; 
-} 
+public Player_TakeDamage ( iVictim, iInflictor, iAttacker, Float:fDamage ) {
+    
+	if ( iInflictor == iAttacker && IsPlayer ( iAttacker ) ) 
+	{
+    
+		SetHamParamFloat ( 4, fDamage + 5 * hnsxp_playerlevel[iAttacker] );
+		return HAM_HANDLED;
+       	}
+    
+	return HAM_IGNORED;
+    
+}
 
 /*      Speed Check      */
 public Ham_CheckSpeed_Bonus( id )
