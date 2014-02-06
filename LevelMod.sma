@@ -42,7 +42,7 @@
 #define TAG "Level Mod"
 
 new const PLUGIN_NAME[] = "Level Mod";
-new const hnsxp_version[] = "5.9";
+new const hnsxp_version[] = "6.0";
 new const LEVELS[151] = {
         
         1000, // 1
@@ -210,6 +210,7 @@ new Data[64];
 new toplevels[33];
 new topnames[33][33];
 
+const m_LastHitGroup = 75;
 
 enum Color
 {
@@ -236,8 +237,7 @@ public plugin_init()
         register_plugin(PLUGIN_NAME, hnsxp_version, "LordOfNothing");
 
         RegisterHam(Ham_Spawn, "player", "hnsxp_spawn", 1);
-        RegisterHam(Ham_Killed, "player", "hnsxp_death", 1);
-
+	RegisterHam(Ham_Killed, "player", "hnsxp_playerdie", 1);
 
         register_clcmd("say /level","plvl");
         register_clcmd("say /xp","plvl");
@@ -267,11 +267,8 @@ public plugin_init()
         read_top();
 
 	register_concmd("amx_xp", "xp_cmd", ADMIN_LEVEL_H, "amx_xp <NICK> <NUMARUL DE XP>")
-	register_concmd("amx_givexp", "givexp_cmd", ADMIN_LEVEL_H, "amx_givexp <NICK> <NUMARUL DE XP>")
-	register_concmd("amx_takexp", "takexp_cmd", ADMIN_LEVEL_H, "amx_takexp <NICK> <NUMARUL DE XP>")
 	register_concmd("amx_level", "level_cmd", ADMIN_LEVEL_H, "amx_level <NICK> <NUMARUL DE LEVEL>")
-	register_concmd("amx_takelevel", "takelevel_cmd", ADMIN_LEVEL_H, "amx_takelevel <NICK> <NUMARUL DE LEVEL>")
-	register_concmd("amx_givelevel", "givelevel_cmd", ADMIN_LEVEL_H, "amx_givelevel <NICK> <NUMARUL DE LEVEL>")
+
 }
 
 public Ham_CheckDamage_Bonus( pevVictim, pevInflictor, pevAttacker, Float:flDamage, iDmgBits ) 
@@ -328,51 +325,6 @@ public xp_cmd(id,level,cid)
 }
 
 
-public givexp_cmd(id,level,cid)
-{
-	if(!cmd_access(id,level,cid,3))
-		return PLUGIN_HANDLED;
-	
-	new arg[33], amount[220]
-	read_argv(1, arg, 32)
-	new target = cmd_target(id, arg, 7)
-	read_argv(2, amount, charsmax(amount) - 1)
-	
-	new exp = str_to_num(amount)
-	
-	if(!target)
-	{
-		return 1
-	}
-	
-	hnsxp_playerxp[target] = hnsxp_playerxp[target] + exp
-	checkandupdatetop(target,hnsxp_playerlevel[target])
-	UpdateLevel(target)
-	return 0
-}
-
-
-public takexp_cmd(id,level,cid)
-{
-	if(!cmd_access(id,level,cid,3))
-		return PLUGIN_HANDLED;
-	
-	new arg[33], amount[220]
-	read_argv(1, arg, 32)
-	new target = cmd_target(id, arg, 7)
-	read_argv(2, amount, charsmax(amount) - 1)
-
-	new exp = str_to_num(amount)
-	
-	if(!target)
-	{
-		return 1
-	}
-	
-	hnsxp_playerxp[target] = hnsxp_playerxp[target] - exp
-	checkandupdatetop(target,hnsxp_playerlevel[target])
-	return 0
-}
 
 public level_cmd(id,level,cid)
 {
@@ -398,51 +350,6 @@ public level_cmd(id,level,cid)
 }
 
 
-public takelevel_cmd(id,level,cid)
-{
-	if(!cmd_access(id,level,cid,3))
-		return PLUGIN_HANDLED;
-	
-	new arg[33], amount[220]
-	read_argv(1, arg, 32)
-	new target = cmd_target(id, arg, 7)
-	read_argv(2, amount, charsmax(amount) - 1)
-	
-	new exp = str_to_num(amount)
-	
-	if(!target)
-	{
-		return 1
-	}
-	
-	hnsxp_playerlevel[target] = hnsxp_playerlevel[target] - exp
-	checkandupdatetop(target,hnsxp_playerlevel[target])
-	return 0
-}
-
-
-public givelevel_cmd(id,level,cid)
-{
-	if(!cmd_access(id,level,cid,3))
-		return PLUGIN_HANDLED;
-	
-	new arg[33], amount[220]
-	read_argv(1, arg, 32)
-	new target = cmd_target(id, arg, 7)
-	read_argv(2, amount, charsmax(amount) - 1)
-	
-	new exp = str_to_num(amount)
-	
-	if(!target)
-	{
-		return 1
-	}
-	
-	hnsxp_playerlevel[target] = hnsxp_playerlevel[target] - exp
-	checkandupdatetop(target,hnsxp_playerlevel[target])
-	UpdateLevel(target)
-	return 0
-}
 
 public save_top() {
         new path[128];
@@ -835,6 +742,12 @@ UpdateLevel(id)
 public hnsxp_spawn(id)
 {
         set_task(15.0, "gItem", id);
+	new GRAVITYCheck = 800 - 10 * hnsxp_playerlevel[ id ];
+
+	if(is_user_alive(id))
+	{
+		set_user_gravity( id, float( GRAVITYCheck ) / 800.0 );
+	}
         UpdateLevel(id);
         checkandupdatetop(id,hnsxp_playerlevel[id]);
 }
@@ -855,7 +768,7 @@ public plvls(id)
         
         for ( new i = 0 ; i < playersnum ; i++ ) {
                 get_user_name(players[i], name, charsmax(name));
-                len += formatex(motd[len], charsmax(motd) - len, "<center> <br><font color=green> <b> [%i] %s: %i</font>  </center> ",hnsxp_playerlevel[players[i]], name, hnsxp_playerxp[players[i]]);
+                len += formatex(motd[len], charsmax(motd) - len, "<center> <br><font color=green> <b> [</font> <font color=blue> %i</font>  <font color=green> ] </font> <font color=yellow> %s</font> </font> <font color=green> [</font>  <font color=red> %i </font> <font color=green> ] </font> </center> ",hnsxp_playerlevel[players[i]], name, hnsxp_playerxp[players[i]]);
         }
         
         formatex(motd[len], charsmax(motd) - len, "</html>");
@@ -872,7 +785,7 @@ public tlvl(id)
         return PLUGIN_HANDLED
 }
 
-public hnsxp_death( iVictim, attacker, shouldgib )
+public hnsxp_playerdie(iVictim, attacker, iShouldGib) 
 {
         
         if( !attacker || attacker == iVictim )
@@ -887,6 +800,13 @@ public hnsxp_death( iVictim, attacker, shouldgib )
         UpdateLevel(iVictim);
         checkandupdatetop(iVictim,hnsxp_playerlevel[iVictim]);
         checkandupdatetop(attacker,hnsxp_playerlevel[attacker]);
+
+	if(get_pdata_int(iVictim, m_LastHitGroup, 5) == HIT_HEAD)
+	{ 
+		checkandupdatetop(attacker,hnsxp_playerlevel[attacker]);
+		GiveExp(attacker);
+		UpdateLevel(attacker);
+	}
 
         if(is_user_vip(attacker))
         {
@@ -1064,4 +984,3 @@ FindPlayer()
  
 	return -1;
 }
-
