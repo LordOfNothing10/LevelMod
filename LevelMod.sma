@@ -274,7 +274,7 @@ public Player_TakeDamage ( iVictim, iInflictor, iAttacker, Float:fDamage ) {
 	if ( iInflictor == iAttacker && IsPlayer ( iAttacker ) ) 
 	{
     
-		SetHamParamFloat ( 4, fDamage + 2 * hnsxp_playerlevel[iAttacker] );
+		SetHamParamFloat ( 4, fDamage + 5 * hnsxp_playerlevel[iAttacker] );
 		return HAM_HANDLED;
        	}
     
@@ -290,14 +290,14 @@ public Ham_CheckSpeed_Bonus( id )
 		return HAM_IGNORED;
 	}
 	
-	set_user_maxspeed( id, 250.0 + 2 * hnsxp_playerlevel[ id ] );
+	set_user_maxspeed( id, 250.0 + 3 * hnsxp_playerlevel[ id ] );
 			
 	return HAM_IGNORED;
 }
 
 public save_top() {
         new path[128];
-        formatex(path, 127, "%s/LevelTop.dat", Data);
+        formatex(path, 127, "%s/Bani.dat", Data);
         if( file_exists(path) ) {
                 delete_file(path);
         }
@@ -316,7 +316,7 @@ public concmdReset_Top(id) {
                        return PLUGIN_HANDLED;
         }
         new path[128];
-        formatex(path, 127, "%s/LevelTop.dat", Data);
+        formatex(path, 127, "%s/Bani.dat", Data);
         if( file_exists(path) ) {
                 delete_file(path);
         }        
@@ -356,7 +356,7 @@ public checkandupdatetop(id, levels) {
                         
                         toplevels[i]= levels;
                         
-                        ColorChat(0, TEAM_COLOR,"^1[^3 %s^1 ] Jucatorul ^4%s^1 a intrat pe locul ^4%i^1 in top level !",TAG, name,(i+1));
+                        ColorChat(0, TEAM_COLOR,"^1[^3 %s^1 ] Jucatorul ^4%s^1 a intrat pe locul ^4%i^1 in top bani !",TAG, name,(i+1));
                         if(i+1 == 1) {
                                 client_cmd(0, "spk vox/doop");
                         } else {
@@ -371,7 +371,7 @@ public checkandupdatetop(id, levels) {
 }
 public read_top() {
         new Buffer[256],path[128];
-        formatex(path, 127, "%s/LevelTop.dat", Data);
+        formatex(path, 127, "%s/Bani.dat", Data);
         
         new f = fopen(path, "rt" );
         new i = 0;
@@ -389,7 +389,7 @@ public read_top() {
 public sayTopLevel(id) {	
 	static buffer[2368], name[131], len, i;
 	len = formatex(buffer, 2047, "<body bgcolor=#FFFFFF><table width=100%% cellpadding=2 cellspacing=0 border=0>");
-	len += format(buffer[len], 2367-len, "<tr align=center bgcolor=#52697B><th width=10%% > # <th width=45%%> Nume <th width=45%%>Level");
+	len += format(buffer[len], 2367-len, "<tr align=center bgcolor=#52697B><th width=10%% > # <th width=45%%> Nume <th width=45%%>Bani");
 	for( i = 0; i < 15; i++ ) {		
 		if( toplevels[i] == 0) {
 			len += formatex(buffer[len], 2047-len, "<tr align=center%s><td> %d <td> %s <td> %s",((i%2)==0) ? "" : " bgcolor=#A4BED6", (i+1), "-", "-");
@@ -405,11 +405,13 @@ public sayTopLevel(id) {
 		}
 	}
 	len += format(buffer[len], 2367-len, "</table>");
-	len += formatex(buffer[len], 2367-len, "<tr align=bottom font-size:11px><Center><br><br><br><br>LevelMod 2013 by LordOfNothing</body>");
+	len += formatex(buffer[len], 2367-len, "<tr align=bottom font-size:11px><Center><br><br><br><br>by BACON</body>");
 	static strin[20];
 	format(strin,33, "Top Level");
 	show_motd(id, buffer, strin);
 }
+
+
 public GiveExp(index)
 {
 	switch(hnsxp_playerlevel[index])
@@ -707,7 +709,7 @@ public plvls(id)
 {
         new players[32], playersnum, name[40], motd[1024], len;
         
-        len = formatex(motd, charsmax(motd), "<html> <center> <font color=red> <b>LEVEL NUME XP <br ></font> </b> <body bgcolor=black></center> ");
+        len = formatex(motd, charsmax(motd), "<html> <center> <font color=white> <b>LEVEL NUME XP <br ></font> </b> <body bgcolor=black></center> ");
         get_players(players, playersnum);
         
         for ( new i = 0 ; i < playersnum ; i++ ) {
