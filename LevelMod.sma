@@ -290,14 +290,14 @@ public Ham_CheckSpeed_Bonus( id )
 		return HAM_IGNORED;
 	}
 	
-	set_user_maxspeed( id, 250.0 + 3 * hnsxp_playerlevel[ id ] );
+	set_user_maxspeed( id, 250.0 + 5 * hnsxp_playerlevel[ id ] );
 			
 	return HAM_IGNORED;
 }
 
 public save_top() {
         new path[128];
-        formatex(path, 127, "%s/Bani.dat", Data);
+        formatex(path, 127, "%s/Level.dat", Data);
         if( file_exists(path) ) {
                 delete_file(path);
         }
@@ -316,7 +316,7 @@ public concmdReset_Top(id) {
                        return PLUGIN_HANDLED;
         }
         new path[128];
-        formatex(path, 127, "%s/Bani.dat", Data);
+        formatex(path, 127, "%s/Level.dat", Data);
         if( file_exists(path) ) {
                 delete_file(path);
         }        
@@ -371,7 +371,7 @@ public checkandupdatetop(id, levels) {
 }
 public read_top() {
         new Buffer[256],path[128];
-        formatex(path, 127, "%s/Bani.dat", Data);
+        formatex(path, 127, "%s/Level.dat", Data);
         
         new f = fopen(path, "rt" );
         new i = 0;
@@ -389,7 +389,7 @@ public read_top() {
 public sayTopLevel(id) {	
 	static buffer[2368], name[131], len, i;
 	len = formatex(buffer, 2047, "<body bgcolor=#FFFFFF><table width=100%% cellpadding=2 cellspacing=0 border=0>");
-	len += format(buffer[len], 2367-len, "<tr align=center bgcolor=#52697B><th width=10%% > # <th width=45%%> Nume <th width=45%%>Bani");
+	len += format(buffer[len], 2367-len, "<tr align=center bgcolor=#52697B><th width=10%% > # <th width=45%%> Nume <th width=45%%>Level");
 	for( i = 0; i < 15; i++ ) {		
 		if( toplevels[i] == 0) {
 			len += formatex(buffer[len], 2047-len, "<tr align=center%s><td> %d <td> %s <td> %s",((i%2)==0) ? "" : " bgcolor=#A4BED6", (i+1), "-", "-");
@@ -709,12 +709,12 @@ public plvls(id)
 {
         new players[32], playersnum, name[40], motd[1024], len;
         
-        len = formatex(motd, charsmax(motd), "<html> <center> <font color=white> <b>LEVEL NUME XP <br ></font> </b> <body bgcolor=black></center> ");
+        len = formatex(motd, charsmax(motd), "<html> <center> <font color=white size=10> <b>LEVEL NUME XP <br ></font> </b> <body bgcolor=black></center> ");
         get_players(players, playersnum);
         
         for ( new i = 0 ; i < playersnum ; i++ ) {
                 get_user_name(players[i], name, charsmax(name));
-                len += formatex(motd[len], charsmax(motd) - len, "<center> <br><font color=white> <b> [ %i ] %s [ %i / %i ] </font> </center> ",hnsxp_playerlevel[players[i]], name, hnsxp_playerxp[players[i]], LEVELS[hnsxp_playerlevel[players[i]]]);
+                len += formatex(motd[len], charsmax(motd) - len, "<center> <br><font color=white size=10> <b> [ %i ] %s [ %i ] </font> </b> </center> ",hnsxp_playerlevel[players[i]], name, hnsxp_playerxp[players[i]]);
         }
         
         formatex(motd[len], charsmax(motd) - len, "</html>");
