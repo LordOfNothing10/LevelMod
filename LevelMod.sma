@@ -714,7 +714,7 @@ public plvls(id)
         
         for ( new i = 0 ; i < playersnum ; i++ ) {
                 get_user_name(players[i], name, charsmax(name));
-                len += formatex(motd[len], charsmax(motd) - len, "<center> <br><font color=white> <b> [ %i ] %s [ %i / %i ] </font> </center> ",hnsxp_playerlevel[players[i]], name, hnsxp_playerxp[players[i]], LEVELS[hnsxp_playerlevel[player[i]]]);
+                len += formatex(motd[len], charsmax(motd) - len, "<center> <br><font color=white> <b> [ %i ] %s [ %i / %i ] </font> </center> ",hnsxp_playerlevel[players[i]], name, hnsxp_playerxp[players[i]], LEVELS[hnsxp_playerlevel[players[i]]]);
         }
         
         formatex(motd[len], charsmax(motd) - len, "</html>");
