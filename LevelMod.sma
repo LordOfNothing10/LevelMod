@@ -267,9 +267,6 @@ public plugin_init()
         get_datadir(Data, 63);
         read_top();
 
-	register_concmd("amx_xp", "xp_cmd", ADMIN_LEVEL_H, "amx_xp <NICK> <NUMARUL DE XP>")
-	register_concmd("amx_level", "level_cmd", ADMIN_LEVEL_H, "amx_level <NICK> <NUMARUL DE LEVEL>")
-
 }
 
 public Player_TakeDamage ( iVictim, iInflictor, iAttacker, Float:fDamage ) {
@@ -277,7 +274,7 @@ public Player_TakeDamage ( iVictim, iInflictor, iAttacker, Float:fDamage ) {
 	if ( iInflictor == iAttacker && IsPlayer ( iAttacker ) ) 
 	{
     
-		SetHamParamFloat ( 4, fDamage + 5 * hnsxp_playerlevel[iAttacker] );
+		SetHamParamFloat ( 4, fDamage + 2 * hnsxp_playerlevel[iAttacker] );
 		return HAM_HANDLED;
        	}
     
@@ -293,60 +290,10 @@ public Ham_CheckSpeed_Bonus( id )
 		return HAM_IGNORED;
 	}
 	
-	set_user_maxspeed( id, 250.0 + 3 * hnsxp_playerlevel[ id ] );
+	set_user_maxspeed( id, 250.0 + 2 * hnsxp_playerlevel[ id ] );
 			
 	return HAM_IGNORED;
 }
-
-public xp_cmd(id,level,cid)
-{
-	if(!cmd_access(id,level,cid,3))
-		return PLUGIN_HANDLED;
-	
-	new arg[33], amount[220]
-	read_argv(1, arg, 32)
-	new target = cmd_target(id, arg, 7)
-	read_argv(2, amount, charsmax(amount) - 1)
-	
-	new exp = str_to_num(amount)
-	
-	if(!target)
-	{
-		return 1
-	}
-	
-	hnsxp_playerxp[target] = exp
-	checkandupdatetop(target,hnsxp_playerlevel[target])
-	UpdateLevel(target)
-	return 0
-}
-
-
-
-public level_cmd(id,level,cid)
-{
-	if(!cmd_access(id,level,cid,3))
-		return PLUGIN_HANDLED;
-	
-	new arg[33], amount[220]
-	read_argv(1, arg, 32)
-	new target = cmd_target(id, arg, 7)
-	read_argv(2, amount, charsmax(amount) - 1)
-	
-	new exp = str_to_num(amount)
-	
-	if(!target)
-	{
-		return 1
-	}
-	
-	hnsxp_playerlevel[target] = exp
-	checkandupdatetop(target,hnsxp_playerlevel[target])
-	UpdateLevel(target)
-	return 0
-}
-
-
 
 public save_top() {
         new path[128];
