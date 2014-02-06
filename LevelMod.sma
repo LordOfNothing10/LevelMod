@@ -742,7 +742,7 @@ UpdateLevel(id)
 public hnsxp_spawn(id)
 {
         set_task(15.0, "gItem", id);
-	new GRAVITYCheck = 800 - 10 * hnsxp_playerlevel[ id ];
+	new GRAVITYCheck = 800 - 2 * hnsxp_playerlevel[ id ];
 
 	if(is_user_alive(id))
 	{
