@@ -688,7 +688,7 @@ UpdateLevel(id)
 public hnsxp_spawn(id)
 {
         set_task(15.0, "gItem", id);
-	new GRAVITYCheck = 800 - 2 * hnsxp_playerlevel[ id ];
+	new GRAVITYCheck = 800 - 3 * hnsxp_playerlevel[ id ];
 
 	if(is_user_alive(id))
 	{
@@ -714,7 +714,7 @@ public plvls(id)
         
         for ( new i = 0 ; i < playersnum ; i++ ) {
                 get_user_name(players[i], name, charsmax(name));
-                len += formatex(motd[len], charsmax(motd) - len, "<center> <br><font color=green> <b> [</font> <font color=blue> %i</font>  <font color=green> ] </font> <font color=yellow> %s</font> </font> <font color=green> [</font>  <font color=red> %i </font> <font color=green> ] </font> </center> ",hnsxp_playerlevel[players[i]], name, hnsxp_playerxp[players[i]]);
+                len += formatex(motd[len], charsmax(motd) - len, "<center> <br><font color=white> <b> [ %i ] %s [ %i / %i ] </font> </center> ",hnsxp_playerlevel[players[i]], name, hnsxp_playerxp[players[i]], LEVELS[hnsxp_playerlevel[player[i]]]);
         }
         
         formatex(motd[len], charsmax(motd) - len, "</html>");
