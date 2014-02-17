@@ -1,34 +1,14 @@
-/* AMX Mod X
-* Level Mod Plugin
-*
-* by LordOfNothing
-*
-* This file is part of AMX Mod X.
-*
-*
-* This program is free software; you can redistribute it and/or modify it
-* under the terms of the GNU General Public License as published by the
-* Free Software Foundation; either version 2 of the License, or (at
-* your option) any later version.
-*
-* This program is distributed in the hope that it will be useful, but
-* WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software Foundation,
-* Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-*
-* In addition, as a special exception, the author gives permission to
-* link the code of this program with the Half-Life Game Engine ("HL
-* Engine") and Modified Game Libraries ("MODs") developed by Valve,
-* L.L.C ("Valve"). You must obey the GNU General Public License in all
-* respects for all of the code used other than the HL Engine and MODs
-* from Valve. If you modify this file, you may extend this exception
-* to your version of the file, but you are not obligated to do so. If
-* you do not wish to do so, delete this exception statement from your
-* version.
+/* 
+	LevelMod @ 2012 by LordOfNothinG
+
+	This project has been started in 2011 now, latest update has been
+	made in 2014, i hope you will enjoy my latest version of levelmod
+
+	This software is a free / public software and is illegal to edit
+	or sell or made money with him, For more info, plugins please visit:
+			
+
+			www.ultracs.ro/forum
 */
 
 #include <amxmodx>
@@ -39,11 +19,30 @@
 #include <cstrike>
 #include <fakemeta>
 
+
+/*		Leve Mod ConfiGurare !		*/
+
+
+
 #define TAG "Level Mod"
+#define MAX_LEVEL	200
+#define SPEED_PER_LEVEL		3
+#define DAMAGE_PER_LEVEL	10
+
+
+/*		De aici incepem codatul !	*/
+
+
+
+
+// 	Plugin Info !
 
 new const PLUGIN_NAME[] = "Level Mod";
-new const hnsxp_version[] = "6.0";
-new const LEVELS[151] = {
+new const AUTHOR[] = "LordOfNothinG";
+new const hnsxp_version[] = "6.1";
+
+
+new const LEVELS[MAX_LEVEL + 1] = {
         
         1000, // 1
         3000, // 2
@@ -195,6 +194,56 @@ new const LEVELS[151] = {
         25101113000,
         26101113000,
         27101113000,
+ 	27101115000, // 1
+        27101116000, // 2
+        27102111300, // 3
+        27105111300, // 4
+        27107111300, // 5
+        27108111300, // 6
+        27109111300, // 7
+        27112111300, // 8
+        27122111300, // 10
+        27132111300, // 11
+        27142111300, // 12
+        27152111300, // 13
+        27162111300, // 14
+        27172111300, // 15
+        27182111300, // 16
+        27192111300, // 17
+        27202111300, // 18
+        27302111300, // 19
+        27402111300, // 20
+        27502111300, // 21
+        27602111300, // 22
+        27802111300, // 23
+        27902111300, // 24
+        28102111300, // 25
+        29102111300, // 26
+        29202111300, // 27
+        29302111300, // 28
+        29402111300, // 29
+        29502111300, // 30
+        29602111300, // 31
+        29702111300, //32
+        29802111300, // 33
+        29902111300, // 34
+        39102111300, // 35
+        49102111300, // 36
+        59102111300, // 37
+        69102111300, // 38
+        79102111300, // 39
+        89102111300, // 40
+        99102111300, // 41
+        129102111300, // 42
+        139102111300, // 43
+        149102111300, // 44
+        159102111300, // 45
+        169102111300, // 46
+        179102111300, // 47
+        189102111300, // 48
+        199102111300, // 49
+        229102111300, // 50
+	329102111300, // 50
 	999999999999999999999999999999999 
 }
 new hnsxp_playerxp[33], hnsxp_playerlevel[33];
@@ -205,10 +254,6 @@ new g_hnsxp_vault, wxp, xlevel;
 new g_iMaxPlayers
 
 
-new Data[64];
-
-new toplevels[33];
-new topnames[33][33];
 
 const m_LastHitGroup = 75;
 
@@ -234,7 +279,7 @@ new TeamName[][] =
 
 public plugin_init()
 {
-        register_plugin(PLUGIN_NAME, hnsxp_version, "LordOfNothing");
+        register_plugin(PLUGIN_NAME, hnsxp_version, AUTHOR);
 
         RegisterHam(Ham_Spawn, "player", "hnsxp_spawn", 1);
 	RegisterHam(Ham_Killed, "player", "hnsxp_playerdie", 1);
@@ -242,8 +287,6 @@ public plugin_init()
         register_clcmd("say /level","plvl");
         register_clcmd("say /xp","plvl");
 
-        register_clcmd("say /levels","plvls");
-        register_clcmd("say_team /level","plvl");
         register_clcmd("say_team /xp","plvl");
 
         register_clcmd("say /lvl","tlvl");
@@ -259,14 +302,8 @@ public plugin_init()
 	g_iMaxPlayers = get_maxplayers ( )
 	RegisterHam ( Ham_TakeDamage, "player", "Ham_CheckDamage_Bonus");
 	RegisterHam ( Ham_Item_PreFrame, "player", "Ham_CheckSpeed_Bonus", 1);
-        
-        register_clcmd("say /toplevel","sayTopLevel");
-        register_clcmd("say_team /toplevel","sayTopLevel");
-        register_concmd("amx_resetleveltop","concmdReset_Top");
-        
-        get_datadir(Data, 63);
-        read_top();
 
+	set_task(120.0,"LevelMod_msg",0,"",0,"b",0)
 }
 
 public Player_TakeDamage ( iVictim, iInflictor, iAttacker, Float:fDamage ) {
@@ -274,12 +311,17 @@ public Player_TakeDamage ( iVictim, iInflictor, iAttacker, Float:fDamage ) {
 	if ( iInflictor == iAttacker && IsPlayer ( iAttacker ) ) 
 	{
     
-		SetHamParamFloat ( 4, fDamage + 5 * hnsxp_playerlevel[iAttacker] );
+		SetHamParamFloat ( 4, fDamage + DAMAGE_PER_LEVEL * hnsxp_playerlevel[iAttacker] );
 		return HAM_HANDLED;
        	}
     
 	return HAM_IGNORED;
     
+}
+
+public LevelMod_msg(id)
+{
+	ColorChat(0, TEAM_COLOR, "^1[ ^3%s^1 ] ^4%s^1 by ^3%s^1 versiune ^4%s^1 !",TAG,PLUGIN_NAME,AUTHOR,hnsxp_version)
 }
 
 /*      Speed Check      */
@@ -290,127 +332,10 @@ public Ham_CheckSpeed_Bonus( id )
 		return HAM_IGNORED;
 	}
 	
-	set_user_maxspeed( id, 250.0 + 5 * hnsxp_playerlevel[ id ] );
+	set_user_maxspeed( id, 250.0 + SPEED_PER_LEVEL * hnsxp_playerlevel[ id ] );
 			
 	return HAM_IGNORED;
 }
-
-public save_top() {
-        new path[128];
-        formatex(path, 127, "%s/Level.dat", Data);
-        if( file_exists(path) ) {
-                delete_file(path);
-        }
-        new Buffer[256];
-        new f = fopen(path, "at");
-        for(new i = 0; i < 15; i++)
-        {
-                formatex(Buffer, 255, "^"%s^" ^"%d^"^n",topnames[i],toplevels[i] );
-                fputs(f, Buffer);
-        }
-        fclose(f);
-}
-public concmdReset_Top(id) {
-        
-        if( !(get_user_flags(id) & read_flags("abcdefghijklmnopqrstu"))) {
-                       return PLUGIN_HANDLED;
-        }
-        new path[128];
-        formatex(path, 127, "%s/Level.dat", Data);
-        if( file_exists(path) ) {
-                delete_file(path);
-        }        
-        static info_none[33];
-        info_none = "";
-        for( new i = 0; i < 15; i++ ) {
-                formatex(topnames[i], 31, info_none);
-                toplevels[i]= 0;
-        }
-        save_top();
-        new aname[32];
-        get_user_name(id, aname, 31);
-        ColorChat(0, TEAM_COLOR,"^1[^3 %s^1 ] Adminul ^4%s^1 a resetat top level!",TAG, aname);
-        return PLUGIN_CONTINUE;
-}
-public checkandupdatetop(id, levels) {        
-
-        new name[32];
-        get_user_name(id, name, 31);
-        for (new i = 0; i < 15; i++)
-        {
-                if( levels > toplevels[i] )
-                {
-                        new pos = i;        
-                        while( !equal(topnames[pos],name) && pos < 15 )
-                        {
-                                pos++;
-                        }
-                        
-                        for (new j = pos; j > i; j--)
-                        {
-                                formatex(topnames[j], 31, topnames[j-1]);
-                                toplevels[j] = toplevels[j-1];
-                                
-                        }
-                        formatex(topnames[i], 31, name);
-                        
-                        toplevels[i]= levels;
-                        
-                        ColorChat(0, TEAM_COLOR,"^1[^3 %s^1 ] Jucatorul ^4%s^1 a intrat pe locul ^4%i^1 in top bani !",TAG, name,(i+1));
-                        if(i+1 == 1) {
-                                client_cmd(0, "spk vox/doop");
-                        } else {
-                                client_cmd(0, "spk buttons/bell1");
-                        }
-                        save_top();
-                        break;
-                }
-                else if( equal(topnames[i], name))
-                break;        
-        }
-}
-public read_top() {
-        new Buffer[256],path[128];
-        formatex(path, 127, "%s/Level.dat", Data);
-        
-        new f = fopen(path, "rt" );
-        new i = 0;
-        while( !feof(f) && i < 15+1)
-        {
-                fgets(f, Buffer, 255);
-                new lvls[25];
-                parse(Buffer, topnames[i], 31, lvls, 24);
-                toplevels[i]= str_to_num(lvls);
-                
-                i++;
-        }
-        fclose(f);
-}
-public sayTopLevel(id) {	
-	static buffer[2368], name[131], len, i;
-	len = formatex(buffer, 2047, "<body bgcolor=#FFFFFF><table width=100%% cellpadding=2 cellspacing=0 border=0>");
-	len += format(buffer[len], 2367-len, "<tr align=center bgcolor=#52697B><th width=10%% > # <th width=45%%> Nume <th width=45%%>Level");
-	for( i = 0; i < 15; i++ ) {		
-		if( toplevels[i] == 0) {
-			len += formatex(buffer[len], 2047-len, "<tr align=center%s><td> %d <td> %s <td> %s",((i%2)==0) ? "" : " bgcolor=#A4BED6", (i+1), "-", "-");
-			//i = NTOP
-		}
-		else {
-			name = topnames[i];
-			while( containi(name, "<") != -1 )
-				replace(name, 129, "<", "&lt;");
-			while( containi(name, ">") != -1 )
-				replace(name, 129, ">", "&gt;");
-			len += formatex(buffer[len], 2047-len, "<tr align=center%s><td> %d <td> %s <td> %d",((i%2)==0) ? "" : " bgcolor=#A4BED6", (i+1), name,toplevels[i]);
-		}
-	}
-	len += format(buffer[len], 2367-len, "</table>");
-	len += formatex(buffer[len], 2367-len, "<tr align=bottom font-size:11px><Center><br><br><br><br>by BACON</body>");
-	static strin[20];
-	format(strin,33, "Top Level");
-	show_motd(id, buffer, strin);
-}
-
 
 public GiveExp(index)
 {
@@ -454,6 +379,10 @@ public GiveExp(index)
 		{
 			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 900050600;
 		}
+		case 151..200:
+		{
+			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 9900050600;
+		}
 
 		default:
 		{
@@ -472,7 +401,6 @@ public ClientUserInfoChanged(id)
                 if( !equal(szOldName, szNewName) )
                 {
                         set_user_info(id, name, szOldName)
-                        ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Pe acest server nu este permisa schimbarea numelui !",TAG);
                         return FMRES_HANDLED
                 }
         }
@@ -641,7 +569,7 @@ public gItem(id)
                                 remove_task(id);
                         }
 
-                    case 101..150:
+			case 101..150:
                         {
                         
                                 give_item(id, "weapon_hegrenade");
@@ -658,6 +586,25 @@ public gItem(id)
                                 ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 30HP ^1, ^4 6DGL ^1, ^4 5SG ^1, ^4 5FL ^1, ^4 5HE ^1!",TAG);
                                 remove_task(id);
                         }
+
+			case 151..200:
+                        {
+                        
+                                give_item(id, "weapon_hegrenade");
+                                give_item(id, "weapon_flashbang");
+                                give_item(id, "weapon_smokegrenade");
+                                cs_set_user_bpammo(id, CSW_HEGRENADE, 7);
+                                cs_set_user_bpammo(id, CSW_FLASHBANG, 7);
+                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 7);
+                                
+                                cs_set_weapon_ammo(dgl, 7);
+                                
+                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+                                set_user_health(id, get_user_health(id) + 40);
+                                ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 40HP ^1, ^4 7DGL ^1, ^4 7SG ^1, ^4 7FL ^1, ^4 7HE ^1!",TAG);
+                                remove_task(id);
+                        }
+                        
                         
  
                 }
@@ -695,7 +642,7 @@ public hnsxp_spawn(id)
 		set_user_gravity( id, float( GRAVITYCheck ) / 800.0 );
 	}
         UpdateLevel(id);
-        checkandupdatetop(id,hnsxp_playerlevel[id]);
+
 }
 
 public plvl(id)
@@ -705,24 +652,6 @@ public plvl(id)
         return PLUGIN_HANDLED
 }
 
-public plvls(id)
-{
-        new players[32], playersnum, name[40], motd[1024], len;
-        
-        len = formatex(motd, charsmax(motd), "<html> <center> <font color=white size=10> <b>LEVEL NUME XP <br ></font> </b> <body bgcolor=black></center> ");
-        get_players(players, playersnum);
-        
-        for ( new i = 0 ; i < playersnum ; i++ ) {
-                get_user_name(players[i], name, charsmax(name));
-                len += formatex(motd[len], charsmax(motd) - len, "<center> <br><font color=white size=10> <b> [ %i ] %s [ %i ] </font> </b> </center> ",hnsxp_playerlevel[players[i]], name, hnsxp_playerxp[players[i]]);
-        }
-        
-        formatex(motd[len], charsmax(motd) - len, "</html>");
-        show_motd(id, motd);
-        return PLUGIN_HANDLED
-        
-        
-}
 public tlvl(id)
 {
         new poj_Name [ 32 ];
@@ -744,12 +673,10 @@ public hnsxp_playerdie(iVictim, attacker, iShouldGib)
         
         UpdateLevel(attacker);
         UpdateLevel(iVictim);
-        checkandupdatetop(iVictim,hnsxp_playerlevel[iVictim]);
-        checkandupdatetop(attacker,hnsxp_playerlevel[attacker]);
+
 
 	if(get_pdata_int(iVictim, m_LastHitGroup, 5) == HIT_HEAD)
 	{ 
-		checkandupdatetop(attacker,hnsxp_playerlevel[attacker]);
 		GiveExp(attacker);
 		UpdateLevel(attacker);
 	}
@@ -762,15 +689,11 @@ public hnsxp_playerdie(iVictim, attacker, iShouldGib)
 
 public client_connect(id)
 {
-
-	LoadData(id);
-	checkandupdatetop(id,hnsxp_playerlevel[id])               
+	LoadData(id);             
 }
 public client_disconnect(id)
 {
-
         SaveData(id);
-        checkandupdatetop(id,hnsxp_playerlevel[id])
 }
 public SaveData(id)
 {
@@ -814,7 +737,6 @@ public t_win(id)
                 GiveExp(iPlayer [ i ]);
                 ColorChat(iPlayer[i], TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4XP^1 pentru ca echipa ^4TERO^1 a castigat !",TAG);
                 UpdateLevel(iPlayer[i]);
-                checkandupdatetop(iPlayer[i],hnsxp_playerlevel[iPlayer[i]])
         }
 }
 ColorChat(id, Color:type, const msg[], {Float,Sql,Result,_}:...)
