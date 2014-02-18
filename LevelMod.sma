@@ -8,7 +8,7 @@
 	or sell or made money with him, For more info, plugins please visit:
 			
 
-			www.ultracs.ro/forum
+			www.extreamcscom/forum
 */
 
 #include <amxmodx>
@@ -17,20 +17,42 @@
 #include <hamsandwich>
 #include <nvault>
 #include <cstrike>
-#include <fakemeta>
-
-
-/*		Leve Mod ConfiGurare !		*/
 
 
 
+/*	()		Leve Mod ConfiGurare !		()		*/
+
+
+
+
+/*	TaGul mesajelor !	*/
 #define TAG "Level Mod"
+
+/*	cat sa fie level max (max value is 200 )	*/
 #define MAX_LEVEL	200
+
+/*	Viteza pe nivel !	*/
 #define SPEED_PER_LEVEL		3
+
+/*	DamaGe pe nivel !	*/
 #define DAMAGE_PER_LEVEL	10
 
+/*	Hp pe nivel !	*/
+#define HEALTH_PER_LEVEL	10
 
-/*		De aici incepem codatul !	*/
+/*	Bani pe nivel !	*/
+#define MONEY_PER_LEVEL		100
+
+/*	Gravity pe nivel !	*/
+#define GRAVITY_PER_LEVEL	3
+
+/*	Cine are litera "t" primeste xp dublu !		*/
+#define VIP_ACCES	ADMIN_LEVEL_H
+
+
+
+
+/*	()		----------------------		()	*/
 
 
 
@@ -39,10 +61,10 @@
 
 new const PLUGIN_NAME[] = "Level Mod";
 new const AUTHOR[] = "LordOfNothinG";
-new const hnsxp_version[] = "6.1";
+new const hnsxp_version[] = "6.2";
 
 
-new const LEVELS[MAX_LEVEL + 1] = {
+new const LEVELS[MAX_LEVEL] = {
         
         1000, // 1
         3000, // 2
@@ -243,19 +265,15 @@ new const LEVELS[MAX_LEVEL + 1] = {
         189102111300, // 48
         199102111300, // 49
         229102111300, // 50
-	329102111300, // 50
-	999999999999999999999999999999999 
+	329102111300
 }
 new hnsxp_playerxp[33], hnsxp_playerlevel[33];
 new g_hnsxp_vault, wxp, xlevel;
 
-#define is_user_vip(%1)		( get_user_flags(%1) & ADMIN_IMMUNITY )
+#define is_user_vip(%1)		( get_user_flags(%1) & VIP_ACCES )
 #define IsPlayer(%1) ( 1 <= %1 <=  g_iMaxPlayers )
 new g_iMaxPlayers
 
-
-
-const m_LastHitGroup = 75;
 
 enum Color
 {
@@ -282,7 +300,7 @@ public plugin_init()
         register_plugin(PLUGIN_NAME, hnsxp_version, AUTHOR);
 
         RegisterHam(Ham_Spawn, "player", "hnsxp_spawn", 1);
-	RegisterHam(Ham_Killed, "player", "hnsxp_playerdie", 1);
+	register_event("DeathMsg", "hnsxp_playerdie", "a");
 
         register_clcmd("say /level","plvl");
         register_clcmd("say /xp","plvl");
@@ -297,7 +315,6 @@ public plugin_init()
 
         xlevel = CreateMultiForward("PlayerMakeNextLevel", ET_IGNORE, FP_CELL);
         wxp = CreateMultiForward("PlayerIsHookXp", ET_IGNORE, FP_CELL);
-        register_forward(FM_ClientUserInfoChanged, "ClientUserInfoChanged")
 	
 	g_iMaxPlayers = get_maxplayers ( )
 	RegisterHam ( Ham_TakeDamage, "player", "Ham_CheckDamage_Bonus");
@@ -321,7 +338,7 @@ public Player_TakeDamage ( iVictim, iInflictor, iAttacker, Float:fDamage ) {
 
 public LevelMod_msg(id)
 {
-	ColorChat(0, TEAM_COLOR, "^1[ ^3%s^1 ] ^4%s^1 by ^3%s^1 versiune ^4%s^1 !",TAG,PLUGIN_NAME,AUTHOR,hnsxp_version)
+	ColorChat(0, TEAM_COLOR, "^1[ ^3%s^1 ] ^4%s^1 ^3(^1R^3)^1 by ^3%s^1 versiune ^4%s^1 !",TAG,PLUGIN_NAME,AUTHOR,hnsxp_version)
 }
 
 /*      Speed Check      */
@@ -390,22 +407,6 @@ public GiveExp(index)
 		}
 	}
 }
-public ClientUserInfoChanged(id)
-{
-        static const name[] = "name"
-        static szOldName[32], szNewName[32]
-        pev(id, pev_netname, szOldName, charsmax(szOldName))
-        if( szOldName[0] )
-        {
-                get_user_info(id, name, szNewName, charsmax(szNewName))
-                if( !equal(szOldName, szNewName) )
-                {
-                        set_user_info(id, name, szOldName)
-                        return FMRES_HANDLED
-                }
-        }
-        return FMRES_IGNORED
-}
 
 public plugin_natives()
 {
@@ -469,6 +470,9 @@ public gItem(id)
 
         new dgl = give_item(id, "weapon_deagle")
 
+	new hp = HEALTH_PER_LEVEL * hnsxp_playerlevel[id]
+	new money = MONEY_PER_LEVEL * hnsxp_playerlevel[id]
+
         if(is_user_alive(id))
         {
                 switch(hnsxp_playerlevel[id])
@@ -489,9 +493,10 @@ public gItem(id)
                                 cs_set_user_bpammo(id, CSW_HEGRENADE, 1);
                                 cs_set_user_bpammo(id, CSW_FLASHBANG, 1);
                                 cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 1);
-                                set_user_health(id, get_user_health(id) + 3);
+                                set_user_health( id, get_user_health( id ) + HEALTH_PER_LEVEL * hnsxp_playerlevel[id] );
+				cs_set_user_money( id, cs_get_user_money( id ) + MONEY_PER_LEVEL * hnsxp_playerlevel[id] )
                                 cs_set_weapon_ammo(dgl, 1);
-                                ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 3HP ^1, ^4 1DGL ^1, ^4 1SG ^1, ^4 1FL ^1, ^4 1HE ^1!",TAG);
+                                ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 %sHP ^1, ^4 %sMONEY ^1, ^4 1DGL ^1, ^4 1SG ^1, ^4 1FL ^1, ^4 1HE ^1!",hp,money,TAG);
                                 remove_task(id);
                 
                         }
@@ -509,9 +514,11 @@ public gItem(id)
                                 
                                 cs_set_weapon_ammo(dgl, 2);
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
+
+                                set_user_health( id, get_user_health( id ) + HEALTH_PER_LEVEL * hnsxp_playerlevel[id] );
+				cs_set_user_money( id, cs_get_user_money( id ) + MONEY_PER_LEVEL * hnsxp_playerlevel[id] )
                                 
-                                set_user_health(id, get_user_health(id) + 5);
-                                ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 5HP ^1, ^4 2DGL ^1, ^4 2 SG ^1, ^4 2FL ^1, ^4 2HE ^1!",TAG);
+                                 ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 %sHP ^1, ^4 %sMONEY ^1, ^4 2DGL ^1, ^4 2SG ^1, ^4 2FL ^1, ^4 2HE ^1!",hp,money,TAG);
                                 remove_task(id);
                         }
 
@@ -528,8 +535,10 @@ public gItem(id)
                                 cs_set_weapon_ammo(dgl, 3);
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                         
-                                set_user_health(id, get_user_health(id) + 10);
-                                ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 10HP ^1, ^4 3DGL ^1, ^4 3SG ^1, ^4 3FL ^1, ^4 3HE ^1!",TAG);
+                                set_user_health( id, get_user_health( id ) + HEALTH_PER_LEVEL * hnsxp_playerlevel[id] );
+				cs_set_user_money( id, cs_get_user_money( id ) + MONEY_PER_LEVEL * hnsxp_playerlevel[id] )
+
+                                 ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 %sHP ^1, ^4 %sMONEY ^1, ^4 3DGL ^1, ^4 3SG ^1, ^4 3FL ^1, ^4 3HE ^1!",hp,money,TAG);
                                 remove_task(id);
                         }
                 
@@ -546,8 +555,9 @@ public gItem(id)
                                 cs_set_weapon_ammo(dgl, 4);
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                set_user_health(id, get_user_health(id) + 20);
-                                ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 20HP ^1, ^4 4DGL ^1, ^4 4SG ^1, ^4 4FL ^1, ^4 3HE ^1!",TAG);
+                                set_user_health( id, get_user_health( id ) + HEALTH_PER_LEVEL * hnsxp_playerlevel[id] );
+				cs_set_user_money( id, cs_get_user_money( id ) + MONEY_PER_LEVEL * hnsxp_playerlevel[id] )
+                                 ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 %sHP ^1, ^4 %sMONEY ^1, ^4 4DGL ^1, ^4 4SG ^1, ^4 4FL ^1, ^4 3HE ^1!",hp,money,TAG);
                                 remove_task(id);
                         }
                         
@@ -564,8 +574,9 @@ public gItem(id)
                                 cs_set_weapon_ammo(dgl, 5);
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                set_user_health(id, get_user_health(id) + 20);
-                                ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 20HP ^1, ^4 4DGL ^1, ^4 3SG ^1, ^4 3FL ^1, ^4 3HE ^1!",TAG);
+                                set_user_health( id, get_user_health( id ) + HEALTH_PER_LEVEL * hnsxp_playerlevel[id] );
+				cs_set_user_money( id, cs_get_user_money( id ) + MONEY_PER_LEVEL * hnsxp_playerlevel[id] )
+                                 ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 %sHP ^1, ^4 %sMONEY ^1, ^4 5DGL ^1, ^4 5SG ^1, ^4 2FL ^1, ^4 4HE ^1!",hp,money,TAG);
                                 remove_task(id);
                         }
 
@@ -582,8 +593,9 @@ public gItem(id)
                                 cs_set_weapon_ammo(dgl, 6);
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                set_user_health(id, get_user_health(id) + 30);
-                                ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 30HP ^1, ^4 6DGL ^1, ^4 5SG ^1, ^4 5FL ^1, ^4 5HE ^1!",TAG);
+                                set_user_health( id, get_user_health( id ) + HEALTH_PER_LEVEL * hnsxp_playerlevel[id] );
+				cs_set_user_money( id, cs_get_user_money( id ) + MONEY_PER_LEVEL * hnsxp_playerlevel[id] )
+                                 ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 %sHP ^1, ^4 %sMONEY ^1, ^4 6DGL ^1, ^4 5SG ^1, ^4 5FL ^1, ^4 5HE ^1!",hp,money,TAG);
                                 remove_task(id);
                         }
 
@@ -600,8 +612,9 @@ public gItem(id)
                                 cs_set_weapon_ammo(dgl, 7);
                                 
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                set_user_health(id, get_user_health(id) + 40);
-                                ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 40HP ^1, ^4 7DGL ^1, ^4 7SG ^1, ^4 7FL ^1, ^4 7HE ^1!",TAG);
+                                set_user_health( id, get_user_health( id ) + HEALTH_PER_LEVEL * hnsxp_playerlevel[id] );
+				cs_set_user_money( id, cs_get_user_money( id ) + MONEY_PER_LEVEL * hnsxp_playerlevel[id] )
+                                 ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 %sHP ^1, ^4 %sMONEY ^1, ^4 7DGL ^1, ^4 7SG ^1, ^4 7FL ^1, ^4 7HE ^1!",hp,money,TAG);
                                 remove_task(id);
                         }
                         
@@ -635,7 +648,7 @@ UpdateLevel(id)
 public hnsxp_spawn(id)
 {
         set_task(15.0, "gItem", id);
-	new GRAVITYCheck = 800 - 3 * hnsxp_playerlevel[ id ];
+	new GRAVITYCheck = 800 - GRAVITY_PER_LEVEL * hnsxp_playerlevel[ id ];
 
 	if(is_user_alive(id))
 	{
@@ -660,8 +673,12 @@ public tlvl(id)
         return PLUGIN_HANDLED
 }
 
-public hnsxp_playerdie(iVictim, attacker, iShouldGib) 
+public hnsxp_playerdie() 
 {
+
+	new iVictim = read_data( 2 )
+	new attacker = read_data( 1 )
+	new headshot = read_data( 3 )
         
         if( !attacker || attacker == iVictim )
                 return;
@@ -675,7 +692,7 @@ public hnsxp_playerdie(iVictim, attacker, iShouldGib)
         UpdateLevel(iVictim);
 
 
-	if(get_pdata_int(iVictim, m_LastHitGroup, 5) == HIT_HEAD)
+	if(headshot)
 	{ 
 		GiveExp(attacker);
 		UpdateLevel(attacker);
@@ -698,7 +715,7 @@ public client_disconnect(id)
 public SaveData(id)
 {
         new PlayerName[35];
-        get_user_name(id,PlayerName,34);
+        get_user_authid(id,PlayerName,34);
         
         new vaultkey[64],vaultdata[256];
         format(vaultkey,63,"%s",PlayerName);
@@ -709,7 +726,7 @@ public SaveData(id)
 public LoadData(id)
 {
         new PlayerName[35];
-        get_user_name(id,PlayerName,34);
+        get_user_authid(id,PlayerName,34);
         
         new vaultkey[64],vaultdata[256];
         format(vaultkey,63,"%s",PlayerName);
