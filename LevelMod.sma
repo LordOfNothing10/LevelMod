@@ -22,7 +22,7 @@
 #define TAG "hNsX.eCiLa.Ro"
  
 new const PLUGIN_NAME[] = "Level Mod";
-new const hnsxp_version[] = "6.0.0.0";
+new const hnsxp_version[] = "6.0.0.1";
 new const LEVELS[151] = {
        
         1000, // 1
@@ -237,9 +237,7 @@ public plugin_init()
         wxp = CreateMultiForward("PlayerIsHookXp", ET_IGNORE, FP_CELL);
         register_forward(FM_ClientUserInfoChanged, "ClientUserInfoChanged")
  
-        RegisterHam ( Ham_TakeDamage, "player", "Ham_CheckDamage_Bonus", .Post = false );
-        RegisterHam ( Ham_Item_PreFrame, "player", "Ham_CheckSpeed_Bonus", 1);
-       
+      
         register_clcmd("say /toplevel","sayTopLevel");
         register_clcmd("say_team /toplevel","sayTopLevel");
         register_concmd("amx_resetleveltop","concmdReset_Top");
@@ -255,35 +253,7 @@ public plugin_init()
         register_concmd("amx_givelevel", "givelevel_cmd", ADMIN_LEVEL_H, "amx_givelevel <NICK> <NUMARUL DE LEVEL>")
 }
  
-public Ham_CheckDamage_Bonus( pevVictim, pevInflictor, pevAttacker, Float:flDamage, iDmgBits )
-{
-    if( !( 1 <= pevAttacker <= g_iMaxPlayers) )
-    {
-        return HAM_HANDLED;
-    }
-     
-    if( !is_user_alive( pevAttacker )  )
-    {
-        return HAM_HANDLED;
-    }
- 
-    SetHamParamFloat( 4 , flDamage + 5 * hnsxp_playerlevel[ pevAttacker ] )
- 
-    return HAM_IGNORED;
-}
- 
-/*      Speed Check      */
-public Ham_CheckSpeed_Bonus( id )
-{
-        if( !is_user_alive( id ) || cs_get_user_team( id ) != CS_TEAM_T )
-        {
-                return HAM_IGNORED;
-        }
-       
-        set_user_maxspeed( id, 250.0 + 1 * hnsxp_playerlevel[ id ] );
-                       
-        return HAM_IGNORED;
-}
+
  
 public xp_cmd(id,level,cid)
 {
@@ -769,7 +739,7 @@ public gItem(id)
                                 remove_task(id);
                         }
  
-                    case 101..150:
+			case 101..150:
                         {
                        
                                 give_item(id, "weapon_hegrenade");
@@ -815,11 +785,9 @@ UpdateLevel(id)
  
 public hnsxp_spawn(id)
 {
-	new GRAVITYCheck = 800 - 3 * hnsxp_playerlevel[ id ];
         set_task(15.0, "gItem", id);
         UpdateLevel(id);
         checkandupdatetop(id,hnsxp_playerlevel[id]);
-	set_user_gravity( id, float( GRAVITYCheck ) / 800.0 );
 }
  
 public plvl(id)
