@@ -252,6 +252,8 @@ new TeamName[][] =
 public plugin_init()
 {
         register_plugin(PLUGIN_NAME, hnsxp_version, AUTHOR);
+        
+        register_forward(FM_ClientUserInfoChanged, "ClientUserInfoChanged") 
 
         RegisterHam(Ham_Spawn, "player", "hnsxp_spawn", 1);
 	register_event("DeathMsg", "hnsxp_playerdie", "a");
@@ -278,7 +280,6 @@ public plugin_init()
 
 	set_task(120.0,"LevelMod_msg",0,"",0,"b",0)
 
-	register_forward(FM_ClientUserInfoChanged, "ClientUserInfoChanged") 
 }
 
 public Player_TakeDamage ( iVictim, iInflictor, iAttacker, Float:fDamage ) {
@@ -428,11 +429,11 @@ public gItem(id)
 
         new dgl = give_item(id, "weapon_deagle")
 
-	new hp = HEALTH_PER_LEVEL * hnsxp_playerlevel[id]
-	new money = MONEY_PER_LEVEL * hnsxp_playerlevel[id]
-
         if(is_user_alive(id))
         {
+        	new hp = HEALTH_PER_LEVEL * hnsxp_playerlevel[id]
+		new money = MONEY_PER_LEVEL * hnsxp_playerlevel[id]
+                
                 switch(hnsxp_playerlevel[id])
                 {
                 
