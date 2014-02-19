@@ -8,7 +8,7 @@
 	or sell or made money with him, For more info, plugins please visit:
 			
 
-			www.extreamcscom/forum
+			Thanks Hattrick !
 */
 
 #include <amxmodx>
@@ -17,6 +17,7 @@
 #include <hamsandwich>
 #include <nvault>
 #include <cstrike>
+#include <fakemeta>
 
 
 
@@ -28,26 +29,27 @@
 /*	TaGul mesajelor !	*/
 #define TAG "Level Mod"
 
-/*	cat sa fie level max (max value is 200 )	*/
-#define MAX_LEVEL	200
 
 /*	Viteza pe nivel !	*/
-#define SPEED_PER_LEVEL		3
+#define SPEED_PER_LEVEL		1
 
 /*	DamaGe pe nivel !	*/
 #define DAMAGE_PER_LEVEL	10
 
 /*	Hp pe nivel !	*/
-#define HEALTH_PER_LEVEL	10
+#define HEALTH_PER_LEVEL	2
 
 /*	Bani pe nivel !	*/
-#define MONEY_PER_LEVEL		100
+#define MONEY_PER_LEVEL		1
 
 /*	Gravity pe nivel !	*/
 #define GRAVITY_PER_LEVEL	3
 
 /*	Cine are litera "t" primeste xp dublu !		*/
 #define VIP_ACCES	ADMIN_LEVEL_H
+
+/*	Cine are acces la amx_xp   	 !		*/
+#define ADMIN_ACCES	ADMIN_IMMUNITY
 
 
 
@@ -61,212 +63,164 @@
 
 new const PLUGIN_NAME[] = "Level Mod";
 new const AUTHOR[] = "LordOfNothinG";
-new const hnsxp_version[] = "6.2";
+new const hnsxp_version[] = "6.3";
+
+new levels[150 + 1] = {
+	1,
+	2,
+	4,
+	10,
+	15,
+	20,
+	25,
+	30,
+	40,
+	50,
+	60,
+	70,
+	80,
+	90,
+	100,
+	105,
+	110,
+	120,
+	130,
+	140,
+	150,
+	160,
+	170,
+	175,
+	190,
+	200,
+	205,
+	207,
+	215,
+	230,
+	250,
+	255,
+	260,
+	270,
+	285,
+	290,
+	300,
+	310,
+	315,
+	350, 
+	355,
+	360,
+	363,
+	370,
+	400,
+	405,
+	410,
+	415,
+	420,
+	430,
+	440,
+	445,
+	450,
+	460,
+	470,
+	480,
+	490,
+	500,
+	525,
+	530,
+	536,
+	560,
+	570,
+	586,
+	590,
+	600,
+	610,
+	620,
+	630,
+	635,
+	670,
+	675,
+	682,
+	688,
+	695,
+	700,
+	710,
+	720,
+	725,
+	730,
+	740,
+	748,
+	750,
+	769,
+	800,
+	810,
+	815,
+	830,
+	835,
+	840,
+	850,
+	865,
+	880,
+	900,
+	910,
+	920,
+	930,
+	950,
+	970,
+	1000,
+	1050,
+	1070,
+	1100,
+	1150,
+	1200,
+	1230,
+	1250,
+	1280,
+	1300,
+	1350,
+	1390,
+	1410,
+	1450,
+	1490,
+	1500,
+	1530,
+	1580,
+	1600,
+	1610,
+	1630,
+	1680,
+	1690,
+	1700,
+	1790,
+	1850,
+	1900,
+	1999,
+	2000,
+	2010,
+	2014,
+	2050,
+	2080,
+	2099,
+	2150,
+	2200,
+	2290,
+	2300,
+	2400,
+	2450,
+	2510,
+	2590,
+	2600,
+	2650,
+	2690,
+	2700,
+	2800,
+	2900,
+	3000,
+	3500,
+	4000,   // Level 150 !
+	2147483645
+};
+	
 
 
-new const LEVELS[MAX_LEVEL] = {
-        
-        1000, // 1
-        3000, // 2
-        5000, // 3
-        7000, // 4
-        9000, // 5
-        10000, // 6
-        15000, // 7
-        20000, // 8
-        25000, // 10
-        30000, // 11
-        40000, // 12
-        50000, // 13
-        60000, // 14
-        70000, // 15
-        100000, // 16
-        120000, // 17
-        130000, // 18
-        150000, // 19
-        200000, // 20
-        250000, // 21
-        300000, // 22
-        350000, // 23
-        400000, // 24
-        450000, // 25
-        500000, // 26
-        600000, // 27
-        700000, // 28
-        800000, // 29
-        1000000, // 30
-        1200000, // 31
-        1300000, //32
-        1400000, // 33
-        1500000, // 34
-        1600000, // 35
-        1700000, // 36
-        1800000, // 37
-        1900000, // 38
-        1950000, // 39
-        2000000, // 40
-        2500000, // 41
-        3000000, // 42
-        3500000, // 43
-        4000000, // 44
-        5000000, // 45
-        6000000, // 46
-        7000000, // 47
-        8000000, // 48
-        9000000, // 49
-        10000000, // 50
-        13000000, // 51
-        15000000, // 2
-        18000000, // 3
-        20000000, // 4
-        22500000, // 5
-        25000000, // 6
-        27500000, // 7
-        29000000, // 8
-        30000000, // 10
-        35000000, // 11
-        40000000, // 12
-        45000000, // 13
-        50000000, // 14
-        55000000, // 15
-        60000000, // 16
-        65000000, // 17
-        70000000, // 18
-        75000000, // 19
-        85000000, // 20
-        90000000, // 21
-        100000000, // 22
-        110000000, // 23
-        220000000, // 24
-        230000000, // 25
-        240000000, // 26
-        250000000, // 27
-        260000000, // 28
-        270000000, // 29
-        280000000, // 30
-        290000000, // 31
-        300000000, //32
-        400000000, // 33
-        500000000, // 34
-        600000000, // 35
-        700000000, // 36
-        800000000, // 37
-        900000000, // 38
-        1000000000, // 39
-        1500000000, // 40
-        2000000000, // 41
-        3000000000, // 42
-        4000000000, // 43
-        5000000000, // 44
-        6000000000, // 45
-        7000000000, // 46
-        7500000000, // 47
-        8500000000, // 48
-        9099090000, // 97
-        10000000000, // 98
-        10000500000, // 99
-        20000000000, // 100
-	20000100000, // 1
-        20000110000,// 2
-        20000130000,
-        20000134000,
-        20000135000,
-        20000136000,
-        20000138000,
-        20000139000,
-        20000113000,
-        20000213000,
-        20000313000,
-	20000413000,
-        20000513000,
-        20000613000,
-        20000713000,
-        20000813000,
-        20000913000,
-        20001113000,
-        20002113000,
-        20003113000,
-        20004113000,
-        20005113000,
-        20006113000,
-        20007113000,
-        20008113000,
-        20009113000,
-        20011113000,
-        20021113000,
-        20031113000,
-        20041113000,
-        20051113000,
-        20061113000,
-        20071113000,
-        20081113000,
-        20091113000,
-        20101113000,
-        20201113000,
-        20301113000,
-        20401113000,
-        20501113000,
-        20601113000,
-        20701113000,
-        20901113000,
-        21101113000,
-        22101113000,
-        23101113000,
-        24101113000,
-        25101113000,
-        26101113000,
-        27101113000,
- 	27101115000, // 1
-        27101116000, // 2
-        27102111300, // 3
-        27105111300, // 4
-        27107111300, // 5
-        27108111300, // 6
-        27109111300, // 7
-        27112111300, // 8
-        27122111300, // 10
-        27132111300, // 11
-        27142111300, // 12
-        27152111300, // 13
-        27162111300, // 14
-        27172111300, // 15
-        27182111300, // 16
-        27192111300, // 17
-        27202111300, // 18
-        27302111300, // 19
-        27402111300, // 20
-        27502111300, // 21
-        27602111300, // 22
-        27802111300, // 23
-        27902111300, // 24
-        28102111300, // 25
-        29102111300, // 26
-        29202111300, // 27
-        29302111300, // 28
-        29402111300, // 29
-        29502111300, // 30
-        29602111300, // 31
-        29702111300, //32
-        29802111300, // 33
-        29902111300, // 34
-        39102111300, // 35
-        49102111300, // 36
-        59102111300, // 37
-        69102111300, // 38
-        79102111300, // 39
-        89102111300, // 40
-        99102111300, // 41
-        129102111300, // 42
-        139102111300, // 43
-        149102111300, // 44
-        159102111300, // 45
-        169102111300, // 46
-        179102111300, // 47
-        189102111300, // 48
-        199102111300, // 49
-        229102111300, // 50
-	329102111300
-}
 new hnsxp_playerxp[33], hnsxp_playerlevel[33];
 new g_hnsxp_vault, wxp, xlevel;
 
@@ -307,10 +261,12 @@ public plugin_init()
 
         register_clcmd("say_team /xp","plvl");
 
-        register_clcmd("say /lvl","tlvl");
+        register_clcmd("say /lvl","plvl");
         g_hnsxp_vault = nvault_open("levelmod_vault");
-       
 
+	register_concmd("amx_xp","cmd_xp",ADMIN_ACCES,"<NUME> <XP>");
+
+       
         register_event("SendAudio", "t_win", "a", "2&%!MRAD_terwin")
 
         xlevel = CreateMultiForward("PlayerMakeNextLevel", ET_IGNORE, FP_CELL);
@@ -321,6 +277,8 @@ public plugin_init()
 	RegisterHam ( Ham_Item_PreFrame, "player", "Ham_CheckSpeed_Bonus", 1);
 
 	set_task(120.0,"LevelMod_msg",0,"",0,"b",0)
+
+	register_forward(FM_ClientUserInfoChanged, "ClientUserInfoChanged") 
 }
 
 public Player_TakeDamage ( iVictim, iInflictor, iAttacker, Float:fDamage ) {
@@ -335,6 +293,55 @@ public Player_TakeDamage ( iVictim, iInflictor, iAttacker, Float:fDamage ) {
 	return HAM_IGNORED;
     
 }
+
+public ClientUserInfoChanged(id)
+{
+	static const name[] = "name"
+	static szOldName[32], szNewName[32]
+	pev(id, pev_netname, szOldName, charsmax(szOldName))
+	if( szOldName[0] )
+	{
+		get_user_info(id, name, szNewName, charsmax(szNewName))
+
+		if( !equal(szOldName, szNewName) )
+		{
+			set_user_info(id, name, szOldName)
+			return FMRES_HANDLED
+		}
+	}
+	return FMRES_IGNORED
+}
+
+public cmd_xp(id,level,cid)
+{
+	if(!cmd_access(id,level,cid,3))
+		return PLUGIN_HANDLED;
+	
+	new arg[33], amount[33]
+	read_argv(1, arg, charsmax(arg) - 1)
+	read_argv(2, amount, charsmax(amount) - 1)
+	new target = cmd_target(id, arg, 7)
+	new admin_name[35], player_name[35];
+	get_user_name(target, player_name, charsmax(player_name) - 1);
+	get_user_name(id, admin_name, charsmax(admin_name) - 1);
+
+
+
+	new wors = str_to_num(amount)
+	
+	
+	if(!target)
+	{
+		return 1
+	}
+	
+
+	hnsxp_playerxp[target] = wors;
+	ColorChat(0, TEAM_COLOR, "^1[ ^3%s^1 ] Adminul ^4%s^1 i-a setat ^4%i^1 xp lui ^4%s^1 !",TAG,admin_name,wors,player_name);
+	SaveData(target);
+	return 0
+}
+  
 
 public LevelMod_msg(id)
 {
@@ -354,58 +361,9 @@ public Ham_CheckSpeed_Bonus( id )
 	return HAM_IGNORED;
 }
 
-public GiveExp(index)
+public GiveExp(index, value)
 {
-	switch(hnsxp_playerlevel[index])
-	{
-		case 0..10:
-		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 1000;
-		}
-
-		case 11..20:
-		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 5000;
-		}
-		case 21..30:
-		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 15040;
-		}
-
-		case 31..40:
-		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 25030;
-		}
-
-		case 41..50:
-		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 45060;
-		}
-
-		case 51..80:
-		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 150000;
-		}
-
-		case 81..100:
-		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 1800500;
-		}
-
-		case 101..150:
-		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 900050600;
-		}
-		case 151..200:
-		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 9900050600;
-		}
-
-		default:
-		{
-			hnsxp_playerxp[index] = hnsxp_playerxp[index] + 0;
-		}
-	}
+	hnsxp_playerxp[index] = hnsxp_playerxp[index] + value
 }
 
 public plugin_natives()
@@ -496,7 +454,7 @@ public gItem(id)
                                 set_user_health( id, get_user_health( id ) + HEALTH_PER_LEVEL * hnsxp_playerlevel[id] );
 				cs_set_user_money( id, cs_get_user_money( id ) + MONEY_PER_LEVEL * hnsxp_playerlevel[id] )
                                 cs_set_weapon_ammo(dgl, 1);
-                                ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 %sHP ^1, ^4 %sMONEY ^1, ^4 1DGL ^1, ^4 1SG ^1, ^4 1FL ^1, ^4 1HE ^1!",hp,money,TAG);
+                                ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 %iHP ^1, ^4 %iMONEY ^1, ^4 1DGL ^1, ^4 1SG ^1, ^4 1FL ^1, ^4 1HE ^1!",TAG,hp,money);
                                 remove_task(id);
                 
                         }
@@ -518,7 +476,7 @@ public gItem(id)
                                 set_user_health( id, get_user_health( id ) + HEALTH_PER_LEVEL * hnsxp_playerlevel[id] );
 				cs_set_user_money( id, cs_get_user_money( id ) + MONEY_PER_LEVEL * hnsxp_playerlevel[id] )
                                 
-                                 ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 %sHP ^1, ^4 %sMONEY ^1, ^4 2DGL ^1, ^4 2SG ^1, ^4 2FL ^1, ^4 2HE ^1!",hp,money,TAG);
+				ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 %iHP ^1, ^4 %iMONEY ^1, ^4 2DGL ^1, ^4 2SG ^1, ^4 2FL ^1, ^4 2HE ^1!",TAG,hp,money);
                                 remove_task(id);
                         }
 
@@ -538,7 +496,7 @@ public gItem(id)
                                 set_user_health( id, get_user_health( id ) + HEALTH_PER_LEVEL * hnsxp_playerlevel[id] );
 				cs_set_user_money( id, cs_get_user_money( id ) + MONEY_PER_LEVEL * hnsxp_playerlevel[id] )
 
-                                 ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 %sHP ^1, ^4 %sMONEY ^1, ^4 3DGL ^1, ^4 3SG ^1, ^4 3FL ^1, ^4 3HE ^1!",hp,money,TAG);
+				ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 %iHP ^1, ^4 %iMONEY ^1, ^4 3DGL ^1, ^4 3SG ^1, ^4 3FL ^1, ^4 3HE ^1!",TAG,hp,money);
                                 remove_task(id);
                         }
                 
@@ -557,7 +515,7 @@ public gItem(id)
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health( id, get_user_health( id ) + HEALTH_PER_LEVEL * hnsxp_playerlevel[id] );
 				cs_set_user_money( id, cs_get_user_money( id ) + MONEY_PER_LEVEL * hnsxp_playerlevel[id] )
-                                 ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 %sHP ^1, ^4 %sMONEY ^1, ^4 4DGL ^1, ^4 4SG ^1, ^4 4FL ^1, ^4 3HE ^1!",hp,money,TAG);
+                                ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 %iHP ^1, ^4 %iMONEY ^1, ^4 4DGL ^1, ^4 3SG ^1, ^4 4FL ^1, ^4 4HE ^1!",TAG,hp,money);
                                 remove_task(id);
                         }
                         
@@ -576,7 +534,7 @@ public gItem(id)
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health( id, get_user_health( id ) + HEALTH_PER_LEVEL * hnsxp_playerlevel[id] );
 				cs_set_user_money( id, cs_get_user_money( id ) + MONEY_PER_LEVEL * hnsxp_playerlevel[id] )
-                                 ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 %sHP ^1, ^4 %sMONEY ^1, ^4 5DGL ^1, ^4 5SG ^1, ^4 2FL ^1, ^4 4HE ^1!",hp,money,TAG);
+                                ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 %iHP ^1, ^4 %iMONEY ^1, ^4 5DGL ^1, ^4 5SG ^1, ^4 2FL ^1, ^4 4HE ^1!",TAG,hp,money);
                                 remove_task(id);
                         }
 
@@ -595,29 +553,10 @@ public gItem(id)
                                 cs_set_user_bpammo(id, CSW_DEAGLE, 0);
                                 set_user_health( id, get_user_health( id ) + HEALTH_PER_LEVEL * hnsxp_playerlevel[id] );
 				cs_set_user_money( id, cs_get_user_money( id ) + MONEY_PER_LEVEL * hnsxp_playerlevel[id] )
-                                 ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 %sHP ^1, ^4 %sMONEY ^1, ^4 6DGL ^1, ^4 5SG ^1, ^4 5FL ^1, ^4 5HE ^1!",hp,money,TAG);
+                                ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 %iHP ^1, ^4 %iMONEY ^1, ^4 6DGL ^1, ^4 5SG ^1, ^4 5FL ^1, ^4 5HE ^1!",TAG,hp,money);
                                 remove_task(id);
                         }
 
-			case 151..200:
-                        {
-                        
-                                give_item(id, "weapon_hegrenade");
-                                give_item(id, "weapon_flashbang");
-                                give_item(id, "weapon_smokegrenade");
-                                cs_set_user_bpammo(id, CSW_HEGRENADE, 7);
-                                cs_set_user_bpammo(id, CSW_FLASHBANG, 7);
-                                cs_set_user_bpammo(id, CSW_SMOKEGRENADE, 7);
-                                
-                                cs_set_weapon_ammo(dgl, 7);
-                                
-                                cs_set_user_bpammo(id, CSW_DEAGLE, 0);
-                                set_user_health( id, get_user_health( id ) + HEALTH_PER_LEVEL * hnsxp_playerlevel[id] );
-				cs_set_user_money( id, cs_get_user_money( id ) + MONEY_PER_LEVEL * hnsxp_playerlevel[id] )
-                                 ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4 %sHP ^1, ^4 %sMONEY ^1, ^4 7DGL ^1, ^4 7SG ^1, ^4 7FL ^1, ^4 7HE ^1!",hp,money,TAG);
-                                remove_task(id);
-                        }
-                        
                         
  
                 }
@@ -628,7 +567,7 @@ public gItem(id)
 
 UpdateLevel(id)
 {
-        if((hnsxp_playerlevel[id] < 101) && (hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]]))
+        if((hnsxp_playerlevel[id] < 101) && (hnsxp_playerxp[id] >= levels[hnsxp_playerlevel[id]]))
         {
 		ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Felicitari ai trecut la nivelul urmator !",TAG);            
 		ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Felicitari ai trecut la nivelul urmator !",TAG); 
@@ -637,7 +576,7 @@ UpdateLevel(id)
 		ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Felicitari ai trecut la nivelul urmator !",TAG); 
                 new ret;
                 ExecuteForward(xlevel, ret, id);
-                while(hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]])
+                while(hnsxp_playerxp[id] >= levels[hnsxp_playerlevel[id]])
                 {
                         hnsxp_playerlevel[id]++;
                 }
@@ -661,17 +600,10 @@ public hnsxp_spawn(id)
 public plvl(id)
 {
         
-        ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] ^4LVL ^1: ^3%i ^1, ^4XP ^1: ^3%i ^1/ ^3%i ",TAG, hnsxp_playerlevel[id], hnsxp_playerxp[id], LEVELS[hnsxp_playerlevel[id]]);
+        ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] ^4LVL ^1: ^3%i ^1, ^4XP ^1: ^3%i ^1/ ^3%i ",TAG, hnsxp_playerlevel[id], hnsxp_playerxp[id], levels[hnsxp_playerlevel[id]]);
         return PLUGIN_HANDLED
 }
 
-public tlvl(id)
-{
-        new poj_Name [ 32 ];
-        get_user_name(id, poj_Name, 31)
-        ColorChat(0, TEAM_COLOR,"^1[^3 %s^1 ] Jucatorul ^3%s ^1are nivelul ^4%i",TAG,poj_Name, hnsxp_playerlevel[id]);
-        return PLUGIN_HANDLED
-}
 
 public hnsxp_playerdie() 
 {
@@ -683,7 +615,7 @@ public hnsxp_playerdie()
         if( !attacker || attacker == iVictim )
                 return;
         
-        GiveExp(attacker);
+        GiveExp(attacker, 1);
         new ret;
         ExecuteForward(wxp, ret, attacker);
         
@@ -694,13 +626,13 @@ public hnsxp_playerdie()
 
 	if(headshot)
 	{ 
-		GiveExp(attacker);
+		GiveExp(attacker, 2);
 		UpdateLevel(attacker);
 	}
 
         if(is_user_vip(attacker))
         {
-		GiveExp(attacker);
+		GiveExp(attacker, 10);
         }
 }
 
@@ -715,7 +647,7 @@ public client_disconnect(id)
 public SaveData(id)
 {
         new PlayerName[35];
-        get_user_authid(id,PlayerName,34);
+        get_user_name(id,PlayerName,34);
         
         new vaultkey[64],vaultdata[256];
         format(vaultkey,63,"%s",PlayerName);
@@ -726,7 +658,7 @@ public SaveData(id)
 public LoadData(id)
 {
         new PlayerName[35];
-        get_user_authid(id,PlayerName,34);
+        get_user_name(id,PlayerName,34);
         
         new vaultkey[64],vaultdata[256];
         format(vaultkey,63,"%s",PlayerName);
@@ -751,8 +683,8 @@ public t_win(id)
         new iPlayer [ 32 ], iNum;
         get_players(iPlayer, iNum, "ae", "TERRORIST")
         for ( new i = 0; i < iNum; i++ ) {
-                GiveExp(iPlayer [ i ]);
-                ColorChat(iPlayer[i], TEAM_COLOR,"^1[^3 %s^1 ] Ai primit ^4XP^1 pentru ca echipa ^4TERO^1 a castigat !",TAG);
+                GiveExp(iPlayer [ i ], 3);
+                ColorChat(iPlayer[i], TEAM_COLOR,"^1[^3 %s^1 ] Ai primit^4 3XP^1 pentru ca echipa ^4TERO^1 a castigat !",TAG);
                 UpdateLevel(iPlayer[i]);
         }
 }
