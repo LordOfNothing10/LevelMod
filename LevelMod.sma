@@ -19,7 +19,7 @@
 #include <cstrike>
 #include <fakemeta>
  
-#define TAG "hNsX.eCiLa.Ro"
+#define TAG "LevelMod"
  
 new const PLUGIN_NAME[] = "Level Mod";
 new const hnsxp_version[] = "6.0.0.0";
