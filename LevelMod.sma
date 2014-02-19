@@ -19,7 +19,7 @@
 #include <cstrike>
 #include <fakemeta>
  
-#define TAG "LevelMod"
+#define TAG "hNsX.eCiLa.Ro"
  
 new const PLUGIN_NAME[] = "Level Mod";
 new const hnsxp_version[] = "6.0.0.0";
@@ -177,6 +177,7 @@ new const LEVELS[151] = {
         490000000,
         500000000
 }
+
 new hnsxp_playerxp[33], hnsxp_playerlevel[33];
 new g_hnsxp_vault, wxp, xlevel;
  
@@ -216,7 +217,7 @@ public plugin_init()
         register_plugin(PLUGIN_NAME, hnsxp_version, "LordOfNothing");
  
         RegisterHam(Ham_Spawn, "player", "hnsxp_spawn", 1);
-	register_event("DeathMsg", "hnsxp_playerdie", "a");		
+        RegisterHam(Ham_Killed, "player", "hnsxp_death", 1);
  
  
         register_clcmd("say /level","plvl");
@@ -252,8 +253,6 @@ public plugin_init()
         register_concmd("amx_level", "level_cmd", ADMIN_LEVEL_H, "amx_level <NICK> <NUMARUL DE LEVEL>")
         register_concmd("amx_takelevel", "takelevel_cmd", ADMIN_LEVEL_H, "amx_takelevel <NICK> <NUMARUL DE LEVEL>")
         register_concmd("amx_givelevel", "givelevel_cmd", ADMIN_LEVEL_H, "amx_givelevel <NICK> <NUMARUL DE LEVEL>")
-
-	set_task(120.0,"LevelMod_msg",0,"",0,"b",0)
 }
  
 public Ham_CheckDamage_Bonus( pevVictim, pevInflictor, pevAttacker, Float:flDamage, iDmgBits )
@@ -268,14 +267,9 @@ public Ham_CheckDamage_Bonus( pevVictim, pevInflictor, pevAttacker, Float:flDama
         return HAM_HANDLED;
     }
  
-    SetHamParamFloat( 4 , flDamage + 10 * hnsxp_playerlevel[ pevAttacker ] )
+    SetHamParamFloat( 4 , flDamage + 5 * hnsxp_playerlevel[ pevAttacker ] )
  
     return HAM_IGNORED;
-}
-
-public LevelMod_msg(id)
-{
-	ColorChat(0, TEAM_COLOR, "^1[ ^3%s^1 ] ^4%s^1 ^3(^1R^3)^1 by ^3LordOfNothinG^1 versiune ^4%s^1 !",TAG,PLUGIN_NAME,hnsxp_version)
 }
  
 /*      Speed Check      */
@@ -286,7 +280,7 @@ public Ham_CheckSpeed_Bonus( id )
                 return HAM_IGNORED;
         }
        
-        set_user_maxspeed( id, 250.0 + 3 * hnsxp_playerlevel[ id ] );
+        set_user_maxspeed( id, 250.0 + 1 * hnsxp_playerlevel[ id ] );
                        
         return HAM_IGNORED;
 }
@@ -576,17 +570,17 @@ public GiveExp(index)
  
                 case 51..80:
                 {
-                        hnsxp_playerxp[index] = hnsxp_playerxp[index] + 15000;
+                        hnsxp_playerxp[index] = hnsxp_playerxp[index] + 150000;
                 }
  
                 case 81..100:
                 {
-                        hnsxp_playerxp[index] = hnsxp_playerxp[index] + 180050;
+                        hnsxp_playerxp[index] = hnsxp_playerxp[index] + 1800500;
                 }
  
                 case 101..150:
                 {
-                        hnsxp_playerxp[index] = hnsxp_playerxp[index] + 10000000;
+                        hnsxp_playerxp[index] = hnsxp_playerxp[index] + 900050600;
                 }
  
                 default:
@@ -821,16 +815,11 @@ UpdateLevel(id)
  
 public hnsxp_spawn(id)
 {
+	new GRAVITYCheck = 800 - 3 * hnsxp_playerlevel[ id ];
         set_task(15.0, "gItem", id);
         UpdateLevel(id);
         checkandupdatetop(id,hnsxp_playerlevel[id]);
-
-	new GRAVITYCheck = 800 - 3 * hnsxp_playerlevel[ id ];
-
-	if(is_user_alive(id))
-	{
-		set_user_gravity( id, float( GRAVITYCheck ) / 800.0 );
-	}
+	set_user_gravity( id, float( GRAVITYCheck ) / 800.0 );
 }
  
 public plvl(id)
@@ -1058,4 +1047,5 @@ FindPlayer()
  
         return -1;
 }
+
 
