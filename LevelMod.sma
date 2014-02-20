@@ -356,12 +356,6 @@ public cmd_xp(id,level,cid)
 	return 0
 }
   
-
-public LevelMod_msg(id)
-{
-	ColorChat(id, TEAM_COLOR, "^1[ ^3%s^1 ] ^4%s^1 ^3(^1R^3)^1 by ^3%s^1 versiunea ^4%s^1 !",TAG,PLUGIN_NAME,AUTHOR,hnsxp_version)
-}
-
 /*      Speed Check      */
 public Ham_CheckSpeed_Bonus( id )
 {
@@ -603,13 +597,11 @@ public hnsxp_spawn(id)
         set_task(15.0, "gItem", id);
 	new GRAVITYCheck = 800 - GRAVITY_PER_LEVEL * hnsxp_playerlevel[ id ];
 
-	if(is_user_alive(id))
-	{
-		set_user_gravity( id, float( GRAVITYCheck ) / 800.0 );
-	}
+
+	set_user_gravity( id, float( GRAVITYCheck ) / 800.0 );
+
         UpdateLevel(id);
 
-	set_task(10.0,"LevelMod_msg", id)
 
 }
 
