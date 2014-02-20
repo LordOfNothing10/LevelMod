@@ -63,7 +63,7 @@
 
 new const PLUGIN_NAME[] = "Level Mod";
 new const AUTHOR[] = "LordOfNothinG";
-new const hnsxp_version[] = "6.4.1";
+new const hnsxp_version[] = "6.4.2";
 
 new levels[150+1] = {
 	1,
@@ -221,12 +221,21 @@ new levels[150+1] = {
 	
 
 
-new hnsxp_playerxp[33], hnsxp_playerlevel[33];
-new g_hnsxp_vault, wxp, xlevel;
 
 #define is_user_vip(%1)		( get_user_flags(%1) & VIP_ACCES )
+
 #define IsPlayer(%1) ( 1 <= %1 <=  g_iMaxPlayers )
+
 new g_iMaxPlayers
+new hnsxp_playerxp[33]
+new hnsxp_playerlevel[33]
+new g_hnsxp_vault
+new wxp
+new xlevel
+new xp_kill_cvar;
+new xp_hs_cvar;
+new xp_vip_cvar;
+new xp_win_cvar;
 
 
 enum Color
@@ -256,6 +265,11 @@ public plugin_init()
         RegisterHam(Ham_Spawn, "player", "hnsxp_spawn", 1);
 	register_event("DeathMsg", "hnsxp_playerdie", "a");
 
+	xp_kill_cvar = register_cvar("levelmod_kill","1")
+	xp_hs_cvar = register_cvar("levelmod_hs","3")
+	xp_vip_cvar = register_cvar("levelmod_vip_xp","10")
+	xp_win_cvar = register_cvar("levelmod_tero_win","3")
+
         register_clcmd("say /level","plvl");
         register_clcmd("say /xp","plvl");
 
@@ -263,7 +277,7 @@ public plugin_init()
 
         register_clcmd("say /lvl","plvl");
 
-        g_hnsxp_vault = nvault_open("levelmod_vault");
+        g_hnsxp_vault = nvault_open("levelmod_new_vault");
 
 	register_concmd("amx_xp","cmd_xp",ADMIN_ACCES,"<NUME> <XP>");
 
@@ -617,7 +631,7 @@ public hnsxp_playerdie()
         if( !attacker || attacker == iVictim )
                 return;
         
-        GiveExp(attacker, 1);
+        GiveExp(attacker, get_pcvar_num(xp_kill_cvar));
         new ret;
         ExecuteForward(wxp, ret, attacker);
         
@@ -628,13 +642,14 @@ public hnsxp_playerdie()
 
 	if(headshot)
 	{ 
-		GiveExp(attacker, 2);
+		GiveExp(attacker, get_pcvar_num(xp_hs_cvar));
 		UpdateLevel(attacker);
 	}
 
         if(is_user_vip(attacker))
         {
-		GiveExp(attacker, 10);
+		GiveExp(attacker, get_pcvar_num(xp_vip_cvar));
+		UpdateLevel(attacker);
         }
 }
 
@@ -687,8 +702,8 @@ public t_win(id)
         new iPlayer [ 32 ], iNum;
         get_players(iPlayer, iNum, "ae", "TERRORIST")
         for ( new i = 0; i < iNum; i++ ) {
-                GiveExp(iPlayer [ i ], 3);
-                ColorChat(iPlayer[i], TEAM_COLOR,"^1[^3 %s^1 ] Ai primit^4 3XP^1 pentru ca echipa ^4TERO^1 a castigat !",TAG);
+                GiveExp(iPlayer [ i ], get_pcvar_num(xp_win_cvar));
+                ColorChat(iPlayer[i], TEAM_COLOR,"^1[^3 %s^1 ] Ai primit^4 %iXP^1 pentru ca echipa ^4TERO^1 a castigat !",TAG,get_pcvar_num(xp_win_cvar));
                 UpdateLevel(iPlayer[i]);
         }
 }
@@ -805,5 +820,6 @@ FindPlayer()
  
 	return -1;
 }
+
 
 
