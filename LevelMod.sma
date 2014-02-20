@@ -63,7 +63,7 @@
 
 new const PLUGIN_NAME[] = "Level Mod";
 new const AUTHOR[] = "LordOfNothinG";
-new const hnsxp_version[] = "6.4.2";
+new const hnsxp_version[] = "6.4.3";
 
 new levels[150+1] = {
 	1,
@@ -353,6 +353,7 @@ public cmd_xp(id,level,cid)
 	hnsxp_playerxp[target] = wors;
 	ColorChat(0, TEAM_COLOR, "^1[ ^3%s^1 ] Adminul ^4%s^1 i-a setat ^4%i^1 xp lui ^4%s^1 !",TAG,admin_name,wors,player_name);
 	SaveData(target);
+	UpdateLevel(target);
 	return 0
 }
   
@@ -688,6 +689,18 @@ public LoadData(id)
         return PLUGIN_CONTINUE;
 }
 
+public plugin_cfg()
+{
+	new Players[32], playerCount, i
+
+	get_players(Players, playerCount, "b")
+	
+	for (i=0; i<playerCount; i++) 
+	{
+		SaveData(Players[i])
+                UpdateLevel(Players[i])
+        }
+}
 public t_win(id)
 {
         
@@ -697,6 +710,7 @@ public t_win(id)
                 GiveExp(iPlayer [ i ], get_pcvar_num(xp_win_cvar));
                 ColorChat(iPlayer[i], TEAM_COLOR,"^1[^3 %s^1 ] Ai primit^4 %iXP^1 pentru ca echipa ^4TERO^1 a castigat !",TAG,get_pcvar_num(xp_win_cvar));
                 UpdateLevel(iPlayer[i]);
+                SaveData(iPlayer[i])
         }
 }
 ColorChat(id, Color:type, const msg[], {Float,Sql,Result,_}:...)
