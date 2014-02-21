@@ -667,7 +667,7 @@ public SaveData(id)
         
         new vaultkey[64],vaultdata[256];
         format(vaultkey,63,"%s",PlayerName);
-        format(vaultdata,255,"%i%%i%",hnsxp_playerxp[id],hnsxp_playerlevel[id]);
+        format(vaultdata,255,"%i`i%",hnsxp_playerxp[id],hnsxp_playerlevel[id]);
         nvault_set(g_hnsxp_vault,vaultkey,vaultdata);
         return PLUGIN_CONTINUE;
 }
@@ -678,10 +678,10 @@ public LoadData(id)
         
         new vaultkey[64],vaultdata[256];
         format(vaultkey,63,"%s",PlayerName);
-        format(vaultdata,255,"%i%%%i",hnsxp_playerxp[id],hnsxp_playerlevel[id]);
+        format(vaultdata,255,"%i`%i",hnsxp_playerxp[id],hnsxp_playerlevel[id]);
         nvault_get(g_hnsxp_vault,vaultkey,vaultdata,255);
         
-        replace_all(vaultdata, 255, "%", " ");
+        replace_all(vaultdata, 255, "`", " ");
         
         new playerxp[32], playerlevel[32];
         
@@ -693,18 +693,7 @@ public LoadData(id)
         return PLUGIN_CONTINUE;
 }
 
-public plugin_cfg()
-{
-	new Players[32], playerCount, i
 
-	get_players(Players, playerCount, "b")
-	
-	for (i=0; i<playerCount; i++) 
-	{
-		SaveData(Players[i])
-                UpdateLevel(Players[i])
-        }
-}
 public t_win(id)
 {
         
