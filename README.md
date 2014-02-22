@@ -2,8 +2,8 @@ Thanks to :
 =============
 
 
-Hattrick (claudiuhcs)
-zayR
-Askhanar
-cruyff
+Hattrick (claudiuhcs) ^n
+zayR ^n
+Askhanar^n
+cruyff^n
 kronoS
