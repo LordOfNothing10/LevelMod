@@ -1,1 +1,9 @@
-LevelMod for HNS servers by LORD !
+Thanks to :
+=============
+
+
+Hattrick (claudiuhcs)
+zayR
+Askhanar
+cruyff
+kronoS
