@@ -223,9 +223,7 @@ new xp_kill_cvar;
 new xp_hs_cvar;
 new xp_vip_cvar;
 new xp_win_cvar;
-new Data[64];
-new toplevels[33];
-new topnames[33][33];
+
 
 
 enum Color
@@ -263,8 +261,6 @@ public plugin_init()
         register_clcmd("say /level","plvl");
         register_clcmd("say /xp","plvl");
 
-	register_clcmd("say /toplevel","sayTopLevel");
-	register_concmd("amx_resetleveltop","concmdReset_Top");
 
         register_clcmd("say_team /xp","plvl");
 
@@ -284,10 +280,6 @@ public plugin_init()
 	g_iMaxPlayers = get_maxplayers ( )
 	RegisterHam ( Ham_TakeDamage, "player", "Ham_CheckDamage_Bonus");
 	RegisterHam ( Ham_Item_PreFrame, "player", "Ham_CheckSpeed_Bonus", 1);
-
-	get_datadir(Data, 63);
-	read_top();
-
 
 }
 
@@ -350,7 +342,6 @@ public cmd_xp(id,level,cid)
 	ColorChat(0, TEAM_COLOR, "^1[ ^3%s^1 ] Adminul ^4%s^1 i-a setat ^4%i^1 xp lui ^4%s^1 !",TAG,admin_name,wors,player_name);
 	SaveData(target);
 	UpdateLevel(target);
-	checkandupdatetop(id, hnsxp_playerlevel[id])
 	return 0
 }
   
@@ -575,13 +566,11 @@ UpdateLevel(id)
 {
         if((hnsxp_playerlevel[id] < 151) && (hnsxp_playerxp[id] >= levels[hnsxp_playerlevel[id]]))
         {
-		ColorChat(id, TEAM_COLOR,"^1[^3 %s^1 ] Felicitari ai trecut la nivelul urmator !",TAG);            
                 new ret;
                 ExecuteForward(xlevel, ret, id);
                 while(hnsxp_playerxp[id] >= levels[hnsxp_playerlevel[id]])
                 {
                         hnsxp_playerlevel[id]++;
-			checkandupdatetop(id, hnsxp_playerlevel[id])
                 }
         }
         
@@ -590,8 +579,6 @@ UpdateLevel(id)
 public hnsxp_spawn(id)
 {
         set_task(15.0, "gItem", id);
-
-	checkandupdatetop(id, hnsxp_playerlevel[id])
 
 	new GRAVITYCheck = 800 - GRAVITY_PER_LEVEL * hnsxp_playerlevel[ id ];
 
@@ -630,8 +617,6 @@ public hnsxp_playerdie()
         
         
         UpdateLevel(attacker);
-	checkandupdatetop(attacker, hnsxp_playerlevel[attacker])
-	checkandupdatetop(iVictim, hnsxp_playerlevel[iVictim])
         UpdateLevel(iVictim);
 
 
@@ -639,138 +624,26 @@ public hnsxp_playerdie()
 	{ 
 		GiveExp(attacker, get_pcvar_num(xp_hs_cvar));
 		UpdateLevel(attacker);
-		checkandupdatetop(attacker, hnsxp_playerlevel[attacker])
 	}
 
         if(is_user_vip(attacker))
         {
 		GiveExp(attacker, get_pcvar_num(xp_vip_cvar));
 		UpdateLevel(attacker);
-		checkandupdatetop(attacker, hnsxp_playerlevel[attacker])
         }
 
 }
-public save_top() {
-	new path[128];
-	formatex(path, 127, "%s/LevelTop.dat", Data);
-	if( file_exists(path) ) {
-		delete_file(path);
-	}
-	new Buffer[256];
-	new f = fopen(path, "at");
-	for(new i = 0; i < 15; i++)
-	{
-		formatex(Buffer, 255, "^"%s^" ^"%d^"^n",topnames[i],toplevels[i] );
-		fputs(f, Buffer);
-	}
-	fclose(f);
-}
-public concmdReset_Top(id) {
-	
-	if( !(get_user_flags(id) & read_flags("abcdefghijklmnopqrstu"))) {
-       		return PLUGIN_HANDLED;
-	}
-	new path[128];
-	formatex(path, 127, "%s/LevelTop.dat", Data);
-	if( file_exists(path) ) {
-		delete_file(path);
-	}	
-	static info_none[33];
-	info_none = "";
-	for( new i = 0; i < 15; i++ ) {
-		formatex(topnames[i], 31, info_none);
-		toplevels[i]= 0;
-	}
-	save_top();
-	new aname[32];
-	get_user_name(id, aname, 31);
-	ColorChat(0, BLUE,"^x04*^x01 Adminul^x03 %s^x01 a resetat LevelTop !", aname);
-	return PLUGIN_CONTINUE;
-}
-public checkandupdatetop(id, levels) {	
-
-	new name[32];
-	get_user_name(id, name, 31);
-	for (new i = 0; i < 15; i++)
-	{
-		if( levels > toplevels[i] )
-		{
-			new pos = i;	
-			while( !equal(topnames[pos],name) && pos < 15 )
-			{
-				pos++;
-			}
-			
-			for (new j = pos; j > i; j--)
-			{
-				formatex(topnames[j], 31, topnames[j-1]);
-				toplevels[j] = toplevels[j-1];
-				
-			}
-			formatex(topnames[i], 31, name);
-			
-			toplevels[i]= levels;
-			
-			ColorChat(0, BLUE,"^x04*^x03 %s^x01 este pe locul^x04 %i^x01 in LevelTop. ", name,(i+1));
-			if(i+1 == 1) {
-				client_cmd(0, "spk vox/doop");
-			} else { 
-				client_cmd(0, "spk buttons/bell1");
-			}
-			save_top();
-			break;
-		}
-		else if( equal(topnames[i], name)) 
-		break;	
-	}
-}
-public read_top() {
-	new Buffer[256],path[128];
-	formatex(path, 127, "%s/LevelTop.dat", Data);
-	
-	new f = fopen(path, "rt" );
-	new i = 0;
-	while( !feof(f) && i < 15+1)
-	{
-		fgets(f, Buffer, 255);
-		new lvls[25];
-		parse(Buffer, topnames[i], 31, lvls, 24);
-		toplevels[i]= str_to_num(lvls);
-		
-		i++;
-	}
-	fclose(f);
-}
-public sayTopLevel(id) {	
-	static buffer[2368], name[131], len, i;
-	len = formatex(buffer, 2047, "<body bgcolor=#FFFFFF><table width=100%% cellpadding=2 cellspacing=0 border=0>");
-	len += format(buffer[len], 2367-len, "<tr align=center bgcolor=#52697B><th width=10%% > # <th width=45%%> Nume <th width=45%%>Level");
-	for( i = 0; i < 15; i++ ) {		
-		if( toplevels[i] == 0) {
-			len += formatex(buffer[len], 2047-len, "<tr align=center%s><td> %d <td> %s <td> %s",((i%2)==0) ? "" : " bgcolor=#A4BED6", (i+1), "-", "-");
-			//i = NTOP
-		}
-		else {
-			name = topnames[i];
-			while( containi(name, "<") != -1 )
-				replace(name, 129, "<", "&lt;");
-			while( containi(name, ">") != -1 )
-				replace(name, 129, ">", "&gt;");
-			len += formatex(buffer[len], 2047-len, "<tr align=center%s><td> %d <td> %s <td> %d",((i%2)==0) ? "" : " bgcolor=#A4BED6", (i+1), name,toplevels[i]);
-		}
-	}
-	len += format(buffer[len], 2367-len, "</table>");
-	len += formatex(buffer[len], 2367-len, "<tr align=bottom font-size:11px><Center><br><br><br><br>DeathRun TopLevel by LordOfNothing ?</body>");
-	static strin[20];
-	format(strin,33, "Top Level");
-	show_motd(id, buffer, strin);
-}
-
 
 public client_connect(id)
 {
-	LoadData(id);             
+	LoadData(id);
 }
+
+public client_putinserver(id)
+{
+	UpdateLevel(id)
+}
+
 public client_disconnect(id)
 {
         SaveData(id);
@@ -783,7 +656,7 @@ public SaveData(id)
         
         new vaultkey[64],vaultdata[256];
         format(vaultkey,63,"%s",PlayerName);
-        format(vaultdata,255,"%i`i%",hnsxp_playerxp[id],hnsxp_playerlevel[id]);
+        format(vaultdata,255,"%i",hnsxp_playerxp[id]);
         nvault_set(g_hnsxp_vault,vaultkey,vaultdata);
         return PLUGIN_CONTINUE;
 }
@@ -794,17 +667,17 @@ public LoadData(id)
         
         new vaultkey[64],vaultdata[256];
         format(vaultkey,63,"%s",PlayerName);
-        format(vaultdata,255,"%i`%i",hnsxp_playerxp[id],hnsxp_playerlevel[id]);
+        format(vaultdata,255,"%i",hnsxp_playerxp[id]);
         nvault_get(g_hnsxp_vault,vaultkey,vaultdata,255);
         
-        replace_all(vaultdata, 255, "`", " ");
+        replace_all(vaultdata, 255, " ", " ");
         
         new playerxp[32], playerlevel[32];
         
-        parse(vaultdata, playerxp, 31, playerlevel, 31);
+        parse(vaultdata, playerxp, 31);
         
         hnsxp_playerxp[id] = str_to_num(playerxp);
-        hnsxp_playerlevel[id] = str_to_num(playerlevel);
+
         
         return PLUGIN_CONTINUE;
 }
