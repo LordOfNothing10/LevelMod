@@ -228,7 +228,7 @@ public plugin_init()
 	
 	g_iMaxPlayers = get_maxplayers ( )
 	RegisterHam ( Ham_TakeDamage, "player", "Ham_CheckDamage_Bonus");
-	RegisterHam ( Ham_Item_PreFrame, "player", "Ham_CheckSpeed_Bonus", 1);
+	register_event("CurWeapon", "Ham_CheckSpeed_Bonus", "be", "1=1");
 
 }
 
@@ -297,14 +297,10 @@ public cmd_xp(id,level,cid)
 /*      Speed Check      */
 public Ham_CheckSpeed_Bonus( id )
 {
-	if( !is_user_alive( id ) )
+	if(is_user_alive(id))
 	{
-		return HAM_IGNORED;
-	}
-	
-	set_user_maxspeed( id, 250.0 + SPEED_PER_LEVEL * hnsxp_playerlevel[ id ] );
-			
-	return HAM_IGNORED;
+		set_user_maxspeed( id, 250.0 + SPEED_PER_LEVEL * hnsxp_playerlevel[ id ] );
+	}		
 }
 
 public GiveExp(index, value)
