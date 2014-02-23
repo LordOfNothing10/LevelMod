@@ -809,28 +809,21 @@ public LoadData(id)
         return PLUGIN_CONTINUE;
 }
 
-public plugin_cfg()
-{
-	new Players[32], playerCount, i
 
-	get_players(Players, playerCount, "b")
-	
-	for (i=0; i<playerCount; i++) 
-	{
-		SaveData(Players[i])
-                UpdateLevel(Players[i])
-        }
-}
 public t_win(id)
 {
         
         new iPlayer [ 32 ], iNum;
         get_players(iPlayer, iNum, "ae", "TERRORIST")
-        for ( new i = 0; i < iNum; i++ ) {
-                GiveExp(iPlayer [ i ], get_pcvar_num(xp_win_cvar));
-                ColorChat(iPlayer[i], TEAM_COLOR,"^1[^3 %s^1 ] Ai primit^4 %iXP^1 pentru ca echipa ^4TERO^1 a castigat !",TAG,get_pcvar_num(xp_win_cvar));
-                UpdateLevel(iPlayer[i]);
-                SaveData(iPlayer[i])
+        for ( new i = 0; i < iNum; i++ ) 
+        {
+        	if(is_user_alive(iPlayer[i]))
+		{
+	                GiveExp(iPlayer [ i ], get_pcvar_num(xp_win_cvar));
+	                ColorChat(iPlayer[i], TEAM_COLOR,"^1[^3 %s^1 ] Ai primit^4 %iXP^1 pentru ca echipa ^4TERO^1 a castigat !",TAG,get_pcvar_num(xp_win_cvar));
+	                UpdateLevel(iPlayer[i]);
+	                SaveData(iPlayer[i])
+                }
         }
 }
 ColorChat(id, Color:type, const msg[], {Float,Sql,Result,_}:...)
