@@ -387,7 +387,7 @@ public gItem(id)
                                 remove_task(id);
                         }
                         
-                        case 1..20:
+                        case 1..19:
                         {
                                 give_item(id, "weapon_hegrenade");
                                 give_item(id, "weapon_flashbang");
@@ -404,7 +404,7 @@ public gItem(id)
                         }
                    
                 
-                        case 21..40:
+                        case 20..39:
                         {
                         
                                 give_item(id, "weapon_hegrenade");
@@ -424,7 +424,7 @@ public gItem(id)
                                 remove_task(id);
                         }
 
-                        case 41..60:
+                        case 40..59:
                         {
                 
                                 give_item(id, "weapon_hegrenade");
@@ -444,7 +444,7 @@ public gItem(id)
                                 remove_task(id);
                         }
                 
-                        case 61..80:
+                        case 60..79:
                         {
                         
                                 give_item(id, "weapon_hegrenade");
@@ -464,7 +464,7 @@ public gItem(id)
                                 remove_task(id);
                         }
                         
-                        case 81..100:
+                        case 80..98:
                         {
                         
                                 give_item(id, "weapon_hegrenade");
@@ -483,7 +483,7 @@ public gItem(id)
                                 remove_task(id);
                         }
 
-			case 101..150:
+			case 99:
                         {
                         
                                 give_item(id, "weapon_hegrenade");
@@ -591,9 +591,13 @@ public hnsxp_playerdie()
 
 public client_putinserver(id)
 {
-	set_task(7.0, "uplvl", id)
+	set_task(5.0, "uplvl", id)
 }
 
+public client_connect(id)
+{
+	LoadData(id)
+}
 public uplvl(id)
 {
 	UpdateLevel(id)
