@@ -23,7 +23,7 @@
 /*	de la ce level are dmg juc,	*/
 #define dmg_level_start		50
 
-/*	cat dmg 2x = 2.0	/*
+/*	cat dmg 2x = 2.0	*/
 #define dmg_level_power		2.0
 
 /*	Hp pe nivel !	*/
@@ -55,7 +55,7 @@ new const PLUGIN_NAME[] = "Level Mod";
 new const AUTHOR[] = "LordOfNothinG";
 new const hnsxp_version[] = "6.4.6";
 
-new levels[99] = {
+new levels[100] = {
 	10, 
 	25,
 	34,
@@ -632,7 +632,7 @@ public LoadData(id)
         
         replace_all(vaultdata, 255, " ", " ");
         
-        new playerxp[32], playerlevel[32];
+        new playerxp[32];
         
         parse(vaultdata, playerxp, 31);
         
