@@ -396,6 +396,8 @@ public gItem(id)
 			{
 				cs_set_weapon_ammo(dgl, str_to_num(pbullet));
 
+				cs_set_user_bpammo(id, CSW_DEAGLE, 0)
+
 				give_item(id, "weapon_hegrenade")
 				give_item(id, "weapon_smokegrenade")
 				give_item(id, "weapon_flashbang")
